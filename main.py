@@ -71,7 +71,7 @@ def run():
                     # --- 提取标题 ---
                     title = product.locator(".itemGrid2TileStandardDescription > a").inner_text()
                     # --- 提取价格 ---
-                    price = product.locator(".itemGrid2TileStandardPrice").inner_text().strip()
+                    price = product.locator(".itemGrid2TileStandardPrice").inner_text().split("Was")[0].strip()
                     
                     # --- 提取编号 ---
                     sku = product.locator(".itemGrid2TileMfgModel").inner_text().strip()
