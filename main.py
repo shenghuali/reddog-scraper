@@ -25,8 +25,9 @@ def run():
             return
 
         # 2. 提取分类链接
-        category_elements = page.locator(".siteCategoriesMain > ul > li > a").all()
+        category_elements = page.locator(".siteCategoriesMain a").all()
         categories = []
+
         
         for cat in category_elements:
             name = cat.text_content().strip()
@@ -37,8 +38,61 @@ def run():
             full_url = urljoin(base_url, href)
             categories.append({"name": name, "url": full_url})
         
-        print(f"一共找到了 {len(categories)} 个分类！", flush=True)
+
+        manual_categories = [
+            {
+                "name": "Developer Kits",
+                "url": "https://www.ple.com.au/Categories/1477/Desktop-Computers/Developer-Kits" 
+            }, 
+            {
+                "name": "Mini PCs",
+                "url": "https://www.ple.com.au/Categories/1092/Desktop-Computers/Mini-PCs" 
+            }, 
+            {
+                "name": "Custom water cooling blocks",
+                "url": "https://www.ple.com.au/Categories/681/Cooling-Water-Cooling/Blocks" 
+            },
+             {
+                "name": "Custom water cooling reservoirs",
+                "url": "https://www.ple.com.au/Categories/682/Cooling-Water-Cooling/Reservoirs" 
+            },
+             {
+                "name": "Custom water cooling radiators",
+                "url": "https://www.ple.com.au/Categories/684/Cooling-Water-Cooling/Radiators" 
+            },
+             {
+                "name": "Custom water cooling coolant and additives",
+                "url": "https://www.ple.com.au/Categories/683/Cooling-Water-Cooling/Coolant-and-Additives" 
+            },
+             {
+                "name": "Custom water cooling blocks",
+                "url": "https://www.ple.com.au/Categories/740/Cooling-Water-Cooling/Fittings-and-Adapters" 
+            },
+             {
+                "name": "Custom water cooling pumps",
+                "url": "https://www.ple.com.au/Categories/678/Cooling-Water-Cooling/Pumps" 
+            },
+             {
+                "name": "Custom water cooling tools",
+                "url": "https://www.ple.com.au/Categories/685/Cooling-Water-Cooling/Tools" 
+            },
+             {
+                "name": "Custom water cooling thermal compound",
+                "url": "https://www.ple.com.au/Categories/741/Cooling-Water-Cooling/Thermal-Compound" 
+            },
+             {
+                "name": "Custom water cooling Tubing",
+                "url": "https://www.ple.com.au/Categories/680/Cooling-Water-Cooling/Tubing" 
+            },
+             {
+                "name": "Custom water cooling tools",
+                "url": "https://www.ple.com.au/Categories/691/Cooling-Water-Cooling/Kits" 
+            },
+        ]
         
+        categories.extend(manual_categories)
+
+        print(f"一共找到了 {len(categories)} 个分类！", flush=True)
         # --- ⚠️ 调试开关：只抓前 2 个分类测试 ---
         target_categories = categories
         # target_categories = categories # 想抓全部时，用这一行
