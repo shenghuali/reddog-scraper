@@ -108,7 +108,7 @@ def run():
                 page.goto(category['url'], timeout=60000) # 增加超时时间防止页面卡顿
                 
                 # 等待商品列表出现 (如果没有商品，这里会超时报错，跳过该分类)
-                page.wait_for_selector(".itemGrid2TileStandard", timeout=10000)
+                page.wait_for_selector(".itemGrid2TileStandard:has-text('$')", timeout=10000)
             except:
                 print(f"   ⚠️ 分类 {category['name']} 加载超时或无商品，跳过...")
                 continue
