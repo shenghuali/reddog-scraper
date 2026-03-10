@@ -225,7 +225,7 @@ def detect_csv_encoding(file_path):
 
 def get_enriched_fieldnames(enriched_path):
     default_fields = [
-        "season","match_type","date","time","home_team","away_team","score","handicap","total","halftime",
+        "season","match_type","date","home_team","away_team","score","handicap","total","halftime",
         "home_score","away_score","ats_diff","ats_result","total_score","ou_result","home_rest","away_rest","home_b2b","away_b2b",
     ]
     if not os.path.exists(enriched_path):
@@ -247,11 +247,10 @@ def load_existing_keys_for_date(enriched_path, encoding, target_date):
             if (row.get("date") or "").strip() != target_date:
                 continue
             date = (row.get("date") or "").strip()
-            time_ = (row.get("time") or "").strip()
             home = (row.get("home_team") or "").strip()
             away = (row.get("away_team") or "").strip()
-            keys.add((date, time_, home, away))
-            keys.add((date, time_, TEAM_MAP.get(home, home), TEAM_MAP.get(away, away)))
+            keys.add((date, home, away))
+            keys.add((date, TEAM_MAP.get(home, home), TEAM_MAP.get(away, away)))
     return keys
 
 def normalize_time_only(s):
@@ -315,7 +314,6 @@ def append_to_enriched(enriched_path, df, target_date):
     for _, r in df.iterrows():
         key = (
             str(r.get("date", "")).strip(),
-            str(r.get("time", "")).strip(),
             str(r.get("home_team", "")).strip(),
             str(r.get("away_team", "")).strip(),
         )
@@ -323,13 +321,11 @@ def append_to_enriched(enriched_path, df, target_date):
             continue
         row = {}
         for i, col in enumerate(fieldnames):
-            if i >= 10:
+            if i >= 9:
                 row[col] = ""
             else:
                 val = str(r.get(col, "") if col in df.columns else "").strip()
-                if col == "time":
-                    val = normalize_time_only(val)
-                elif col == "home_team":
+                if col == "home_team":
                     val = TEAM_MAP.get(val, val)
                 elif col == "away_team":
                     val = TEAM_MAP.get(val, val)
@@ -463,6 +459,8 @@ def backfill_enriched_columns(enriched_path, target_date):
 
 def fix_time_column_only(enriched_path):
     fieldnames, encoding = get_enriched_fieldnames(enriched_path)
+    if "time" not in fieldnames:
+        return 0
     if not os.path.exists(enriched_path):
         return 0
     with open(enriched_path, "r", encoding=encoding, newline="", errors="replace") as f:
@@ -481,14 +479,85 @@ def fix_time_column_only(enriched_path):
         writer.writerows(rows)
     return changed
 
+def drop_time_column_only(enriched_path):
+    if not os.path.exists(enriched_path):
+        return 0
+    enc = detect_csv_encoding(enriched_path)
+    with open(enriched_path, "r", encoding=enc, newline="", errors="replace") as f:
+        reader = csv.reader(f)
+        header = next(reader, [])
+    fields = [h.strip() for h in header if h.strip()]
+    if "time" not in fields:
+        return 0
+    new_fields = [h for h in fields if h != "time"]
+    with open(enriched_path, "r", encoding=enc, newline="", errors="replace") as f:
+        reader = csv.DictReader(f)
+        rows = [row for row in reader]
+    with open(enriched_path, "w", encoding=enc, newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=new_fields, extrasaction="ignore")
+        writer.writeheader()
+        for row in rows:
+            if "time" in row:
+                row.pop("time", None)
+            writer.writerow(row)
+    return len(rows)
+
+def fix_misdated_rows_in_enriched(enriched_path, cn_date, us_date, matchups):
+    if not os.path.exists(enriched_path):
+        return 0
+    fieldnames, encoding = get_enriched_fieldnames(enriched_path)
+    with open(enriched_path, "r", encoding=encoding, newline="", errors="replace") as f:
+        reader = csv.DictReader(f)
+        rows = [row for row in reader]
+    if not rows:
+        return 0
+    def norm_team(t):
+        s = (t or "").strip()
+        return TEAM_MAP.get(s, s)
+    matchups_norm = {(norm_team(h), norm_team(a)) for (h, a) in (matchups or set())}
+    if not matchups_norm:
+        return 0
+    existing_us_keys = set()
+    for row in rows:
+        if (row.get("date") or "").strip() != us_date:
+            continue
+        h = norm_team(row.get("home_team"))
+        a = norm_team(row.get("away_team"))
+        if (h, a) in matchups_norm:
+            existing_us_keys.add((h, a))
+    changed = 0
+    new_rows = []
+    for row in rows:
+        if (row.get("date") or "").strip() != cn_date:
+            new_rows.append(row)
+            continue
+        h = norm_team(row.get("home_team"))
+        a = norm_team(row.get("away_team"))
+        if (h, a) not in matchups_norm:
+            new_rows.append(row)
+            continue
+        if (h, a) in existing_us_keys:
+            changed += 1
+            continue
+        row["date"] = us_date
+        changed += 1
+        new_rows.append(row)
+    if changed:
+        with open(enriched_path, "w", encoding=encoding, newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
+            writer.writeheader()
+            writer.writerows(new_rows)
+    return changed
+
 def scrape_today(output_path, enriched_path, target_date=None):
     if target_date is None:
-        target_date = datetime.today().strftime("%Y-%m-%d")  # 北京日期
-    us_date_str = datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d")
+        target_date = datetime.now(ZoneInfo("Asia/Shanghai")).strftime("%Y-%m-%d")
+    cn_target_date = target_date
+    cn_target_dt = datetime.strptime(cn_target_date, "%Y-%m-%d")
+    us_target_date = (cn_target_dt - timedelta(days=1)).strftime("%Y-%m-%d")
     season = season_from_date(target_date)
-    target_dt = datetime.strptime(target_date, "%Y-%m-%d")
-    month_year = str(target_dt.year)
-    month_num = str(target_dt.month)
+    month_year = str(cn_target_dt.year)
+    month_num = str(cn_target_dt.month)
     playoffs_year_hint = season.split("-")[1]
 
     url = f"https://nba.titan007.com/cn/normal.aspx?SclassID=1&MatchSeason={season}"
@@ -501,7 +570,7 @@ def scrape_today(output_path, enriched_path, target_date=None):
         page = context.new_page()
         page.goto(url, wait_until="networkidle", timeout=60000)
         page.wait_for_timeout(800)
-        kinds = [("menu3", "季前赛"), ("menu1", "常规赛"), ("menu2", "季后赛")]
+        kinds = [("menu3", "Preseason"), ("menu1", "season"), ("menu2", "Playoff")]
         for kind_id, kind_name in kinds:
             if not click_match_kind(page, kind_id):
                 continue
@@ -535,47 +604,30 @@ def scrape_today(output_path, enriched_path, target_date=None):
     if df.empty:
         df = pd.DataFrame(columns=["season","match_type","date","time","home_team","away_team","score","handicap","total","halftime"])
     else:
-        df = df[df["date"] == target_date].copy()
-        # 转换到美东时间并映射队名
-        cn_date = datetime.strptime(target_date, "%Y-%m-%d").date()
-        sh_tz = ZoneInfo("Asia/Shanghai")
-        et_tz = ZoneInfo("America/New_York")
-        new_dates = []
-        new_times = []
+        df = df[df["date"] == cn_target_date].copy()
         new_home = []
         new_away = []
         for _, r in df.iterrows():
-            raw_time = str(r.get("time", "")).strip()
-            hhmm = normalize_time_only(raw_time)
-            try:
-                dt_cn = datetime.strptime(f"{cn_date} {hhmm}", "%Y-%m-%d %H:%M").replace(tzinfo=sh_tz)
-                dt_us = dt_cn.astimezone(et_tz)
-                new_dates.append(dt_us.strftime("%Y-%m-%d"))
-                new_times.append(dt_us.strftime("%H:%M"))
-            except:
-                new_dates.append(us_date_str)
-                new_times.append(hhmm)
             h = str(r.get("home_team", "")).strip()
             a = str(r.get("away_team", "")).strip()
             new_home.append(TEAM_MAP.get(h, h))
             new_away.append(TEAM_MAP.get(a, a))
-        df["date"] = new_dates
-        df["time"] = new_times
+        df["date"] = us_target_date
         df["home_team"] = new_home
         df["away_team"] = new_away
-        # 仅保留美东“今天”的记录
-        df = df[df["date"] == us_date_str].copy()
 
+    df = df.drop(columns=["time", "_match_id"], errors="ignore")
     df.to_csv(output_path, index=False, encoding="utf-8-sig")
-    appended = append_to_enriched(enriched_path, df, us_date_str)
-    from_this_day = backfill_enriched_columns(enriched_path, us_date_str)
-    normalized = fix_time_column_only(enriched_path)
-    print(f"抓取北京日期: {target_date} -> 美东日期: {us_date_str}")
+    drop_time_column_only(enriched_path)
+    matchups = {(str(r.get("home_team") or "").strip(), str(r.get("away_team") or "").strip()) for _, r in df.iterrows()}
+    fix_misdated_rows_in_enriched(enriched_path, cn_target_date, us_target_date, matchups)
+    appended = append_to_enriched(enriched_path, df, us_target_date)
+    from_this_day = backfill_enriched_columns(enriched_path, us_target_date)
+    print(f"抓取北京日期: {cn_target_date} -> NBA日期: {us_target_date}")
     print(f"赛季: {season}")
     print(f"已输出CSV: {output_path} 共{len(df)}行")
     print(f"已追加到: {enriched_path} 新增{appended}行")
     print(f"已回填字段: {enriched_path} 更新{from_this_day}行")
-    print(f"已规范time为HH:MM: {enriched_path} 更新{normalized}行")
 
 def main():
     parser = argparse.ArgumentParser()
@@ -584,8 +636,8 @@ def main():
     parser.add_argument("--date", default="")
     parser.add_argument("--fix_time_only", action="store_true")
     args = parser.parse_args()
-    target_date = args.date or None
-    us_today = datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d")
+    cn_target_date = (args.date or "").strip() or datetime.now(ZoneInfo("Asia/Shanghai")).strftime("%Y-%m-%d")
+    us_target_date = (datetime.strptime(cn_target_date, "%Y-%m-%d") - timedelta(days=1)).strftime("%Y-%m-%d")
     out_dir = "daily matches"
     os.makedirs(out_dir, exist_ok=True)
     if args.output:
@@ -594,12 +646,12 @@ def main():
         else:
             output = os.path.join(out_dir, args.output)
     else:
-        output = os.path.join(out_dir, f"titan007_nba_{us_today}.csv")
+        output = os.path.join(out_dir, f"titan007_nba_{us_target_date}.csv")
     if args.fix_time_only:
         cnt = fix_time_column_only(args.enriched)
         print(f"已规范time为HH:MM: {args.enriched} 更新{cnt}行")
         return
-    scrape_today(output_path=output, enriched_path=args.enriched, target_date=target_date)
+    scrape_today(output_path=output, enriched_path=args.enriched, target_date=cn_target_date)
 
 if __name__ == "__main__":
     main()

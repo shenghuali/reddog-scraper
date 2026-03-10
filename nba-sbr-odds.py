@@ -6,7 +6,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 
 
 BASE = "https://www.sportsbookreview.com/betting-odds/nba-basketball/"
@@ -39,9 +39,19 @@ def season_from_us_date(d):
         return f"{d.year}-{d.year+1}"
     return f"{d.year-1}-{d.year}"
 
+def season_range(season_str):
+    m = re.match(r"^(20\d{2})-(20\d{2})$", (season_str or "").strip())
+    if not m:
+        return None
+    y1 = int(m.group(1))
+    y2 = int(m.group(2))
+    if y2 != y1 + 1:
+        return None
+    return date(y1, 10, 1), date(y2, 7, 1)
+
 
 def default_season_ranges(seasons):
-    today = datetime.utcnow().date()
+    today = datetime.now(timezone.utc).date()
     end_year = today.year + 1 if today.month >= 10 else today.year
     start_year = end_year - seasons
     ranges = []
@@ -69,7 +79,10 @@ def fetch_html(url, timeout=60, retries=3):
                 return resp.read().decode("utf-8", errors="replace")
         except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as e:
             last_err = e
-            time.sleep(1.5 * (i + 1))
+            backoff = 1.5 * (i + 1)
+            if isinstance(e, urllib.error.HTTPError) and e.code in [429, 403, 503]:
+                backoff = max(backoff, 8.0 * (i + 1))
+            time.sleep(backoff)
     raise last_err
 
 
@@ -189,32 +202,66 @@ def write_csv(path, rows):
         for r in rows:
             w.writerow({k: r.get(k, "") for k in fieldnames})
 
+def stream_csv(path):
+    fieldnames = [
+        "season",
+        "date",
+        "time_et",
+        "away",
+        "home",
+        "book",
+        "open_spread",
+        "close_spread",
+        "open_total",
+        "close_total",
+        "game_id",
+    ]
+    f = open(path, "w", encoding="utf-8-sig", newline="")
+    w = csv.DictWriter(f, fieldnames=fieldnames)
+    w.writeheader()
+    return f, w, fieldnames
+
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--seasons", type=int, default=5)
     ap.add_argument("--start", default="")
     ap.add_argument("--end", default="")
-    ap.add_argument("--book", default="draftkings")
+    ap.add_argument("--season", default="")
+    ap.add_argument("--book", default="bet365")
     ap.add_argument("--output", default="sbr_nba_open_close_5y.csv")
+    ap.add_argument("--sleep", type=float, default=0.05)
     args = ap.parse_args()
 
     if args.start and args.end:
         start = datetime.strptime(args.start, "%Y-%m-%d").date()
         end = datetime.strptime(args.end, "%Y-%m-%d").date()
         ranges = [(start, end)]
+    elif args.season:
+        r = season_range(args.season)
+        if r:
+            start, end = r
+            today = datetime.now(timezone.utc).date()
+            if end > today:
+                end = today
+            ranges = [(start, end)]
+        else:
+            ranges = default_season_ranges(args.seasons)
     else:
         ranges = default_season_ranges(args.seasons)
 
-    all_games = {}
     total_days = sum((e - s).days + 1 for s, e in ranges)
     done_days = 0
+
+    out_f, out_w, out_fields = stream_csv(args.output)
+    written = set()
+    written_count = 0
 
     for s, e in ranges:
         for d in daterange(s, e):
             done_days += 1
-            if done_days % 25 == 0:
-                print(f"进度: {done_days}/{total_days} 日期 {d}")
+            if done_days % 10 == 0:
+                print(f"进度: {done_days}/{total_days} 日期 {d}", flush=True)
             try:
                 spread_rows = fetch_odds_table(d, "pointspread")
                 total_rows = fetch_odds_table(d, "totals")
@@ -224,15 +271,23 @@ def main():
             spread_map = parse_rows(spread_rows, "spread", args.book)
             total_map = parse_rows(total_rows, "total", args.book)
             day_map = merge_game_maps(spread_map, total_map)
-            all_games = merge_game_maps(all_games, day_map)
-            time.sleep(0.15)
+            day_rows = list(day_map.values())
+            if args.season:
+                day_rows = [r for r in day_rows if r.get("season") == args.season]
+            day_rows.sort(key=lambda r: (r.get("date", ""), r.get("time_et", ""), r.get("away", ""), r.get("home", "")))
+            for r in day_rows:
+                gid = r.get("game_id")
+                if not gid or gid in written:
+                    continue
+                out_w.writerow({k: r.get(k, "") for k in out_fields})
+                written.add(gid)
+                written_count += 1
+            if args.sleep > 0:
+                time.sleep(args.sleep)
 
-    rows = list(all_games.values())
-    rows.sort(key=lambda r: (r.get("date", ""), r.get("time_et", ""), r.get("away", ""), r.get("home", "")))
-    write_csv(args.output, rows)
-    print(f"已输出: {args.output} 共{len(rows)}行")
+    out_f.close()
+    print(f"已输出: {args.output} 共{written_count}行", flush=True)
 
 
 if __name__ == "__main__":
     main()
-

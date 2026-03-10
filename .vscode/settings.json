@@ -1,0 +1,12 @@
+{
+    "files.watcherExclude": {
+        "**/venv/**": true,
+        "**/*.csv": true,
+        "**/__pycache__/**": true
+    },
+    "search.exclude": {
+        "**/venv/**": true,
+        "**/*.csv": true,
+        "**/__pycache__/**": true
+    }
+}
