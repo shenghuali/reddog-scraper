@@ -141,6 +141,29 @@ def extract_wager_pct_map(pointspread_html):
     return pcts
 
 
+def extract_score_map(pointspread_html):
+    if not pointspread_html:
+        return {}
+    scores = {}
+    q = '"'
+    game_iter = list(re.finditer(r'data-horizontal-eid=' + re.escape(q) + r'(\d+)' + re.escape(q), pointspread_html))
+    for idx, m in enumerate(game_iter):
+        gid = m.group(1)
+        start = m.start()
+        end = game_iter[idx + 1].start() if idx + 1 < len(game_iter) else min(len(pointspread_html), start + 120000)
+        chunk = pointspread_html[start:end]
+        pos = chunk.find("GameRows_scores__")
+        if pos < 0:
+            continue
+        window = chunk[pos : pos + 2500]
+        nums = re.findall(r"<div>(\d{1,3})</div>", window)
+        if len(nums) >= 2:
+            away_score = nums[0]
+            home_score = nums[1]
+            scores[gid] = (home_score, away_score)
+    return scores
+
+
 def american_to_decimal_odds(value):
     if value is None:
         return ""
@@ -169,9 +192,10 @@ def american_to_decimal_odds(value):
     return f"{dec:.2f}"
 
 
-def parse_rows(rows, market, preferred_book, wager_pct_map=None):
+def parse_rows(rows, market, preferred_book, wager_pct_map=None, score_map=None):
     out = {}
     wager_pct_map = wager_pct_map or {}
+    score_map = score_map or {}
     for r in rows:
         gv = r.get("gameView") or {}
         game_id = gv.get("gameId")
@@ -196,11 +220,14 @@ def parse_rows(rows, market, preferred_book, wager_pct_map=None):
         book = (v.get("sportsbook") or "").lower()
 
         if game_id not in out:
+            home_score, away_score = score_map.get(str(game_id), ("Not Played", "Not Played"))
             out[game_id] = {
                 "game_id": str(game_id),
                 "season": season_from_us_date(start_dt.date()) if start_dt else "",
                 "date": start_dt.date().strftime("%Y-%m-%d") if start_dt else "",
                 "time_et": start_dt.strftime("%H:%M") if start_dt else "",
+                "home_score": home_score,
+                "away_score": away_score,
                 "home": home,
                 "away": away,
                 "book": book,
@@ -220,6 +247,11 @@ def parse_rows(rows, market, preferred_book, wager_pct_map=None):
             awp, hwp = wager_pct_map.get(str(game_id), ("", ""))
             out[game_id]["away_wagers_pct"] = awp or ""
             out[game_id]["home_wagers_pct"] = hwp or ""
+        if (out[game_id].get("home_score") in ["", "Not Played"]) and (out[game_id].get("away_score") in ["", "Not Played"]):
+            hs, aws = score_map.get(str(game_id), ("", ""))
+            if hs and aws:
+                out[game_id]["home_score"] = hs
+                out[game_id]["away_score"] = aws
 
         if market == "spread":
             os_ = opening.get("homeSpread")
@@ -257,6 +289,8 @@ def merge_game_maps(a, b):
             out[k] = v
             continue
         for f in [
+            "home_score",
+            "away_score",
             "open_spread",
             "close_spread",
             "open_total",
@@ -274,6 +308,8 @@ def merge_game_maps(a, b):
             if not out[k].get(f) and v.get(f):
                 out[k][f] = v[f]
             if f in [
+                "home_score",
+                "away_score",
                 "open_spread",
                 "close_spread",
                 "open_total",
@@ -292,6 +328,8 @@ def write_csv(path, rows):
         "season",
         "date",
         "time_et",
+        "home_score",
+        "away_score",
         "home",
         "away",
         "book",
@@ -348,8 +386,9 @@ def main():
         return
 
     wager_pct_map = extract_wager_pct_map(spread_html)
-    spread_map = parse_rows(spread_rows, "spread", args.book, wager_pct_map=wager_pct_map)
-    total_map = parse_rows(total_rows, "total", args.book)
+    score_map = extract_score_map(spread_html)
+    spread_map = parse_rows(spread_rows, "spread", args.book, wager_pct_map=wager_pct_map, score_map=score_map)
+    total_map = parse_rows(total_rows, "total", args.book, score_map=score_map)
     day_map = merge_game_maps(spread_map, total_map)
     day_rows = list(day_map.values())
     day_rows.sort(key=lambda r: (r.get("date", ""), r.get("time_et", ""), r.get("home", ""), r.get("away", "")))
