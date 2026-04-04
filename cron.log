@@ -1,0 +1,204 @@
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-03-22
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-03-22
+DEBUG: Found game 363080, start=2026-03-22T21:00:00+00:00
+DEBUG: Found game 363081, start=2026-03-22T22:00:00+00:00
+DEBUG: Found game 363082, start=2026-03-22T23:30:00+00:00
+DEBUG: Found game 363083, start=2026-03-23T00:00:00+00:00
+DEBUG: Found game 363084, start=2026-03-23T01:00:00+00:00
+DEBUG: Found game 363080, start=2026-03-22T21:00:00+00:00
+DEBUG: Found game 363081, start=2026-03-22T22:00:00+00:00
+DEBUG: Found game 363082, start=2026-03-22T23:30:00+00:00
+DEBUG: Found game 363083, start=2026-03-23T00:00:00+00:00
+DEBUG: Found game 363084, start=2026-03-23T01:00:00+00:00
+DEBUG: day_rows has 5 items
+DEBUG: game 363080 date 2026-03-22
+DEBUG: game 363081 date 2026-03-22
+DEBUG: game 363082 date 2026-03-22
+DEBUG: game 363083 date 2026-03-22
+DEBUG: game 363084 date 2026-03-22
+已输出: /data/reddog-scraper/nba-latest-odds.csv 共5行
+已输出: daily matches/sbr_nba_2026-03-22.csv 共5行
+已输出: nba injury/nba-injury_2026-03-22.csv 共120行
+已输出: nba-injury-latest.csv 共120行
+已删除旧文件: 1个
+已更新: nba-advanced-stats.csv 共30行
+Scraping atl...
+Error scraping atl: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/atl", waiting until "networkidle"
+
+Scraping bos...
+Error scraping bos: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/bos", waiting until "networkidle"
+
+Scraping bkn...
+Error scraping bkn: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/bkn", waiting until "networkidle"
+
+Scraping cha...
+Error scraping cha: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/cha", waiting until "networkidle"
+
+Scraping chi...
+Error scraping chi: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/chi", waiting until "networkidle"
+
+Scraping cle...
+Error scraping cle: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/cle", waiting until "networkidle"
+
+Scraping dal...
+Error scraping dal: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/dal", waiting until "networkidle"
+
+Scraping den...
+Error scraping den: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/den", waiting until "networkidle"
+
+Scraping det...
+Error scraping det: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/det", waiting until "networkidle"
+
+Scraping gs...
+Error scraping gs: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/gs", waiting until "networkidle"
+
+Scraping hou...
+Error scraping hou: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/hou", waiting until "networkidle"
+
+Scraping ind...
+Error scraping ind: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/ind", waiting until "networkidle"
+
+Scraping lac...
+Error scraping lac: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/lac", waiting until "networkidle"
+
+Scraping lal...
+Error scraping lal: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/lal", waiting until "networkidle"
+
+Scraping mem...
+Error scraping mem: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/mem", waiting until "networkidle"
+
+Scraping mia...
+No data found for mia
+Scraping mil...
+No data found for mil
+Scraping min...
+Error scraping min: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/min", waiting until "networkidle"
+
+Scraping no...
+No data found for no
+Scraping ny...
+Error scraping ny: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/ny", waiting until "networkidle"
+
+Scraping okc...
+No data found for okc
+Scraping orl...
+Error scraping orl: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/orl", waiting until "networkidle"
+
+Scraping phi...
+Error scraping phi: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/phi", waiting until "networkidle"
+
+Scraping phx...
+Error scraping phx: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/phx", waiting until "networkidle"
+
+Scraping por...
+Error scraping por: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/por", waiting until "networkidle"
+
+Scraping sac...
+Error scraping sac: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/sac", waiting until "networkidle"
+
+Scraping sa...
+Error scraping sa: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/sa", waiting until "networkidle"
+
+Scraping tor...
+Error scraping tor: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/tor", waiting until "networkidle"
+
+Scraping utah...
+No data found for utah
+Scraping was...
+Error scraping was: Page.goto: Timeout 60000ms exceeded.
+Call log:
+  - navigating to "https://www.espn.com/nba/team/stats/_/name/was", waiting until "networkidle"
+
+No data collected.
+1. Loading Enriched Data (Base)
+Loaded 5981 records.
+2. Loading Advanced Stats (Current Strength)
+Loaded 30 team stats.
+  team   pace   ortg   drtg  nrtg  ...  o-FT/FGA  d-eFG%  d-TOV%  d-DRB%  d-FT/FGA
+0  OKC   99.3  118.4  107.3  11.1  ...     0.218   0.515    14.7    74.2     0.189
+1  DET   99.5  117.5  109.6   7.9  ...     0.224   0.518    15.0    74.2     0.255
+2  BOS   94.7  120.5  112.7   7.8  ...     0.165   0.522    11.6    75.3     0.192
+3  SAS  100.0  118.8  111.5   7.3  ...     0.218   0.523    11.6    77.1     0.184
+4  NYK   97.5  119.3  112.7   6.6  ...     0.190   0.537    13.0    77.0     0.208
+5  DEN   98.2  121.5  117.2   4.3  ...     0.244   0.543    10.6    75.1     0.197
+6  CHA   97.3  118.9  114.7   4.2  ...     0.203   0.540    11.6    76.6     0.191
+7  CLE   99.9  118.5  114.3   4.2  ...     0.201   0.540    13.4    74.0     0.207
+8  HOU   95.8  117.6  113.4   4.2  ...     0.198   0.531    12.1    74.2     0.190
+9  MIN  100.6  117.5  113.7   3.8  ...     0.221   0.531    12.9    74.2     0.218
+
+[10 rows x 13 columns]
+3. Loading Injury Data (Game Day Variables)
+Loaded 120 injury records from /data/reddog-scraper/nba-injury-latest.csv.
+
+Notable Injuries:
+   team  ...                                    status
+0   ATL  ...                        Game Time Decision
+1   BOS  ...                        Game Time Decision
+2   BOS  ...   Expected to be out until at least Apr 5
+3   BKN  ...  Expected to be out until at least Mar 23
+4   BKN  ...  Expected to be out until at least Mar 23
+5   BKN  ...                        Game Time Decision
+6   BKN  ...   Expected to be out until at least Apr 9
+7   BKN  ...                        Out for the season
+8   BKN  ...                        Out for the season
+9   CHA  ...                        Game Time Decision
+10  CHI  ...                        Game Time Decision
+11  CHI  ...                        Game Time Decision
+12  CHI  ...                        Game Time Decision
+13  CHI  ...  Expected to be out until at least Mar 27
+14  CHI  ...                        Out for the season
+15  CHI  ...                        Out for the season
+16  CLE  ...                        Game Time Decision
+17  CLE  ...                        Game Time Decision
+18  CLE  ...                        Game Time Decision
+19  CLE  ...                        Game Time Decision
+
+[20 rows x 4 columns]

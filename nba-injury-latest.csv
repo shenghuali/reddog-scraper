@@ -1,0 +1,135 @@
+﻿team,player,updated,injury,status
+BOS,Derrick White,"Sun, Mar 29",Knee,Game Time Decision
+BOS,Jaylen Brown,"Sun, Mar 29",Achilles,Game Time Decision
+BOS,Nikola Vucevic,"Sat, Mar 14",Finger,Expected to be out until at least Apr 5
+BKN,Jalen Wilson,"Sun, Mar 29",Illness,Game Time Decision
+BKN,Danny Wolf,"Sun, Mar 29",Ankle,Game Time Decision
+BKN,Josh Minott,"Sun, Mar 29",Hip,Game Time Decision
+BKN,Michael Porter Jr.,"Thu, Mar 19",Hamstring,Expected to be out until at least Apr 9
+BKN,Day'Ron Sharpe,"Thu, Mar 12",Thumb,Out for the season
+BKN,Egor Demin,"Mon, Mar 9",Foot,Out for the season
+CHA,Tidjane Salaun,"Sun, Mar 29",Calf,Game Time Decision
+CHA,Grant Williams,"Sun, Mar 29",Knee,Game Time Decision
+CHI,Mac McClung,"Sun, Mar 29",Hamstring,Expected to be out until at least Apr 1
+CHI,Anfernee Simons,"Sun, Mar 29",Wrist,Expected to be out until at least Apr 1
+CHI,Guerschon Yabusele,"Sat, Mar 28",Ankle,Game Time Decision
+CHI,Nick Richards,"Sat, Mar 28",Elbow,Game Time Decision
+CHI,Jaden Ivey,"Thu, Mar 26",Knee,Out for the season
+CHI,Jalen Smith,"Thu, Mar 26",Calf,Out for the season
+CHI,Zach Collins,"Sat, Feb 21",Toe,Out for the season
+CHI,Noa Essengue,"Wed, Dec 3",Shoulder,Out for the season
+CLE,Jaylon Tyson,"Sun, Mar 29",Toe,Expected to be out until at least Apr 5
+CLE,Jarrett Allen,"Sun, Mar 29",Knee,Expected to be out until at least Mar 31
+CLE,Dean Wade,"Sun, Mar 29",Ankle,Expected to be out until at least Apr 5
+CLE,Max Strus,"Sun, Mar 29",Foot,Expected to be out until at least Mar 31
+CLE,Craig Porter Jr.,"Fri, Mar 27",Groin,Game Time Decision
+DAL,Naji Marshall,"Sun, Mar 29",Illness,Game Time Decision
+DAL,Marvin Bagley III,"Sun, Mar 29",Shoulder,Game Time Decision
+DAL,Caleb Martin,"Sat, Mar 28",Heel,Game Time Decision
+DAL,Daniel Gafford,"Sat, Mar 28",Shoulder,Game Time Decision
+DAL,Kyrie Irving,"Wed, Feb 18",Knee,Out for the season
+DAL,Dereck Lively II,"Wed, Dec 10",Foot,Out for the season
+DEN,Cameron Johnson,"Mon, Mar 30",Back,Game Time Decision
+DEN,Aaron Gordon,"Mon, Mar 30",Calf,Game Time Decision
+DEN,Zeke Nnaji,"Mon, Mar 30",Hip,Game Time Decision
+DEN,Spencer Jones,"Mon, Mar 30",Hamstring,Game Time Decision
+DET,Wendell Moore Jr.,"Sun, Mar 29",Knee,Game Time Decision
+DET,Ausar Thompson,"Sun, Mar 29",Ankle,Game Time Decision
+DET,Jalen Duren,"Sun, Mar 29",Knee,Game Time Decision
+DET,Duncan Robinson,"Sun, Mar 29",Hip,Game Time Decision
+DET,Tobias Harris,"Sun, Mar 29",Hip,Game Time Decision
+DET,Cade Cunningham,"Fri, Mar 20",Chest,Expected to be out until at least Apr 8
+GSW,Quinten Post,"Mon, Mar 30",Foot,Game Time Decision
+GSW,Will Richard,"Sun, Mar 29",Heel,Expected to be out until at least Apr 1
+GSW,Stephen Curry,"Fri, Mar 27",Knee,Expected to be out until at least Apr 1
+GSW,Al Horford,"Fri, Mar 27",Calf,Expected to be out until at least Apr 5
+GSW,Moses Moody,"Tue, Mar 24",Knee,Out for the season
+GSW,Jimmy Butler,"Tue, Jan 20",Knee,Out for the season
+HOU,Steven Adams,"Wed, Jan 28",Ankle,Out for the season
+HOU,Fred VanVleet,"Tue, Oct 21",Knee,Expected to be out until at least Jun 1
+IND,Aaron Nesmith,"Sun, Mar 29",Back,Game Time Decision
+IND,Jarace Walker,"Sun, Mar 29",Back,Game Time Decision
+IND,Ivica Zubac,"Fri, Mar 20",Ribs,Out for the season
+IND,Johnny Furphy,"Mon, Feb 9",Knee,Out for the season
+IND,Tyrese Haliburton,"Tue, Oct 28",Achilles,Out for the season
+LAC,Isaiah Jackson,"Sun, Mar 29",Ankle,Game Time Decision
+LAC,Yanic Konan Niederhauser,"Thu, Mar 5",Foot,Out for the season
+LAC,Bradley Beal,"Wed, Nov 12",Hip,Out for the season
+LAL,Adou Thiero,"Sun, Mar 29",Knee,Expected to be out until at least Mar 31
+LAL,Marcus Smart,"Sun, Mar 29",Ankle,Expected to be out until at least Mar 31
+LAL,Luka Doncic,"Sat, Mar 28",Suspension,Expected to be out until at least Mar 31
+MEM,Olivier-Maxence Prosper,"Sun, Mar 29",Wrist,Game Time Decision
+MEM,Jaylen Wells,"Sun, Mar 29",Toe,Expected to be out until at least Oct 1
+MEM,Javon Small,"Sun, Mar 29",Back,Game Time Decision
+MEM,Walter Clayton Jr.,"Sun, Mar 29",Ankle,Game Time Decision
+MEM,Ty Jerome,"Sun, Mar 29",Ankle,Expected to be out until at least Apr 1
+MEM,DeJon Jarreau,"Sat, Mar 28",Elbow,Game Time Decision
+MEM,Taj Gibson,"Sat, Mar 28",Foot,Game Time Decision
+MEM,Brandon Clarke,"Tue, Mar 24",Calf,Out for the season
+MEM,Ja Morant,"Tue, Mar 24",Elbow,Out for the season
+MEM,Santi Aldama,"Sun, Mar 15",Knee,Out for the season
+MEM,Scotty Pippen Jr.,"Fri, Mar 13",Toe,Out for the season
+MEM,Zach Edey,"Sun, Mar 1",Ankle,Out for the season
+MEM,Kentavious Caldwell-Pope,"Thu, Feb 19",Finger,Out for the season
+MIA,Norman Powell,"Sun, Mar 29",Illness,Game Time Decision
+MIA,Terry Rozier,"Thu, Feb 12",Not Injury Related,Expected to be out until at least Apr 1
+MIL,Ryan Rollins,"Sun, Mar 29",Hip,Game Time Decision
+MIL,Myles Turner,"Sun, Mar 29",Knee,Game Time Decision
+MIL,Gary Harris,"Sun, Mar 29",Personal,Game Time Decision
+MIL,Thanasis Antetokounmpo,"Sun, Mar 29",Calf,Game Time Decision
+MIL,Bobby Portis,"Sun, Mar 29",Wrist,Game Time Decision
+MIL,Kyle Kuzma,"Sun, Mar 29",Achilles,Game Time Decision
+MIL,Giannis Antetokounmpo,"Sun, Mar 29",Knee,Game Time Decision
+MIL,Kevin Porter,"Sat, Mar 28",Knee,Out for the season
+MIN,Rocco Zikarsky,"Sun, Mar 29",Undisclosed,Game Time Decision
+MIN,Jaden McDaniels,"Sun, Mar 29",Knee,Expected to be out until at least Apr 2
+MIN,Anthony Edwards,"Sat, Mar 28",Knee,Game Time Decision
+MIN,Ayo Dosunmu,"Sat, Mar 28",Calf,Game Time Decision
+NOP,Josh Oduro,"Sun, Mar 29",Ankle,Game Time Decision
+NOP,Hunter Dickinson,"Sun, Mar 29",Personal,Game Time Decision
+NOP,Trey Murphy III,"Sun, Mar 29",Ankle,Game Time Decision
+NOP,Bryce McGowens,"Sun, Mar 29",Toe,Game Time Decision
+NYK,Kevin McCullar Jr.,"Sun, Mar 29",Quadriceps,Game Time Decision
+NYK,Miles McBride,"Sun, Mar 29",Undisclosed,Game Time Decision
+NYK,Landry Shamet,"Sun, Mar 29",Knee,Game Time Decision
+OKC,Thomas Sorber,"Tue, Oct 28",Knee,Out for the season
+ORL,Franz Wagner,"Sun, Mar 29",Ankle,Game Time Decision
+ORL,Anthony Black,"Sun, Mar 29",Abdomen,Game Time Decision
+ORL,Jonathan Isaac,"Sun, Mar 29",Knee,Game Time Decision
+PHI,Johni Broome,"Sun, Feb 22",Knee,Expected to be out until at least Apr 1
+PHX,Mark Williams,"Sun, Mar 29",Foot,Expected to be out until at least Mar 31
+PHX,Amir Coffey,"Sun, Mar 29",Ankle,Expected to be out until at least Mar 31
+PHX,Dillon Brooks,"Sun, Mar 29",Hand,Expected to be out until at least Mar 31
+POR,Vit Krejci,"Sun, Mar 29",Calf,Game Time Decision
+POR,Jerami Grant,"Sun, Mar 29",Calf,Game Time Decision
+POR,Shaedon Sharpe,"Wed, Mar 11",Calf,Expected to be out until at least Apr 2
+POR,Damian Lillard,"Tue, Oct 28",Achilles,Out for the season
+SAC,Isaiah Stevens,"Sun, Mar 29",Ankle,Game Time Decision
+SAC,Russell Westbrook,"Sun, Mar 29",Toe,Game Time Decision
+SAC,Keegan Murray,"Sun, Mar 29",Ankle,Game Time Decision
+SAC,Malik Monk,"Sun, Mar 29",Shoulder,Game Time Decision
+SAC,DeMar DeRozan,"Sun, Mar 29",Hamstring,Game Time Decision
+SAC,Drew Eubanks,"Sun, Mar 15",Thumb,Out for the season
+SAC,De'Andre Hunter,"Fri, Feb 20",Eye,Out for the season
+SAC,Zach LaVine,"Thu, Feb 19",Finger,Out for the season
+SAC,Domantas Sabonis,"Wed, Feb 18",Knee,Out for the season
+SAS,David Jones,"Wed, Feb 4",Ankle,Out for the season
+TOR,Jamison Battle,"Sun, Mar 29",Illness,Game Time Decision
+TOR,Collin Murray-Boyles,"Sun, Mar 29",Back,Game Time Decision
+TOR,Chucky Hepburn,"Sun, Mar 29",Knee,Game Time Decision
+TOR,Immanuel Quickley,"Sun, Mar 29",Foot,Game Time Decision
+TOR,Brandon Ingram,"Sun, Mar 29",Heel,Game Time Decision
+UTA,Isaiah Collier,"Sun, Mar 29",Hamstring,Expected to be out until at least Apr 1
+UTA,Keyonte George,"Sun, Mar 29",Hamstring,Expected to be out until at least Apr 1
+UTA,Lauri Markkanen,"Fri, Mar 20",Hip,Expected to be out until at least Apr 10
+UTA,Jusuf Nurkic,"Mon, Feb 23",Nose,Out for the season
+UTA,Jaren Jackson Jr.,"Thu, Feb 12",Knee,Out for the season
+UTA,Walker Kessler,"Wed, Nov 5",Shoulder,Out for the season
+WAS,Trae Young,"Sun, Mar 29",Quadriceps,Game Time Decision
+WAS,Tre Johnson,"Sun, Mar 29",Foot,Game Time Decision
+WAS,Alex Sarr,"Sun, Mar 29",Toe,Game Time Decision
+WAS,Carlton Carrington,"Sun, Mar 29",Undisclosed,Game Time Decision
+WAS,Kyshawn George,"Wed, Mar 25",Elbow,Expected to be out until at least Apr 1
+WAS,D'Angelo Russell,"Tue, Mar 3",Not Injury Related,Expected to be out until at least Apr 1
+WAS,Anthony Davis,"Thu, Feb 26",Finger,Expected to be out until at least Apr 1
+WAS,Cam Whitmore,"Sat, Jan 17",Shoulder,Out for the season

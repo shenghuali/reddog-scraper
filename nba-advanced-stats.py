@@ -1,9 +1,8 @@
+import sys; sys.path.insert(0, "/data/reddog-scraper/venv/lib/python3.11/site-packages")
 import csv
 import re
 import urllib.request
-
 from bs4 import BeautifulSoup, Comment
-
 
 URL = "https://www.basketball-reference.com/leagues/NBA_2026.html"
 
@@ -17,17 +16,14 @@ TEAM_CODE_MAP = {
     "SA": "SAS",
 }
 
-
 def normalize_team_code(code):
     c = (code or "").strip().upper()
     return TEAM_CODE_MAP.get(c, c)
-
 
 def fetch_raw_html(url):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req, timeout=60) as resp:
         return resp.read().decode("utf-8", errors="replace")
-
 
 def extract_table_from_comments(soup, table_id):
     container = soup.select_one(f"#all_{table_id}")
@@ -46,7 +42,6 @@ def extract_table_from_comments(soup, table_id):
                 return t
     return None
 
-
 def get_table(html, table_id):
     soup = BeautifulSoup(html, "lxml")
     t = soup.select_one(f"table#{table_id}")
@@ -55,14 +50,7 @@ def get_table(html, table_id):
     t = extract_table_from_comments(soup, table_id)
     if t is not None:
         return t
-    m = re.search(r"<!--([\\s\\S]*?id=\\\"" + re.escape(table_id) + r"\\\"[\\s\\S]*?)-->", html)
-    if m:
-        frag = BeautifulSoup(m.group(1), "lxml")
-        t = frag.select_one(f"table#{table_id}")
-        if t is not None:
-            return t
     return None
-
 
 def parse_advanced_team_stats(table):
     rows = []
@@ -93,31 +81,36 @@ def parse_advanced_team_stats(table):
                 "ortg": cell("off_rtg"),
                 "drtg": cell("def_rtg"),
                 "nrtg": cell("net_rtg"),
-                "efg_pct": cell("efg_pct"),
+                "o-eFG%": cell("efg_pct"),
+                "o-TOV%": cell("tov_pct"),
+                "o-ORB%": cell("orb_pct"),
+                "o-FT/FGA": cell("ft_rate"),
+                "d-eFG%": cell("opp_efg_pct"),
+                "d-TOV%": cell("opp_tov_pct"),
+                "d-DRB%": cell("drb_pct"),
+                "d-FT/FGA": cell("opp_ft_rate"),
             }
         )
     return rows
 
-
 def write_csv(path, rows):
+    if not rows:
+        return
+    fieldnames = ["team", "pace", "ortg", "drtg", "nrtg", "o-eFG%", "o-TOV%", "o-ORB%", "o-FT/FGA", "d-eFG%", "d-TOV%", "d-DRB%", "d-FT/FGA"]
     with open(path, "w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=["team", "pace", "ortg", "drtg", "nrtg", "efg_pct"])
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
-
 
 def main():
     html = fetch_raw_html(URL)
     table = get_table(html, "advanced-team")
     if table is None:
-        write_csv("nba-advanced-stats.csv", [])
-        print("已输出: nba-advanced-stats.csv 共0行")
+        print("未找到 table: advanced-team")
         return
     rows = parse_advanced_team_stats(table)
-    write_csv("nba-advanced-stats.csv", rows)
-    print(f"已输出: nba-advanced-stats.csv 共{len(rows)}行")
-
+    write_csv("/data/reddog-scraper/nba-advanced-stats.csv", rows)
+    print(f"已更新: nba-advanced-stats.csv 共{len(rows)}行")
 
 if __name__ == "__main__":
     main()
-

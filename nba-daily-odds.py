@@ -1,402 +1,216 @@
-import argparse
+#!/usr/bin/env python3
+"""SBR NBA赔率抓取 - requests版（提取 opener/bet365 的 spread、total 与 spread odds）"""
 import csv
 import json
 import os
 import re
-import time
-import urllib.error
-import urllib.parse
-import urllib.request
 from datetime import datetime, timedelta
 
+import requests
 
-BASE = "https://www.sportsbookreview.com/betting-odds/nba-basketball/"
+# 按墨尔本本机时间决定抓取日期：
+# - 晚上 6 点前：抓前一天（通常对应美国当天比赛日）
+# - 晚上 6 点及以后：抓当天
+override_date = os.environ.get("ODDS_DATE", "").strip()
+if override_date:
+    us_date = override_date
+else:
+    aus_now = datetime.now()
+    if aus_now.hour >= 18:
+        us_date = aus_now.strftime("%Y-%m-%d")
+    else:
+        us_date = (aus_now - timedelta(days=1)).strftime("%Y-%m-%d")
 
-TEAM_CODE_MAP = {
-    "BRK": "BKN",
-    "BK": "BKN",
-    "CHO": "CHA",
-    "PHO": "PHX",
-    "GS": "GSW",
-    "NO": "NOP",
-    "NY": "NYK",
-    "SA": "SAS",
+headers = {
+    "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 }
 
 
-def normalize_team(code):
-    c = (code or "").strip().upper()
-    return TEAM_CODE_MAP.get(c, c)
+def load_game_rows(market: str):
+    target_url = f"https://www.sportsbookreview.com/betting-odds/nba-basketball/{market}/full-game/?date={us_date}"
+    print(f"Fetching: {target_url}")
+    html = requests.get(target_url, headers=headers, timeout=30).text
+    print(f"Got HTML: {len(html)} chars")
 
-def season_from_us_date(d):
-    if d.month >= 10:
-        return f"{d.year}-{d.year+1}"
-    return f"{d.year-1}-{d.year}"
+    match = re.search(r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', html, flags=re.S)
+    if not match:
+        raise Exception(f"Could not find __NEXT_DATA__ for {market}")
 
+    data = json.loads(match.group(1))
 
-def extract_next_data(html):
-    m = re.search(r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', html, flags=re.S)
-    if not m:
-        return None
-    try:
-        return json.loads(m.group(1))
-    except:
-        return None
-
-
-def fetch_html(url, timeout=60, retries=3, max_redirects=5):
-    last_err = None
-    for i in range(retries):
-        try:
-            headers = {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                "Accept-Language": "en-US,en;q=0.9",
-                "Connection": "close",
-            }
-            current_url = url
-            for _ in range(max_redirects + 1):
-                req = urllib.request.Request(current_url, headers=headers)
-                try:
-                    with urllib.request.urlopen(req, timeout=timeout) as resp:
-                        return resp.read().decode("utf-8", errors="replace")
-                except urllib.error.HTTPError as e:
-                    if e.code not in [301, 302, 303, 307, 308]:
-                        raise
-                    loc = e.headers.get("Location")
-                    if not loc:
-                        raise
-                    current_url = urllib.parse.urljoin(current_url, loc)
-            raise urllib.error.HTTPError(url, 310, "Too many redirects", None, None)
-        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as e:
-            last_err = e
-            backoff = 1.5 * (i + 1)
-            if isinstance(e, urllib.error.HTTPError) and e.code in [429, 403, 503]:
-                backoff = max(backoff, 8.0 * (i + 1))
-            time.sleep(backoff)
-    raise last_err
-
-
-def fetch_odds_table(us_date, odds_type):
-    params = {"date": us_date.strftime("%Y-%m-%d")}
-    if odds_type == "pointspread":
-        url = BASE + "pointspread/full-game/?" + urllib.parse.urlencode(params)
-    elif odds_type == "totals":
-        url = BASE + "totals/full-game/?" + urllib.parse.urlencode(params)
-    else:
-        url = BASE + "?" + urllib.parse.urlencode(params)
-
-    html = fetch_html(url)
-    data = extract_next_data(html)
-    if not data:
+    def find_game_rows(obj):
+        if isinstance(obj, dict):
+            if "gameRows" in obj:
+                return obj["gameRows"]
+            for v in obj.values():
+                res = find_game_rows(v)
+                if res:
+                    return res
+        elif isinstance(obj, list):
+            for item in obj:
+                res = find_game_rows(item)
+                if res:
+                    return res
         return []
-    tables = data.get("props", {}).get("pageProps", {}).get("oddsTables") or []
-    if not tables:
-        return []
-    model = tables[0].get("oddsTableModel") or {}
-    return model.get("gameRows") or []
+
+    rows = find_game_rows(data)
+    print(f"Found {len(rows)} games for {market}")
+    return rows
 
 
-def fetch_odds_rows_and_html(us_date, odds_type):
-    params = {"date": us_date.strftime("%Y-%m-%d")}
-    if odds_type == "pointspread":
-        url = BASE + "pointspread/full-game/?" + urllib.parse.urlencode(params)
-    elif odds_type == "totals":
-        url = BASE + "totals/full-game/?" + urllib.parse.urlencode(params)
-    else:
-        url = BASE + "?" + urllib.parse.urlencode(params)
+spread_rows = load_game_rows("pointspread")
+total_rows = load_game_rows("totals")
 
-    html = fetch_html(url)
-    data = extract_next_data(html)
-    if not data:
-        return [], html
-    tables = data.get("props", {}).get("pageProps", {}).get("oddsTables") or []
-    if not tables:
-        return [], html
-    model = tables[0].get("oddsTableModel") or {}
-    return model.get("gameRows") or [], html
+def get_sportsbook_name(odds_view):
+    sportsbook = odds_view.get("sportsbook")
+    if isinstance(sportsbook, dict):
+        return (sportsbook.get("name") or "").lower()
+    if isinstance(sportsbook, str):
+        return sportsbook.lower()
+    return ""
 
 
-def pick_book_view(views, preferred):
-    for v in views:
-        if (v.get("sportsbook") or "").lower() == preferred.lower():
-            return v
-    return views[0] if views else None
+def normalize_total_value(value):
+    if value is None:
+        return None
+    if isinstance(value, str):
+        cleaned = value.strip()
+        cleaned = re.sub(r"^[OU]\s*", "", cleaned, flags=re.I)
+        return cleaned
+    return value
 
 
-def extract_wager_pct_map(pointspread_html):
-    if not pointspread_html:
-        return {}
-    pcts = {}
-    q = '"'
-    game_iter = list(re.finditer(r'data-horizontal-eid=' + re.escape(q) + r'(\d+)' + re.escape(q), pointspread_html))
-    for idx, m in enumerate(game_iter):
-        gid = m.group(1)
-        start = m.start()
-        end = game_iter[idx + 1].start() if idx + 1 < len(game_iter) else min(len(pointspread_html), start + 120000)
-        chunk = pointspread_html[start:end]
-        vals = re.findall(r'<span class="opener">(\d{1,3})%</span>', chunk)
-        if len(vals) >= 2:
-            pcts[gid] = (vals[0], vals[1])
-    return pcts
-
-
-def extract_score_map(pointspread_html):
-    if not pointspread_html:
-        return {}
-    scores = {}
-    q = '"'
-    game_iter = list(re.finditer(r'data-horizontal-eid=' + re.escape(q) + r'(\d+)' + re.escape(q), pointspread_html))
-    for idx, m in enumerate(game_iter):
-        gid = m.group(1)
-        start = m.start()
-        end = game_iter[idx + 1].start() if idx + 1 < len(game_iter) else min(len(pointspread_html), start + 120000)
-        chunk = pointspread_html[start:end]
-        pos = chunk.find("GameRows_scores__")
-        if pos < 0:
-            continue
-        window = chunk[pos : pos + 2500]
-        nums = re.findall(r"<div>(\d{1,3})</div>", window)
-        if len(nums) >= 2:
-            away_score = nums[0]
-            home_score = nums[1]
-            scores[gid] = (home_score, away_score)
-    return scores
-
-
-def american_to_decimal_odds(value):
+def format_wager_percent(value):
     if value is None:
         return ""
-    if isinstance(value, bool):
-        return ""
-    s = str(value).strip()
-    if not s:
-        return ""
-    if "." in s:
-        try:
-            d = float(s)
-            if d > 1:
-                return f"{d:.2f}"
-        except:
-            return ""
+    return f"{round(value)}%"
+
+
+def american_to_decimal(odds):
+    if odds is None or odds == "":
+        return None
     try:
-        american = int(float(s))
-    except:
-        return ""
-    if american == 0:
-        return ""
-    if american > 0:
-        dec = 1.0 + (american / 100.0)
+        odds = float(odds)
+    except (TypeError, ValueError):
+        return None
+
+    if odds > 0:
+        decimal_odds = 1 + odds / 100
+    elif odds < 0:
+        decimal_odds = 1 + 100 / abs(odds)
     else:
-        dec = 1.0 + (100.0 / abs(american))
-    return f"{dec:.2f}"
+        return None
+
+    return f"{decimal_odds:.2f}"
 
 
-def parse_rows(rows, market, preferred_book, wager_pct_map=None, score_map=None):
-    out = {}
-    wager_pct_map = wager_pct_map or {}
-    score_map = score_map or {}
-    for r in rows:
-        gv = r.get("gameView") or {}
-        game_id = gv.get("gameId")
-        if game_id is None:
-            continue
+def get_home_spread_lines(row):
+    opener_spread = None
+    bet365_spread = None
+    home_spread_odds = None
+    away_spread_odds = None
 
-        home = normalize_team(((gv.get("homeTeam") or {}).get("shortName")) or "")
-        away = normalize_team(((gv.get("awayTeam") or {}).get("shortName")) or "")
-        start_iso = gv.get("startDate") or ""
-        try:
-            start_dt = datetime.fromisoformat(start_iso.replace("Z", "+00:00"))
-        except:
-            start_dt = None
+    for ov in row.get("oddsViews", []):
+        sportsbook = get_sportsbook_name(ov)
 
-        views = r.get("oddsViews") or []
-        v = pick_book_view(views, preferred_book)
-        if not v:
-            continue
+        if opener_spread is None:
+            opener_line = ov.get("openingLine") or {}
+            opener_spread = opener_line.get("homeSpread")
 
-        opening = v.get("openingLine") or {}
-        current = v.get("currentLine") or {}
-        book = (v.get("sportsbook") or "").lower()
+        if sportsbook == "bet365":
+            current_line = ov.get("currentLine") or {}
+            bet365_spread = current_line.get("homeSpread")
+            home_spread_odds = american_to_decimal(current_line.get("homeOdds"))
+            away_spread_odds = american_to_decimal(current_line.get("awayOdds"))
 
-        if game_id not in out:
-            home_score, away_score = score_map.get(str(game_id), ("Not Played", "Not Played"))
-            out[game_id] = {
-                "game_id": str(game_id),
-                "season": season_from_us_date(start_dt.date()) if start_dt else "",
-                "date": start_dt.date().strftime("%Y-%m-%d") if start_dt else "",
-                "time_et": start_dt.strftime("%H:%M") if start_dt else "",
-                "home_score": home_score,
-                "away_score": away_score,
-                "home": home,
-                "away": away,
-                "book": book,
-                "open_spread": "",
-                "close_spread": "",
-                "open_total": "",
-                "close_total": "",
-                "away_spread_odds": "",
-                "home_spread_odds": "",
-                "away_wagers_pct": "",
-                "home_wagers_pct": "",
-            }
-        else:
-            if not out[game_id].get("book") and book:
-                out[game_id]["book"] = book
-        if not out[game_id].get("away_wagers_pct") and not out[game_id].get("home_wagers_pct"):
-            awp, hwp = wager_pct_map.get(str(game_id), ("", ""))
-            out[game_id]["away_wagers_pct"] = awp or ""
-            out[game_id]["home_wagers_pct"] = hwp or ""
-        if (out[game_id].get("home_score") in ["", "Not Played"]) and (out[game_id].get("away_score") in ["", "Not Played"]):
-            hs, aws = score_map.get(str(game_id), ("", ""))
-            if hs and aws:
-                out[game_id]["home_score"] = hs
-                out[game_id]["away_score"] = aws
+        if opener_spread is not None and bet365_spread is not None and home_spread_odds is not None and away_spread_odds is not None:
+            break
 
-        if market == "spread":
-            os_ = opening.get("homeSpread")
-            cs_ = current.get("homeSpread")
-            if os_ is None:
-                away_os = opening.get("awaySpread")
-                if isinstance(away_os, (int, float)):
-                    os_ = -away_os
-            if cs_ is None:
-                away_cs = current.get("awaySpread")
-                if isinstance(away_cs, (int, float)):
-                    cs_ = -away_cs
-            out[game_id]["open_spread"] = "" if os_ is None else str(os_)
-            out[game_id]["close_spread"] = "" if cs_ is None else str(cs_)
-            away_w = current.get("awayOdds")
-            home_w = current.get("homeOdds")
-            if away_w is None:
-                away_w = opening.get("awayOdds")
-            if home_w is None:
-                home_w = opening.get("homeOdds")
-            out[game_id]["away_spread_odds"] = american_to_decimal_odds(away_w)
-            out[game_id]["home_spread_odds"] = american_to_decimal_odds(home_w)
-        elif market == "total":
-            ot = opening.get("total")
-            ct = current.get("total")
-            out[game_id]["open_total"] = "" if ot is None else str(ot)
-            out[game_id]["close_total"] = "" if ct is None else str(ct)
-    return out
+    return opener_spread, bet365_spread, home_spread_odds, away_spread_odds
 
 
-def merge_game_maps(a, b):
-    out = dict(a)
-    for k, v in b.items():
-        if k not in out:
-            out[k] = v
-            continue
-        for f in [
-            "home_score",
-            "away_score",
-            "open_spread",
-            "close_spread",
-            "open_total",
-            "close_total",
-            "home_spread_odds",
-            "away_spread_odds",
-            "home_wagers_pct",
-            "away_wagers_pct",
-            "book",
-            "date",
-            "time_et",
-            "home",
-            "away",
-        ]:
-            if not out[k].get(f) and v.get(f):
-                out[k][f] = v[f]
-            if f in [
-                "home_score",
-                "away_score",
-                "open_spread",
-                "close_spread",
-                "open_total",
-                "close_total",
-                "home_spread_odds",
-                "away_spread_odds",
-                "home_wagers_pct",
-                "away_wagers_pct",
-            ] and v.get(f) != "":
-                out[k][f] = v[f]
-    return out
+def get_total_lines(row):
+    opener_total = None
+    bet365_total = None
+
+    for ov in row.get("oddsViews", []):
+        sportsbook = get_sportsbook_name(ov)
+
+        if opener_total is None:
+            opener_line = ov.get("openingLine") or {}
+            opener_total = normalize_total_value(opener_line.get("total"))
+
+        if sportsbook == "bet365":
+            current_line = ov.get("currentLine") or {}
+            bet365_total = normalize_total_value(current_line.get("total"))
+
+        if opener_total is not None and bet365_total is not None:
+            break
+
+    return opener_total, bet365_total
 
 
-def write_csv(path, rows):
-    fieldnames = [
-        "season",
-        "date",
-        "time_et",
-        "home_score",
-        "away_score",
-        "home",
-        "away",
-        "book",
-        "open_spread",
-        "close_spread",
-        "open_total",
-        "close_total",
-        "home_spread_odds",
-        "away_spread_odds",
-        "home_wagers_pct",
-        "away_wagers_pct",
-        "game_id",
-    ]
-    with open(path, "w", encoding="utf-8-sig", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=fieldnames)
-        w.writeheader()
-        for r in rows:
-            w.writerow({k: r.get(k, "") for k in fieldnames})
+total_map = {}
+for r in total_rows:
+    gv = r.get("gameView", {})
+    game_id = gv.get("gameId")
+    opener_total, bet365_total = get_total_lines(r)
+    total_map[game_id] = (opener_total, bet365_total)
 
+out = []
+for r in spread_rows:
+    gv = r.get("gameView", {})
+    game_id = gv.get("gameId")
+    ht = gv.get("homeTeam", {}).get("shortName", "")
+    at = gv.get("awayTeam", {}).get("shortName", "")
+    home_score = gv.get("homeTeamScore")
+    away_score = gv.get("awayTeamScore")
+    consensus = gv.get("consensus") or {}
+    home_wager = consensus.get("homeSpreadPickPercent")
+    away_wager = consensus.get("awaySpreadPickPercent")
 
-def resolve_output_path(output_arg, target_date):
-    out_dir = "daily matches"
-    os.makedirs(out_dir, exist_ok=True)
-    if output_arg:
-        if os.path.isabs(output_arg) or os.path.dirname(output_arg):
-            return output_arg
-        return os.path.join(out_dir, output_arg)
-    return os.path.join(out_dir, f"sbr_nba_{target_date.strftime('%Y-%m-%d')}.csv")
+    opener_spread, spread, home_spread_odds, away_spread_odds = get_home_spread_lines(r)
 
+    opener_total, total = total_map.get(game_id, (None, None))
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--date", default="")
-    ap.add_argument("--book", default="bet365")
-    ap.add_argument("--output", default="")
-    args = ap.parse_args()
+    out.append([
+        game_id,
+        ht,
+        at,
+        us_date,
+        str(home_score) if home_score is not None else "",
+        str(away_score) if away_score is not None else "",
+        format_wager_percent(home_wager),
+        format_wager_percent(away_wager),
+        str(opener_spread) if opener_spread is not None else "",
+        str(spread) if spread is not None else "",
+        str(opener_total) if opener_total is not None else "",
+        str(total) if total is not None else "",
+        home_spread_odds or "",
+        away_spread_odds or "",
+    ])
 
-    if (args.date or "").strip():
-        target_date = datetime.strptime(args.date, "%Y-%m-%d").date()
-    else:
-        target_date = (datetime.now().date() - timedelta(days=1))
-    dated_output_path = resolve_output_path((args.output or "").strip(), target_date)
-    latest_output_path = "nba-latest-odds.csv"
+# csv_path = "/data/reddog-scraper/nba-latest-odds.csv"
+csv_path = "/home/shenghuali/reddog-scraper/nba-latest-odds.csv"
+with open(csv_path, "w", newline="", encoding="utf-8") as f:
+    w = csv.writer(f)
+    w.writerow(["game_id", "home", "away", "date", "Home Score", "Away Score", "home wager", "away wager", "opener_spread", "spread", "opener_total", "total", "home_spread_odds", "away_spread_odds"])
+    w.writerows(out)
 
-    try:
-        spread_rows, spread_html = fetch_odds_rows_and_html(target_date, "pointspread")
-        total_rows = fetch_odds_table(target_date, "totals")
-    except Exception as ex:
-        write_csv(dated_output_path, [])
-        write_csv(latest_output_path, [])
-        print(f"已输出: {latest_output_path} 共0行", flush=True)
-        print(f"已输出: {dated_output_path} 共0行", flush=True)
-        print(f"{target_date.strftime('%Y-%m-%d')} {repr(ex)}", flush=True)
-        return
-
-    wager_pct_map = extract_wager_pct_map(spread_html)
-    score_map = extract_score_map(spread_html)
-    spread_map = parse_rows(spread_rows, "spread", args.book, wager_pct_map=wager_pct_map, score_map=score_map)
-    total_map = parse_rows(total_rows, "total", args.book, score_map=score_map)
-    day_map = merge_game_maps(spread_map, total_map)
-    day_rows = list(day_map.values())
-    day_rows.sort(key=lambda r: (r.get("date", ""), r.get("time_et", ""), r.get("home", ""), r.get("away", "")))
-    write_csv(dated_output_path, day_rows)
-    write_csv(latest_output_path, day_rows)
-    print(f"已输出: {latest_output_path} 共{len(day_rows)}行", flush=True)
-    print(f"已输出: {dated_output_path} 共{len(day_rows)}行", flush=True)
-
-
-if __name__ == "__main__":
-    main()
+print(f"\n✅ 抓取完成: {len(out)} 场比赛")
+for row in out:
+    home_score_str = row[4] if row[4] else ""
+    away_score_str = row[5] if row[5] else ""
+    home_wager_str = row[6] if row[6] else "N/A"
+    away_wager_str = row[7] if row[7] else "N/A"
+    opener_str = row[8] if row[8] else "N/A"
+    spread_str = row[9] if row[9] else "N/A"
+    opener_total_str = row[10] if row[10] else "N/A"
+    total_str = row[11] if row[11] else "N/A"
+    home_spread_odds_str = row[12] if row[12] else "N/A"
+    away_spread_odds_str = row[13] if row[13] else "N/A"
+    score_str = f"{away_score_str}-{home_score_str}" if home_score_str and away_score_str else "未开赛"
+    print(
+        f"  {row[2]} @ {row[1]}: score={score_str}, home_wager={home_wager_str}, away_wager={away_wager_str}, opener_spread={opener_str}, spread={spread_str}, "
+        f"opener_total={opener_total_str}, total={total_str}, home_spread_odds={home_spread_odds_str}, away_spread_odds={away_spread_odds_str}"
+    )

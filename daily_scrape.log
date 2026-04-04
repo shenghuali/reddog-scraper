@@ -4,3 +4,1978 @@
 已追加到: nba_enriched_data.csv 新增10行
 已回填字段: nba_enriched_data.csv 更新10行
 已规范time为HH:MM: nba_enriched_data.csv 更新0行
+抓取北京日期: 2026-03-11 -> NBA日期: 2026-03-10
+赛季: 2025-2026
+已输出CSV: daily matches/titan007_nba_2026-03-10.csv 共11行
+已追加到: nba_enriched_data.csv 新增11行
+已回填字段: nba_enriched_data.csv 更新11行
+Traceback (most recent call last):
+  File "/data/reddog-scraper/nba-today-scraper.py", line 657, in <module>
+    main()
+  File "/data/reddog-scraper/nba-today-scraper.py", line 654, in main
+    scrape_today(output_path=output, enriched_path=args.enriched, target_date=cn_target_date)
+  File "/data/reddog-scraper/nba-today-scraper.py", line 571, in scrape_today
+    page.goto(url, wait_until="networkidle", timeout=60000)
+  File "/data/reddog-scraper/venv/lib/python3.12/site-packages/playwright/sync_api/_generated.py", line 9006, in goto
+    self._sync(
+  File "/data/reddog-scraper/venv/lib/python3.12/site-packages/playwright/_impl/_sync_base.py", line 115, in _sync
+    return task.result()
+           ^^^^^^^^^^^^^
+  File "/data/reddog-scraper/venv/lib/python3.12/site-packages/playwright/_impl/_page.py", line 551, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/reddog-scraper/venv/lib/python3.12/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/data/reddog-scraper/venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 61, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/reddog-scraper/venv/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 528, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+Exception: Page.goto: Connection closed while reading from the driver
+抓取北京日期: 2026-03-13 -> NBA日期: 2026-03-12
+赛季: 2025-2026
+已输出CSV: daily matches/titan007_nba_2026-03-12.csv 共9行
+已追加到: nba_enriched_data.csv 新增9行
+已回填字段: nba_enriched_data.csv 更新9行
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-13.csv 共8行
+[2026-03-14 08:00:01.122196] Starting Sync...
+Added new game: 2026-03-13 DAL vs CLE
+Added new game: 2026-03-13 DET vs MEM
+Added new game: 2026-03-13 IND vs NYK
+Added new game: 2026-03-13 TOR vs PHX
+Added new game: 2026-03-14 HOU vs NOP
+Added new game: 2026-03-14 GSW vs MIN
+Added new game: 2026-03-14 POR vs UTA
+Added new game: 2026-03-14 LAC vs CHI
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-13.csv 共8行
+[2026-03-14 18:00:01.860234] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共7行
+已输出: daily matches/sbr_nba_2026-03-14.csv 共7行
+[2026-03-15 08:00:01.924265] Starting Sync...
+Added new game: 2026-03-14 PHI vs BKN
+Added new game: 2026-03-14 ATL vs MIL
+Added new game: 2026-03-14 SAS vs CHA
+Added new game: 2026-03-14 BOS vs WSH
+Added new game: 2026-03-15 MIA vs ORL
+Added new game: 2026-03-15 LAL vs DEN
+Added new game: 2026-03-15 LAC vs SAC
+Sync complete. Updated/Merged 7 records.
+已输出: nba-latest-odds.csv 共7行
+已输出: daily matches/sbr_nba_2026-03-14.csv 共7行
+[2026-03-15 18:00:01.541329] Starting Sync...
+Sync complete. Updated/Merged 7 records.
+已输出: nba-latest-odds.csv 共7行
+已输出: daily matches/sbr_nba_2026-03-15.csv 共7行
+[2026-03-16 18:00:01.831471] Starting Sync...
+Sync complete. Updated/Merged 7 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-16.csv 共8行
+[2026-03-17 02:00:01.728137] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-16.csv 共8行
+[2026-03-17 04:00:01.428624] Starting Sync...
+[SPREAD] BKN vs POR: 10.0 -> 10.5 (+0.5)
+[SPREAD] CHI vs MEM: -6.0 -> -7.0 (-1.0)
+[TOTAL] NOP vs DAL: 239.0 -> 240.5 (+1.5)
+[SPREAD] LAC vs SAS: 9.0 -> 8.5 (-0.5)
+[TOTAL] LAC vs SAS: 232.5 -> 233.5 (+1.0)
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-16.csv 共8行
+[2026-03-17 06:00:01.236817] Starting Sync...
+[SPREAD] BOS vs PHX: -8.5 -> -9.0 (-0.5)
+[SPREAD] NOP vs DAL: -8.5 -> -9.0 (-0.5)
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-16.csv 共8行
+[2026-03-17 08:00:01.160320] Starting Sync...
+[SPREAD] ATL vs ORL: -3.0 -> -3.5 (-0.5)
+[TOTAL] BOS vs PHX: 214.5 -> 216.0 (+1.5)
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-16.csv 共8行
+[2026-03-17 10:00:01.561977] Starting Sync...
+[TOTAL] ATL vs ORL: 231.0 -> 231.5 (+0.5)
+[TOTAL] WAS vs GSW: 233.0 -> 234.0 (+1.0)
+[SPREAD] BKN vs POR: 10.5 -> 11.0 (+0.5)
+[TOTAL] BOS vs PHX: 216.0 -> 216.5 (+0.5)
+[SPREAD] CHI vs MEM: -7.0 -> -6.5 (+0.5)
+[TOTAL] NOP vs DAL: 240.5 -> 241.0 (+0.5)
+[TOTAL] HOU vs LAL: 225.0 -> 224.5 (-0.5)
+[TOTAL] LAC vs SAS: 233.5 -> 234.0 (+0.5)
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-16.csv 共8行
+[2026-03-17 12:00:02.007005] Starting Sync...
+[TOTAL] BKN vs POR: 221.5 -> 221.0 (-0.5)
+[SPREAD] CHI vs MEM: -6.5 -> -7.5 (-1.0)
+[SPREAD] NOP vs DAL: -9.0 -> -8.5 (+0.5)
+[TOTAL] NOP vs DAL: 241.0 -> 240.5 (-0.5)
+[SPREAD] HOU vs LAL: -1.0 -> 1.0 (+2.0)
+[TOTAL] HOU vs LAL: 224.5 -> 223.0 (-1.5)
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-16.csv 共8行
+[2026-03-17 14:00:01.535668] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-16.csv 共8行
+[2026-03-17 16:00:02.033717] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-16.csv 共8行
+[2026-03-17 18:00:01.560564] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-16.csv 共8行
+[2026-03-17 20:00:01.689714] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-16.csv 共8行
+[2026-03-17 22:00:01.647221] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-17.csv 共8行
+[2026-03-18 00:00:01.448514] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-17.csv 共8行
+[2026-03-18 02:00:01.477276] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-17.csv 共8行
+[2026-03-18 04:00:01.400752] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-17.csv 共8行
+[2026-03-18 06:00:02.076911] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-17.csv 共8行
+[2026-03-18 08:00:01.465004] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-17.csv 共8行
+[2026-03-18 10:00:01.688709] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-17.csv 共8行
+[2026-03-18 12:00:01.222433] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-17.csv 共8行
+[2026-03-18 14:00:01.637783] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-17.csv 共8行
+[2026-03-18 16:00:01.329767] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-17.csv 共8行
+[2026-03-18 18:00:01.669095] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-17.csv 共8行
+[2026-03-18 20:00:01.665406] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共8行
+已输出: daily matches/sbr_nba_2026-03-17.csv 共8行
+[2026-03-18 22:00:01.457353] Starting Sync...
+Sync complete. Updated/Merged 8 records.
+已输出: nba-latest-odds.csv 共9行
+已输出: daily matches/sbr_nba_2026-03-18.csv 共9行
+[2026-03-19 00:00:02.032195] Starting Sync...
+Sync complete. Updated/Merged 9 records.
+已输出: nba-latest-odds.csv 共9行
+已输出: daily matches/sbr_nba_2026-03-18.csv 共9行
+[2026-03-19 02:00:01.474132] Starting Sync...
+Sync complete. Updated/Merged 9 records.
+已输出: nba-latest-odds.csv 共9行
+已输出: daily matches/sbr_nba_2026-03-18.csv 共9行
+[2026-03-19 04:00:01.491018] Starting Sync...
+Sync complete. Updated/Merged 9 records.
+已输出: nba-latest-odds.csv 共9行
+已输出: daily matches/sbr_nba_2026-03-18.csv 共9行
+[2026-03-19 06:00:01.339764] Starting Sync...
+Sync complete. Updated/Merged 9 records.
+已输出: nba-latest-odds.csv 共9行
+已输出: daily matches/sbr_nba_2026-03-18.csv 共9行
+[2026-03-19 08:00:01.620854] Starting Sync...
+Sync complete. Updated/Merged 9 records.
+已输出: nba-latest-odds.csv 共9行
+已输出: daily matches/sbr_nba_2026-03-18.csv 共9行
+[2026-03-19 10:00:01.650526] Starting Sync...
+Sync complete. Updated/Merged 9 records.
+已输出: nba-latest-odds.csv 共9行
+已输出: daily matches/sbr_nba_2026-03-18.csv 共9行
+[2026-03-19 12:00:01.283715] Starting Sync...
+Sync complete. Updated/Merged 9 records.
+已输出: nba-latest-odds.csv 共9行
+已输出: daily matches/sbr_nba_2026-03-18.csv 共9行
+[2026-03-19 14:00:01.882724] Starting Sync...
+Sync complete. Updated/Merged 9 records.
+已输出: nba-latest-odds.csv 共9行
+已输出: daily matches/sbr_nba_2026-03-18.csv 共9行
+[2026-03-19 16:00:01.514541] Starting Sync...
+Sync complete. Updated/Merged 9 records.
+已输出: nba-latest-odds.csv 共9行
+已输出: daily matches/sbr_nba_2026-03-18.csv 共9行
+[2026-03-19 18:00:01.912194] Starting Sync...
+Sync complete. Updated/Merged 9 records.
+已输出: nba-latest-odds.csv 共9行
+已输出: daily matches/sbr_nba_2026-03-18.csv 共9行
+[2026-03-19 20:00:01.866913] Starting Sync...
+Sync complete. Updated/Merged 9 records.
+已输出: nba-latest-odds.csv 共9行
+已输出: daily matches/sbr_nba_2026-03-18.csv 共9行
+[2026-03-19 22:00:01.707443] Starting Sync...
+Sync complete. Updated/Merged 9 records.
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 140, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 95, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 140, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 95, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 140, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 95, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 140, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 95, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 140, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 95, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 140, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 95, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Traceback (most recent call last):
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 141, in <module>
+    sync()
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 96, in sync
+    enriched_rows = load_csv(ENRICHED_CSV)
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shenghuali/reddog-scraper/sync_daily_odds.py", line 22, in load_csv
+    with open(path, encoding='utf-8-sig', newline='') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/reddog-scraper/nba_enriched_data.csv'
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 0 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 9 rows, added 0 rows for 2026-03-24 to 2026-04-04.
+Sync complete. Updated 3 rows, added 0 rows for 2026-03-24 to 2026-04-04.

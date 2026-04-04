@@ -1,0 +1,31 @@
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-03-20
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-03-20
+DEBUG: Found game 363065, start=2026-03-20T23:30:00+00:00
+DEBUG: Found game 363064, start=2026-03-20T23:30:00+00:00
+DEBUG: Found game 363066, start=2026-03-21T00:00:00+00:00
+DEBUG: Found game 363067, start=2026-03-21T00:00:00+00:00
+DEBUG: Found game 363068, start=2026-03-21T00:00:00+00:00
+DEBUG: Found game 363069, start=2026-03-21T01:00:00+00:00
+DEBUG: Found game 363065, start=2026-03-20T23:30:00+00:00
+DEBUG: Found game 363064, start=2026-03-20T23:30:00+00:00
+DEBUG: Found game 363066, start=2026-03-21T00:00:00+00:00
+DEBUG: Found game 363067, start=2026-03-21T00:00:00+00:00
+DEBUG: Found game 363068, start=2026-03-21T00:00:00+00:00
+DEBUG: Found game 363069, start=2026-03-21T01:00:00+00:00
+DEBUG: day_rows has 6 items
+DEBUG: game 363065 date 2026-03-20
+DEBUG: game 363064 date 2026-03-20
+DEBUG: game 363066 date 2026-03-20
+DEBUG: game 363067 date 2026-03-20
+DEBUG: game 363068 date 2026-03-20
+DEBUG: game 363069 date 2026-03-20
+已输出: /data/reddog-scraper/nba-latest-odds.csv 共6行
+已输出: daily matches/sbr_nba_2026-03-20.csv 共6行
+Traceback (most recent call last):
+  File "/data/reddog-scraper/nba-injury.py", line 5, in <module>
+    from bs4 import BeautifulSoup
+ModuleNotFoundError: No module named 'bs4'
+Traceback (most recent call last):
+  File "/data/reddog-scraper/nba-advanced-stats.py", line 4, in <module>
+    from bs4 import BeautifulSoup, Comment
+ModuleNotFoundError: No module named 'bs4'

@@ -1,0 +1,17 @@
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-03-29
+Got HTML: 483401 chars
+Found 9 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-03-29
+Got HTML: 482780 chars
+Found 9 games for totals
+
+✅ 抓取完成: 9 场比赛
+  LAC @ MIL: 让分=17.5, 总分=220.5
+  MIA @ IND: 让分=8.5, 总分=245.5
+  BOS @ CHA: 让分=-2.5, 总分=217.5
+  SAC @ BK: 让分=-1.5, 总分=217.5
+  ORL @ TOR: 让分=-1.5, 总分=226.5
+  WAS @ POR: 让分=-16.5, 总分=236.5
+  HOU @ NO: 让分=5.5, 总分=226.5
+  NY @ OKC: 让分=-8.5, 总分=223.5
+  GS @ DEN: 让分=-11.5, 总分=238.5

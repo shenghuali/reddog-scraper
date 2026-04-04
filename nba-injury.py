@@ -1,9 +1,10 @@
+import sys; sys.path.insert(0, "/data/reddog-scraper/venv/lib/python3.11/site-packages")
 import csv
 import re
 import os
+import requests
 from datetime import datetime
 from bs4 import BeautifulSoup
-from playwright.sync_api import sync_playwright
 from zoneinfo import ZoneInfo
 
 CBS_TEAM_CODE_MAP = {
@@ -59,25 +60,9 @@ def normalize_team_code(code):
     return CBS_TEAM_CODE_MAP.get(c, c)
 
 def fetch_html():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context(user_agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
-        page = context.new_page()
-        try:
-            page.goto(URL, wait_until="domcontentloaded", timeout=60000)
-        except:
-            try:
-                page.goto(URL, wait_until="load", timeout=60000)
-            except:
-                page.goto(URL, wait_until="networkidle", timeout=90000)
-        try:
-            page.wait_for_selector("table", timeout=10000)
-        except:
-            pass
-        page.wait_for_timeout(1200)
-        html = page.content()
-        browser.close()
-        return html
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"}
+    response = requests.get(URL, headers=headers)
+    return response.text
 
 def extract_team_code_from_wrapper(wrapper):
     for a in wrapper.select("a[href]"):
