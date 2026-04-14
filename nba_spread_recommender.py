@@ -212,13 +212,13 @@ class SpreadRecommender:
             value_score = max(0, value_score - 10)
 
         if value_diff > 0:
-            recommendation = '主队让分' if predicted_raw > 0 else '客队受让'
-            side = 'home' if predicted_raw > 0 else 'away'
-            bet_spread = -abs(predicted_raw) if predicted_raw > 0 else predicted_raw
+            recommendation = '主队让分'
+            side = 'home'
+            bet_spread = prediction['predicted_spread_display']
         else:
-            recommendation = '客队受让' if predicted_raw > 0 else '主队让分'
-            side = 'away' if predicted_raw > 0 else 'home'
-            bet_spread = -predicted_raw if predicted_raw > 0 else predicted_raw
+            recommendation = '客队受让'
+            side = 'away'
+            bet_spread = prediction['predicted_spread_display']
 
         return {
             'predicted_spread_raw': round(predicted_raw, 1),
