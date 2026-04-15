@@ -229,6 +229,7 @@ class SpreadRecommender:
             'predicted_spread_raw': round(predicted_margin, 1),
             'predicted_spread_display': predicted_spread,
             'market_spread': market_spread,
+            'market_spread_source': None,
             'value_diff': round(value_diff, 1),
             'z_score': round(z_score, 2),
             'value_score': value_score,
@@ -317,9 +318,9 @@ class SpreadRecommender:
             },
         }
 
-    def _resolve_market_columns(self) -> Tuple[Optional[str], Optional[str], Optional[str], Optional[str]]:
+    def _resolve_market_columns(self) -> Tuple[Optional[str], Optional[str], Optional[str], Optional[str], Optional[str]]:
         if self.market_data_df is None:
-            return None, None, None, None
+            return None, None, None, None, None
         cols = set(self.market_data_df.columns)
         home_col = 'home_team' if 'home_team' in cols else 'home' if 'home' in cols else None
         away_col = 'away_team' if 'away_team' in cols else 'away' if 'away' in cols else None
@@ -330,7 +331,7 @@ class SpreadRecommender:
             current_col = 'handicap' if 'handicap' in cols else None
         close_col = 'close_spread' if 'close_spread' in cols else None
         open_col = 'open_spread' if 'open_spread' in cols else None
-        return home_col, away_col, current_col or close_col, open_col
+        return home_col, away_col, current_col or close_col, open_col, close_col
 
     def find_todays_best_spread_bets(self, matchups: Optional[List[Tuple[str, str, float]]] = None) -> List[Dict]:
         recommendations = []
@@ -344,7 +345,7 @@ class SpreadRecommender:
                 print("⚠️ 市场数据未加载或为空，无法获取今日比赛")
                 return []
 
-            home_col, away_col, current_col, open_col = self._resolve_market_columns()
+            home_col, away_col, current_col, open_col, close_col = self._resolve_market_columns()
             if not home_col or not away_col:
                 print("⚠️ 市场数据缺少主客队字段")
                 return []
@@ -356,14 +357,22 @@ class SpreadRecommender:
             print(f"📅 找到 {len(df)} 场待分析比赛")
             for _, game in df.iterrows():
                 market_spread = None
+                market_source = None
                 if current_col and pd.notna(game.get(current_col)):
                     market_spread = float(game[current_col])
+                    market_source = current_col
                 elif open_col and pd.notna(game.get(open_col)):
                     market_spread = float(game[open_col])
+                    market_source = open_col
+                elif close_col and pd.notna(game.get(close_col)):
+                    market_spread = float(game[close_col])
+                    market_source = close_col
                 if market_spread is None:
                     continue
 
                 rec = self.generate_recommendation(game[home_col], game[away_col], market_spread)
+                if rec:
+                    rec['market_analysis']['market_spread_source'] = market_source
                 if rec and rec['market_analysis']['value_score'] >= 50:
                     recommendations.append(rec)
 
@@ -392,7 +401,7 @@ def main():
     for i, rec in enumerate(recommendations, 1):
         print(f"\n{i}. {rec['matchup']}")
         print(f"   预测盘口: {rec['prediction']['predicted_spread_display']}")
-        print(f"   市场盘口: {rec['market_analysis']['market_spread']}")
+        print(f"   市场盘口: {rec['market_analysis']['market_spread']} ({rec['market_analysis'].get('market_spread_source')})")
         print(f"   价值差异: {rec['market_analysis']['value_diff']:+.1f}")
         print(f"   价值评分: {rec['market_analysis']['value_score']}/100")
         print(f"   推荐: {rec['betting_advice']['action']}")
