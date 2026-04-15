@@ -324,6 +324,8 @@ class SpreadRecommender:
         home_col = 'home_team' if 'home_team' in cols else 'home' if 'home' in cols else None
         away_col = 'away_team' if 'away_team' in cols else 'away' if 'away' in cols else None
         current_col = 'spread' if 'spread' in cols and self.market_data_df['spread'].notna().any() else None
+        if not current_col and 'current_spread' in cols and self.market_data_df['current_spread'].notna().any():
+            current_col = 'current_spread'
         if not current_col:
             current_col = 'handicap' if 'handicap' in cols else None
         close_col = 'close_spread' if 'close_spread' in cols else None
