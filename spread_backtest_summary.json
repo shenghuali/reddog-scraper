@@ -3,9 +3,9 @@
     "open_spread": {
       "spread_field": "open_spread",
       "min_edge": 1.0,
-      "games": 2236,
-      "wins": 1382,
-      "win_rate": 0.618,
+      "games": 2253,
+      "wins": 1390,
+      "win_rate": 0.617,
       "top_examples": [
         {
           "date": "2025-11-19",
@@ -102,9 +102,9 @@
     "current_spread": {
       "spread_field": "current_spread",
       "min_edge": 1.0,
-      "games": 5664,
-      "wins": 4249,
-      "win_rate": 0.75,
+      "games": 5681,
+      "wins": 4255,
+      "win_rate": 0.749,
       "top_examples": [
         {
           "date": "2024-04-14",
@@ -201,9 +201,9 @@
     "close_spread": {
       "spread_field": "close_spread",
       "min_edge": 1.0,
-      "games": 2267,
-      "wins": 1409,
-      "win_rate": 0.622,
+      "games": 2284,
+      "wins": 1416,
+      "win_rate": 0.62,
       "top_examples": [
         {
           "date": "2025-12-22",
@@ -302,9 +302,9 @@
     "open_spread": {
       "spread_field": "open_spread",
       "min_edge": 2.0,
-      "games": 2038,
-      "wins": 1274,
-      "win_rate": 0.625,
+      "games": 2055,
+      "wins": 1282,
+      "win_rate": 0.624,
       "top_examples": [
         {
           "date": "2025-11-19",
@@ -401,9 +401,9 @@
     "current_spread": {
       "spread_field": "current_spread",
       "min_edge": 2.0,
-      "games": 5179,
-      "wins": 3987,
-      "win_rate": 0.77,
+      "games": 5196,
+      "wins": 3993,
+      "win_rate": 0.768,
       "top_examples": [
         {
           "date": "2024-04-14",
@@ -500,9 +500,9 @@
     "close_spread": {
       "spread_field": "close_spread",
       "min_edge": 2.0,
-      "games": 2064,
-      "wins": 1315,
-      "win_rate": 0.637,
+      "games": 2081,
+      "wins": 1322,
+      "win_rate": 0.635,
       "top_examples": [
         {
           "date": "2025-12-22",
@@ -601,9 +601,9 @@
     "open_spread": {
       "spread_field": "open_spread",
       "min_edge": 3.0,
-      "games": 1811,
-      "wins": 1163,
-      "win_rate": 0.642,
+      "games": 1825,
+      "wins": 1170,
+      "win_rate": 0.641,
       "top_examples": [
         {
           "date": "2025-11-19",
@@ -700,9 +700,9 @@
     "current_spread": {
       "spread_field": "current_spread",
       "min_edge": 3.0,
-      "games": 4717,
-      "wins": 3709,
-      "win_rate": 0.786,
+      "games": 4733,
+      "wins": 3714,
+      "win_rate": 0.785,
       "top_examples": [
         {
           "date": "2024-04-14",
@@ -799,9 +799,9 @@
     "close_spread": {
       "spread_field": "close_spread",
       "min_edge": 3.0,
-      "games": 1884,
-      "wins": 1218,
-      "win_rate": 0.646,
+      "games": 1900,
+      "wins": 1224,
+      "win_rate": 0.644,
       "top_examples": [
         {
           "date": "2025-12-22",

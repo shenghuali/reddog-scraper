@@ -24,6 +24,7 @@ class SpreadRecommender:
         self.player_data_df = None
         self.home_advantage_base = 3.5
         self.min_edge_to_bet = 1.0
+        self.team_aliases = {'WSH': 'WAS'}
 
     def _path(self, filename: str) -> str:
         return os.path.join(self.data_dir, filename)
@@ -99,13 +100,17 @@ class SpreadRecommender:
             print(f"❌ 数据加载失败: {e}")
             return False
 
+    def _normalize_team_code(self, team: str) -> str:
+        return self.team_aliases.get(team, team)
+
     def _get_team_row(self, team: str) -> Optional[pd.Series]:
         if self.team_stats_df is None:
             return None
         team_col = 'team' if 'team' in self.team_stats_df.columns else '\ufeffteam' if '\ufeffteam' in self.team_stats_df.columns else None
         if not team_col:
             return None
-        rows = self.team_stats_df[self.team_stats_df[team_col] == team]
+        normalized_team = self._normalize_team_code(team)
+        rows = self.team_stats_df[self.team_stats_df[team_col] == normalized_team]
         if rows.empty:
             return None
         return rows.iloc[0]
