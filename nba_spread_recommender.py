@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-NBA盘口推荐系统（整理优化版）
-- 统一列名兼容：nrtg/net_rating, ortg/off_rating, drtg/def_rating
-- 统一数据目录处理：默认脚本所在目录，可传 data_dir
-- 优先读取最新市场文件
-- 过滤已开赛/无盘口比赛
-- 保留动态主场优势 + 价值评分 + 半凯利资金管理
+NBA盘口推荐系统（逻辑重构版）
+- 统一内部口径：模型先预测主队预期净胜分，再映射为主队盘口
+- 市场盘口优先级：spread -> current_spread -> handicap -> close_spread
+- 推荐层与预测层拆开：预测分差 / 市场映射 / edge评分 / 下注建议分离
+- 增加 no-bet 逻辑，避免轻微优势也硬推
+- 输出明确 market_spread_source
 """
 
 import json
@@ -23,6 +23,7 @@ class SpreadRecommender:
         self.market_data_df = None
         self.player_data_df = None
         self.home_advantage_base = 3.5
+        self.min_edge_to_bet = 1.0
 
     def _path(self, filename: str) -> str:
         return os.path.join(self.data_dir, filename)
@@ -39,10 +40,31 @@ class SpreadRecommender:
         for col in aliases:
             if col in row and pd.notna(row[col]):
                 try:
-                    return float(row[col])
+                    return float(str(row[col]).replace('+', ''))
                 except (TypeError, ValueError):
                     continue
         return float(default)
+
+    @staticmethod
+    def margin_to_home_spread(predicted_margin: float) -> float:
+        return round(-predicted_margin, 1)
+
+    @staticmethod
+    def classify_bet_side(edge: float) -> Tuple[str, str]:
+        if edge > 0:
+            return '主队让分', 'home'
+        return '客队受让', 'away'
+
+    @staticmethod
+    def classify_edge_strength(edge: float) -> str:
+        abs_edge = abs(edge)
+        if abs_edge >= 5:
+            return '极强'
+        if abs_edge >= 3:
+            return '较强'
+        if abs_edge >= 1.5:
+            return '中等'
+        return '轻微'
 
     def load_data(self) -> bool:
         try:
@@ -95,7 +117,6 @@ class SpreadRecommender:
             return self.home_advantage_base
 
         advantage = self.home_advantage_base
-
         away_def = self._get_value(away_row, ['drtg', 'def_rating'], 110)
         if away_def > 115:
             advantage += 1.0
@@ -113,54 +134,6 @@ class SpreadRecommender:
         advantage += (home_pace - away_pace) * 0.05
 
         return round(max(min(advantage, 5.0), 2.0), 1)
-
-    def predict_spread(self, home_team: str, away_team: str) -> Optional[Dict]:
-        home_row = self._get_team_row(home_team)
-        away_row = self._get_team_row(away_team)
-        if home_row is None or away_row is None:
-            print(f"⚠️ 找不到球队数据: {home_team} 或 {away_team}")
-            return None
-
-        home_net = self._get_value(home_row, ['nrtg', 'net_rating'], 0)
-        away_net = self._get_value(away_row, ['nrtg', 'net_rating'], 0)
-        net_diff = home_net - away_net
-
-        home_advantage = self.calculate_dynamic_home_advantage(home_team, away_team)
-
-        home_off = self._get_value(home_row, ['ortg', 'off_rating'], 110)
-        away_def = self._get_value(away_row, ['drtg', 'def_rating'], 110)
-        off_def_advantage = home_off - away_def
-
-        home_def = self._get_value(home_row, ['drtg', 'def_rating'], 110)
-        away_off = self._get_value(away_row, ['ortg', 'off_rating'], 110)
-        def_off_advantage = away_off - home_def
-
-        home_pace = self._get_value(home_row, ['pace'], 100)
-        away_pace = self._get_value(away_row, ['pace'], 100)
-        pace_factor = (home_pace - away_pace) * 0.05
-
-        predicted_spread = (
-            net_diff * 0.4 +
-            home_advantage * 0.3 +
-            off_def_advantage * 0.2 +
-            pace_factor * 0.1
-        )
-
-        confidence = self.calculate_confidence(home_row, away_row, net_diff, home_advantage)
-        display_spread = -abs(predicted_spread) if predicted_spread > 0 else predicted_spread
-
-        return {
-            'home_team': home_team,
-            'away_team': away_team,
-            'net_rating_diff': round(net_diff, 1),
-            'home_advantage': home_advantage,
-            'off_def_advantage': round(off_def_advantage, 1),
-            'def_off_advantage': round(def_off_advantage, 1),
-            'pace_factor': round(pace_factor, 2),
-            'predicted_spread_raw': round(predicted_spread, 1),
-            'predicted_spread_display': round(display_spread, 1),
-            'confidence': round(confidence, 2),
-        }
 
     def calculate_confidence(self, home_row: pd.Series, away_row: pd.Series, net_diff: float, home_advantage: float) -> float:
         confidence = 0.6
@@ -191,13 +164,62 @@ class SpreadRecommender:
 
         return min(confidence, 0.95)
 
+    def predict_spread(self, home_team: str, away_team: str) -> Optional[Dict]:
+        home_row = self._get_team_row(home_team)
+        away_row = self._get_team_row(away_team)
+        if home_row is None or away_row is None:
+            print(f"⚠️ 找不到球队数据: {home_team} 或 {away_team}")
+            return None
+
+        home_net = self._get_value(home_row, ['nrtg', 'net_rating'], 0)
+        away_net = self._get_value(away_row, ['nrtg', 'net_rating'], 0)
+        net_diff = home_net - away_net
+
+        home_advantage = self.calculate_dynamic_home_advantage(home_team, away_team)
+        home_off = self._get_value(home_row, ['ortg', 'off_rating'], 110)
+        away_def = self._get_value(away_row, ['drtg', 'def_rating'], 110)
+        off_def_advantage = home_off - away_def
+
+        home_def = self._get_value(home_row, ['drtg', 'def_rating'], 110)
+        away_off = self._get_value(away_row, ['ortg', 'off_rating'], 110)
+        def_off_advantage = away_off - home_def
+
+        home_pace = self._get_value(home_row, ['pace'], 100)
+        away_pace = self._get_value(away_row, ['pace'], 100)
+        pace_factor = (home_pace - away_pace) * 0.05
+
+        predicted_margin = (
+            net_diff * 0.4 +
+            home_advantage * 0.3 +
+            off_def_advantage * 0.2 +
+            pace_factor * 0.1
+        )
+
+        confidence = self.calculate_confidence(home_row, away_row, net_diff, home_advantage)
+        predicted_home_spread = self.margin_to_home_spread(predicted_margin)
+
+        return {
+            'home_team': home_team,
+            'away_team': away_team,
+            'net_rating_diff': round(net_diff, 1),
+            'home_advantage': home_advantage,
+            'off_def_advantage': round(off_def_advantage, 1),
+            'def_off_advantage': round(def_off_advantage, 1),
+            'pace_factor': round(pace_factor, 2),
+            'predicted_margin': round(predicted_margin, 1),
+            'predicted_spread_raw': round(predicted_margin, 1),
+            'predicted_home_spread': predicted_home_spread,
+            'predicted_spread_display': predicted_home_spread,
+            'confidence': round(confidence, 2),
+        }
+
     def analyze_market_value(self, prediction: Dict, market_spread: float) -> Dict:
-        predicted_margin = prediction['predicted_spread_raw']
-        predicted_spread = prediction['predicted_spread_display']
-        value_diff = predicted_margin + market_spread
+        predicted_margin = prediction['predicted_margin']
+        predicted_spread = prediction['predicted_home_spread']
+        edge = predicted_margin + market_spread
         confidence = prediction['confidence']
         std_error = max((1.0 - confidence) * 2.5, 0.5)
-        z_score = abs(value_diff) / std_error
+        z_score = abs(edge) / std_error
 
         if z_score < 0.5:
             value_score = 0
@@ -210,33 +232,34 @@ class SpreadRecommender:
         else:
             value_score = 100
 
-        if abs(value_diff) > 8.0:
+        if abs(edge) > 8.0:
             value_score = max(0, value_score - 20)
-        elif abs(value_diff) < 1.0:
-            value_score = max(0, value_score - 10)
+        elif abs(edge) < self.min_edge_to_bet:
+            value_score = max(0, value_score - 15)
 
-        if value_diff > 0:
-            recommendation = '主队让分'
-            side = 'home'
-            bet_spread = predicted_spread
-        else:
-            recommendation = '客队受让'
-            side = 'away'
-            bet_spread = predicted_spread
+        recommendation, side = self.classify_bet_side(edge)
+        no_bet = abs(edge) < self.min_edge_to_bet or value_score == 0
+        if no_bet:
+            recommendation = '不下注'
+            side = 'pass'
 
         return {
             'predicted_margin': round(predicted_margin, 1),
+            'predicted_home_spread': predicted_spread,
             'predicted_spread_raw': round(predicted_margin, 1),
             'predicted_spread_display': predicted_spread,
             'market_spread': market_spread,
             'market_spread_source': None,
-            'value_diff': round(value_diff, 1),
+            'edge': round(edge, 1),
+            'value_diff': round(edge, 1),
+            'edge_strength': self.classify_edge_strength(edge),
             'z_score': round(z_score, 2),
             'value_score': value_score,
             'recommendation': recommendation,
             'side': side,
-            'bet_spread': round(bet_spread, 1),
+            'bet_spread': round(predicted_spread, 1),
             'confidence': confidence,
+            'no_bet': no_bet,
         }
 
     @staticmethod
@@ -251,9 +274,9 @@ class SpreadRecommender:
         return min(max(half_kelly, 0.01), 0.05)
 
     @staticmethod
-    def calculate_edge_from_value(value_score: int, value_diff: float) -> float:
+    def calculate_edge_from_value(value_score: int, edge_points: float) -> float:
         base_edge = value_score / 100.0 * 0.3
-        diff_factor = min(abs(value_diff) / 10.0, 1.0) * 0.2
+        diff_factor = min(abs(edge_points) / 10.0, 1.0) * 0.2
         return base_edge + diff_factor
 
     def generate_reasoning(self, prediction: Dict, value_analysis: Dict) -> str:
@@ -274,14 +297,16 @@ class SpreadRecommender:
         else:
             reasons.append(f"标准主场优势 (+{home_advantage}分)")
 
-        value_diff = value_analysis['value_diff']
+        edge = value_analysis['edge']
         z_score = value_analysis['z_score']
-        if abs(value_diff) > 3.0 and z_score > 1.5:
-            reasons.append(f"高统计价值 (差异: {value_diff:.1f}分, Z-score: {z_score:.2f})")
-        elif abs(value_diff) > 2.0:
-            reasons.append(f"中等统计价值 (差异: {value_diff:.1f}分, Z-score: {z_score:.2f})")
+        if abs(edge) > 3.0 and z_score > 1.5:
+            reasons.append(f"高统计价值 (edge: {edge:.1f}分, Z-score: {z_score:.2f})")
+        elif abs(edge) > 2.0:
+            reasons.append(f"中等统计价值 (edge: {edge:.1f}分, Z-score: {z_score:.2f})")
         else:
-            reasons.append(f"有限统计价值 (差异: {value_diff:.1f}分, Z-score: {z_score:.2f})")
+            reasons.append(f"有限统计价值 (edge: {edge:.1f}分, Z-score: {z_score:.2f})")
+
+        reasons.append(f"盘口强度: {value_analysis['edge_strength']}")
 
         confidence = prediction['confidence']
         if confidence > 0.8:
@@ -291,6 +316,9 @@ class SpreadRecommender:
         else:
             reasons.append("低置信度预测")
 
+        if value_analysis['no_bet']:
+            reasons.append("优势不足，跳过")
+
         return " | ".join(reasons)
 
     def generate_recommendation(self, home_team: str, away_team: str, market_spread: float) -> Dict:
@@ -299,8 +327,27 @@ class SpreadRecommender:
             return {}
 
         value_analysis = self.analyze_market_value(prediction, market_spread)
-        edge = self.calculate_edge_from_value(value_analysis['value_score'], value_analysis['value_diff'])
-        bet_size = self.kelly_bet_size(edge)
+        confidence_level = '高' if value_analysis['confidence'] > 0.8 else '中' if value_analysis['confidence'] > 0.6 else '低'
+
+        if value_analysis['no_bet']:
+            return {
+                'matchup': f"{home_team} vs {away_team}",
+                'date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                'prediction': prediction,
+                'market_analysis': value_analysis,
+                'betting_advice': {
+                    'action': '不下注',
+                    'side': 'pass',
+                    'bet_spread': value_analysis['bet_spread'],
+                    'value_score': value_analysis['value_score'],
+                    'confidence_level': confidence_level,
+                    'bet_size_percent': 0.0,
+                    'reasoning': self.generate_reasoning(prediction, value_analysis),
+                },
+            }
+
+        edge_pct = self.calculate_edge_from_value(value_analysis['value_score'], value_analysis['edge'])
+        bet_size = self.kelly_bet_size(edge_pct)
 
         return {
             'matchup': f"{home_team} vs {away_team}",
@@ -312,7 +359,7 @@ class SpreadRecommender:
                 'side': value_analysis['side'],
                 'bet_spread': value_analysis['bet_spread'],
                 'value_score': value_analysis['value_score'],
-                'confidence_level': '高' if value_analysis['confidence'] > 0.8 else '中' if value_analysis['confidence'] > 0.6 else '低',
+                'confidence_level': confidence_level,
                 'bet_size_percent': round(bet_size * 100, 1),
                 'reasoning': self.generate_reasoning(prediction, value_analysis),
             },
@@ -338,7 +385,7 @@ class SpreadRecommender:
         if matchups:
             for home, away, market_spread in matchups:
                 rec = self.generate_recommendation(home, away, market_spread)
-                if rec and rec['market_analysis']['value_score'] >= 50:
+                if rec and not rec['market_analysis']['no_bet'] and rec['market_analysis']['value_score'] >= 50:
                     recommendations.append(rec)
         else:
             if self.market_data_df is None or self.market_data_df.empty:
@@ -373,10 +420,10 @@ class SpreadRecommender:
                 rec = self.generate_recommendation(game[home_col], game[away_col], market_spread)
                 if rec:
                     rec['market_analysis']['market_spread_source'] = market_source
-                if rec and rec['market_analysis']['value_score'] >= 50:
+                if rec and not rec['market_analysis']['no_bet'] and rec['market_analysis']['value_score'] >= 50:
                     recommendations.append(rec)
 
-        recommendations.sort(key=lambda x: x['market_analysis']['value_score'], reverse=True)
+        recommendations.sort(key=lambda x: (x['market_analysis']['value_score'], abs(x['market_analysis']['edge'])), reverse=True)
         return recommendations
 
     def save_recommendation(self, recommendation: Dict, filename: Optional[str] = None) -> str:
@@ -389,8 +436,9 @@ class SpreadRecommender:
         return filepath
 
 
+
 def main():
-    print("🏀 NBA盘口推荐系统（整理优化版）启动...")
+    print("🏀 NBA盘口推荐系统（逻辑重构版）启动...")
     print("=" * 50)
     recommender = SpreadRecommender()
     if not recommender.load_data():
@@ -400,12 +448,13 @@ def main():
     print(f"\n📊 找到 {len(recommendations)} 个有价值盘口投注:")
     for i, rec in enumerate(recommendations, 1):
         print(f"\n{i}. {rec['matchup']}")
-        print(f"   预测盘口: {rec['prediction']['predicted_spread_display']}")
-        print(f"   市场盘口: {rec['market_analysis']['market_spread']} ({rec['market_analysis'].get('market_spread_source')})")
-        print(f"   价值差异: {rec['market_analysis']['value_diff']:+.1f}")
+        print(f"   预测净胜分: {rec['prediction']['predicted_margin']:+.1f}")
+        print(f"   预测盘口: {rec['prediction']['predicted_home_spread']:+.1f}")
+        print(f"   市场盘口: {rec['market_analysis']['market_spread']:+.1f} ({rec['market_analysis'].get('market_spread_source')})")
+        print(f"   Edge: {rec['market_analysis']['edge']:+.1f} [{rec['market_analysis']['edge_strength']}]")
         print(f"   价值评分: {rec['market_analysis']['value_score']}/100")
         print(f"   推荐: {rec['betting_advice']['action']}")
-        print(f"   投注盘口: {rec['betting_advice']['bet_spread']}")
+        print(f"   投注盘口: {rec['betting_advice']['bet_spread']:+.1f}")
         print(f"   投注规模: {rec['betting_advice']['bet_size_percent']}%")
         print(f"   理由: {rec['betting_advice']['reasoning']}")
 
