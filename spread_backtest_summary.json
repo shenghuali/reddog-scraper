@@ -1,0 +1,899 @@
+{
+  "edge_1.0": {
+    "open_spread": {
+      "spread_field": "open_spread",
+      "min_edge": 1.0,
+      "games": 2236,
+      "wins": 1382,
+      "win_rate": 0.618,
+      "top_examples": [
+        {
+          "date": "2025-11-19",
+          "home_team": "OKC",
+          "away_team": "SAC",
+          "edge": 27.0,
+          "market_spread": 17.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-20",
+          "home_team": "OKC",
+          "away_team": "BKN",
+          "edge": 27.0,
+          "market_spread": 17.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-07",
+          "home_team": "OKC",
+          "away_team": "UTA",
+          "edge": 26.6,
+          "market_spread": 18.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-21",
+          "home_team": "SAS",
+          "away_team": "SAC",
+          "edge": 26.5,
+          "market_spread": 18.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-10-30",
+          "home_team": "OKC",
+          "away_team": "WAS",
+          "edge": 26.4,
+          "market_spread": 16.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-27",
+          "home_team": "BOS",
+          "away_team": "BKN",
+          "edge": 25.5,
+          "market_spread": 16.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-11",
+          "home_team": "CLE",
+          "away_team": "WAS",
+          "edge": 25.0,
+          "market_spread": 18.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-23",
+          "home_team": "OKC",
+          "away_team": "IND",
+          "edge": 24.7,
+          "market_spread": 15.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-12-22",
+          "home_team": "OKC",
+          "away_team": "MEM",
+          "edge": 24.5,
+          "market_spread": 16.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-12-27",
+          "home_team": "SAS",
+          "away_team": "UTA",
+          "edge": 24.5,
+          "market_spread": 17.0,
+          "pick": "home",
+          "won": true
+        }
+      ]
+    },
+    "current_spread": {
+      "spread_field": "current_spread",
+      "min_edge": 1.0,
+      "games": 5664,
+      "wins": 4249,
+      "win_rate": 0.75,
+      "top_examples": [
+        {
+          "date": "2024-04-14",
+          "home_team": "OKC",
+          "away_team": "DAL",
+          "edge": 29.3,
+          "market_spread": 20.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-07",
+          "home_team": "OKC",
+          "away_team": "UTA",
+          "edge": 28.1,
+          "market_spread": 19.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-11-19",
+          "home_team": "OKC",
+          "away_team": "SAC",
+          "edge": 28.0,
+          "market_spread": 18.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-04-11",
+          "home_team": "MIN",
+          "away_team": "BKN",
+          "edge": 27.9,
+          "market_spread": 21.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-20",
+          "home_team": "OKC",
+          "away_team": "BKN",
+          "edge": 27.5,
+          "market_spread": 17.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-04-13",
+          "home_team": "MIN",
+          "away_team": "UTA",
+          "edge": 27.4,
+          "market_spread": 22.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-04-06",
+          "home_team": "BOS",
+          "away_team": "WAS",
+          "edge": 27.3,
+          "market_spread": 18.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2024-02-04",
+          "home_team": "BOS",
+          "away_team": "MEM",
+          "edge": 26.5,
+          "market_spread": 19.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-27",
+          "home_team": "BOS",
+          "away_team": "BKN",
+          "edge": 26.5,
+          "market_spread": 17.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-21",
+          "home_team": "SAS",
+          "away_team": "SAC",
+          "edge": 26.0,
+          "market_spread": 17.5,
+          "pick": "home",
+          "won": true
+        }
+      ]
+    },
+    "close_spread": {
+      "spread_field": "close_spread",
+      "min_edge": 1.0,
+      "games": 2267,
+      "wins": 1409,
+      "win_rate": 0.622,
+      "top_examples": [
+        {
+          "date": "2025-12-22",
+          "home_team": "DEN",
+          "away_team": "UTA",
+          "edge": 31.1,
+          "market_spread": 24.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-12-29",
+          "home_team": "HOU",
+          "away_team": "IND",
+          "edge": 31.0,
+          "market_spread": 24.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-14",
+          "home_team": "PHI",
+          "away_team": "CLE",
+          "edge": -28.7,
+          "market_spread": -28.5,
+          "pick": "away",
+          "won": true
+        },
+        {
+          "date": "2025-11-19",
+          "home_team": "OKC",
+          "away_team": "SAC",
+          "edge": 28.0,
+          "market_spread": 18.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-11",
+          "home_team": "PHX",
+          "away_team": "WAS",
+          "edge": 27.8,
+          "market_spread": 22.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-20",
+          "home_team": "OKC",
+          "away_team": "BKN",
+          "edge": 27.0,
+          "market_spread": 17.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-13",
+          "home_team": "GSW",
+          "away_team": "POR",
+          "edge": 26.6,
+          "market_spread": 25.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-21",
+          "home_team": "SAS",
+          "away_team": "SAC",
+          "edge": 26.5,
+          "market_spread": 18.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-12-22",
+          "home_team": "OKC",
+          "away_team": "MEM",
+          "edge": 25.5,
+          "market_spread": 17.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-27",
+          "home_team": "BOS",
+          "away_team": "BKN",
+          "edge": 25.5,
+          "market_spread": 16.5,
+          "pick": "home",
+          "won": true
+        }
+      ]
+    }
+  },
+  "edge_2.0": {
+    "open_spread": {
+      "spread_field": "open_spread",
+      "min_edge": 2.0,
+      "games": 2038,
+      "wins": 1274,
+      "win_rate": 0.625,
+      "top_examples": [
+        {
+          "date": "2025-11-19",
+          "home_team": "OKC",
+          "away_team": "SAC",
+          "edge": 27.0,
+          "market_spread": 17.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-20",
+          "home_team": "OKC",
+          "away_team": "BKN",
+          "edge": 27.0,
+          "market_spread": 17.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-07",
+          "home_team": "OKC",
+          "away_team": "UTA",
+          "edge": 26.6,
+          "market_spread": 18.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-21",
+          "home_team": "SAS",
+          "away_team": "SAC",
+          "edge": 26.5,
+          "market_spread": 18.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-10-30",
+          "home_team": "OKC",
+          "away_team": "WAS",
+          "edge": 26.4,
+          "market_spread": 16.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-27",
+          "home_team": "BOS",
+          "away_team": "BKN",
+          "edge": 25.5,
+          "market_spread": 16.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-11",
+          "home_team": "CLE",
+          "away_team": "WAS",
+          "edge": 25.0,
+          "market_spread": 18.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-23",
+          "home_team": "OKC",
+          "away_team": "IND",
+          "edge": 24.7,
+          "market_spread": 15.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-12-22",
+          "home_team": "OKC",
+          "away_team": "MEM",
+          "edge": 24.5,
+          "market_spread": 16.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-12-27",
+          "home_team": "SAS",
+          "away_team": "UTA",
+          "edge": 24.5,
+          "market_spread": 17.0,
+          "pick": "home",
+          "won": true
+        }
+      ]
+    },
+    "current_spread": {
+      "spread_field": "current_spread",
+      "min_edge": 2.0,
+      "games": 5179,
+      "wins": 3987,
+      "win_rate": 0.77,
+      "top_examples": [
+        {
+          "date": "2024-04-14",
+          "home_team": "OKC",
+          "away_team": "DAL",
+          "edge": 29.3,
+          "market_spread": 20.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-07",
+          "home_team": "OKC",
+          "away_team": "UTA",
+          "edge": 28.1,
+          "market_spread": 19.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-11-19",
+          "home_team": "OKC",
+          "away_team": "SAC",
+          "edge": 28.0,
+          "market_spread": 18.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-04-11",
+          "home_team": "MIN",
+          "away_team": "BKN",
+          "edge": 27.9,
+          "market_spread": 21.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-20",
+          "home_team": "OKC",
+          "away_team": "BKN",
+          "edge": 27.5,
+          "market_spread": 17.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-04-13",
+          "home_team": "MIN",
+          "away_team": "UTA",
+          "edge": 27.4,
+          "market_spread": 22.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-04-06",
+          "home_team": "BOS",
+          "away_team": "WAS",
+          "edge": 27.3,
+          "market_spread": 18.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2024-02-04",
+          "home_team": "BOS",
+          "away_team": "MEM",
+          "edge": 26.5,
+          "market_spread": 19.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-27",
+          "home_team": "BOS",
+          "away_team": "BKN",
+          "edge": 26.5,
+          "market_spread": 17.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-21",
+          "home_team": "SAS",
+          "away_team": "SAC",
+          "edge": 26.0,
+          "market_spread": 17.5,
+          "pick": "home",
+          "won": true
+        }
+      ]
+    },
+    "close_spread": {
+      "spread_field": "close_spread",
+      "min_edge": 2.0,
+      "games": 2064,
+      "wins": 1315,
+      "win_rate": 0.637,
+      "top_examples": [
+        {
+          "date": "2025-12-22",
+          "home_team": "DEN",
+          "away_team": "UTA",
+          "edge": 31.1,
+          "market_spread": 24.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-12-29",
+          "home_team": "HOU",
+          "away_team": "IND",
+          "edge": 31.0,
+          "market_spread": 24.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-14",
+          "home_team": "PHI",
+          "away_team": "CLE",
+          "edge": -28.7,
+          "market_spread": -28.5,
+          "pick": "away",
+          "won": true
+        },
+        {
+          "date": "2025-11-19",
+          "home_team": "OKC",
+          "away_team": "SAC",
+          "edge": 28.0,
+          "market_spread": 18.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-11",
+          "home_team": "PHX",
+          "away_team": "WAS",
+          "edge": 27.8,
+          "market_spread": 22.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-20",
+          "home_team": "OKC",
+          "away_team": "BKN",
+          "edge": 27.0,
+          "market_spread": 17.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-13",
+          "home_team": "GSW",
+          "away_team": "POR",
+          "edge": 26.6,
+          "market_spread": 25.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-21",
+          "home_team": "SAS",
+          "away_team": "SAC",
+          "edge": 26.5,
+          "market_spread": 18.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-12-22",
+          "home_team": "OKC",
+          "away_team": "MEM",
+          "edge": 25.5,
+          "market_spread": 17.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-27",
+          "home_team": "BOS",
+          "away_team": "BKN",
+          "edge": 25.5,
+          "market_spread": 16.5,
+          "pick": "home",
+          "won": true
+        }
+      ]
+    }
+  },
+  "edge_3.0": {
+    "open_spread": {
+      "spread_field": "open_spread",
+      "min_edge": 3.0,
+      "games": 1811,
+      "wins": 1163,
+      "win_rate": 0.642,
+      "top_examples": [
+        {
+          "date": "2025-11-19",
+          "home_team": "OKC",
+          "away_team": "SAC",
+          "edge": 27.0,
+          "market_spread": 17.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-20",
+          "home_team": "OKC",
+          "away_team": "BKN",
+          "edge": 27.0,
+          "market_spread": 17.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-07",
+          "home_team": "OKC",
+          "away_team": "UTA",
+          "edge": 26.6,
+          "market_spread": 18.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-21",
+          "home_team": "SAS",
+          "away_team": "SAC",
+          "edge": 26.5,
+          "market_spread": 18.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-10-30",
+          "home_team": "OKC",
+          "away_team": "WAS",
+          "edge": 26.4,
+          "market_spread": 16.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-27",
+          "home_team": "BOS",
+          "away_team": "BKN",
+          "edge": 25.5,
+          "market_spread": 16.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-11",
+          "home_team": "CLE",
+          "away_team": "WAS",
+          "edge": 25.0,
+          "market_spread": 18.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-23",
+          "home_team": "OKC",
+          "away_team": "IND",
+          "edge": 24.7,
+          "market_spread": 15.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-12-22",
+          "home_team": "OKC",
+          "away_team": "MEM",
+          "edge": 24.5,
+          "market_spread": 16.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-12-27",
+          "home_team": "SAS",
+          "away_team": "UTA",
+          "edge": 24.5,
+          "market_spread": 17.0,
+          "pick": "home",
+          "won": true
+        }
+      ]
+    },
+    "current_spread": {
+      "spread_field": "current_spread",
+      "min_edge": 3.0,
+      "games": 4717,
+      "wins": 3709,
+      "win_rate": 0.786,
+      "top_examples": [
+        {
+          "date": "2024-04-14",
+          "home_team": "OKC",
+          "away_team": "DAL",
+          "edge": 29.3,
+          "market_spread": 20.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-07",
+          "home_team": "OKC",
+          "away_team": "UTA",
+          "edge": 28.1,
+          "market_spread": 19.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-11-19",
+          "home_team": "OKC",
+          "away_team": "SAC",
+          "edge": 28.0,
+          "market_spread": 18.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-04-11",
+          "home_team": "MIN",
+          "away_team": "BKN",
+          "edge": 27.9,
+          "market_spread": 21.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-20",
+          "home_team": "OKC",
+          "away_team": "BKN",
+          "edge": 27.5,
+          "market_spread": 17.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-04-13",
+          "home_team": "MIN",
+          "away_team": "UTA",
+          "edge": 27.4,
+          "market_spread": 22.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-04-06",
+          "home_team": "BOS",
+          "away_team": "WAS",
+          "edge": 27.3,
+          "market_spread": 18.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2024-02-04",
+          "home_team": "BOS",
+          "away_team": "MEM",
+          "edge": 26.5,
+          "market_spread": 19.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-27",
+          "home_team": "BOS",
+          "away_team": "BKN",
+          "edge": 26.5,
+          "market_spread": 17.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-21",
+          "home_team": "SAS",
+          "away_team": "SAC",
+          "edge": 26.0,
+          "market_spread": 17.5,
+          "pick": "home",
+          "won": true
+        }
+      ]
+    },
+    "close_spread": {
+      "spread_field": "close_spread",
+      "min_edge": 3.0,
+      "games": 1884,
+      "wins": 1218,
+      "win_rate": 0.646,
+      "top_examples": [
+        {
+          "date": "2025-12-22",
+          "home_team": "DEN",
+          "away_team": "UTA",
+          "edge": 31.1,
+          "market_spread": 24.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-12-29",
+          "home_team": "HOU",
+          "away_team": "IND",
+          "edge": 31.0,
+          "market_spread": 24.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-14",
+          "home_team": "PHI",
+          "away_team": "CLE",
+          "edge": -28.7,
+          "market_spread": -28.5,
+          "pick": "away",
+          "won": true
+        },
+        {
+          "date": "2025-11-19",
+          "home_team": "OKC",
+          "away_team": "SAC",
+          "edge": 28.0,
+          "market_spread": 18.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-11",
+          "home_team": "PHX",
+          "away_team": "WAS",
+          "edge": 27.8,
+          "market_spread": 22.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-20",
+          "home_team": "OKC",
+          "away_team": "BKN",
+          "edge": 27.0,
+          "market_spread": 17.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-01-13",
+          "home_team": "GSW",
+          "away_team": "POR",
+          "edge": 26.6,
+          "market_spread": 25.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-21",
+          "home_team": "SAS",
+          "away_team": "SAC",
+          "edge": 26.5,
+          "market_spread": 18.0,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2025-12-22",
+          "home_team": "OKC",
+          "away_team": "MEM",
+          "edge": 25.5,
+          "market_spread": 17.5,
+          "pick": "home",
+          "won": true
+        },
+        {
+          "date": "2026-02-27",
+          "home_team": "BOS",
+          "away_team": "BKN",
+          "edge": 25.5,
+          "market_spread": 16.5,
+          "pick": "home",
+          "won": true
+        }
+      ]
+    }
+  }
+}

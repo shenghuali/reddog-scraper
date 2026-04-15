@@ -77,8 +77,8 @@ class SpreadRecommender:
             print(f"✅ 加载球队效率数据: {len(self.team_stats_df)} 支球队")
 
             market_path = self._find_first_existing([
-                self._path("nba-latest-odds.csv"),
                 self._path("nba_enriched_data.csv"),
+                self._path("nba-latest-odds.csv"),
                 self._path("nba-daily-odds.csv"),
             ])
             if market_path:
