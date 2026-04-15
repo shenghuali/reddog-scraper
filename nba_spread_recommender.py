@@ -51,7 +51,7 @@ class SpreadRecommender:
                 print(f"❌ 球队统计文件不存在: {team_stats_path}")
                 return False
 
-            self.team_stats_df = pd.read_csv(team_stats_path)
+            self.team_stats_df = pd.read_csv(team_stats_path, encoding='utf-8-sig')
             print(f"✅ 加载球队效率数据: {len(self.team_stats_df)} 支球队")
 
             market_path = self._find_first_existing([
@@ -78,9 +78,12 @@ class SpreadRecommender:
             return False
 
     def _get_team_row(self, team: str) -> Optional[pd.Series]:
-        if self.team_stats_df is None or 'team' not in self.team_stats_df.columns:
+        if self.team_stats_df is None:
             return None
-        rows = self.team_stats_df[self.team_stats_df['team'] == team]
+        team_col = 'team' if 'team' in self.team_stats_df.columns else '\ufeffteam' if '\ufeffteam' in self.team_stats_df.columns else None
+        if not team_col:
+            return None
+        rows = self.team_stats_df[self.team_stats_df[team_col] == team]
         if rows.empty:
             return None
         return rows.iloc[0]
@@ -189,8 +192,9 @@ class SpreadRecommender:
         return min(confidence, 0.95)
 
     def analyze_market_value(self, prediction: Dict, market_spread: float) -> Dict:
-        predicted_raw = prediction['predicted_spread_raw']
-        value_diff = predicted_raw - market_spread
+        predicted_margin = prediction['predicted_spread_raw']
+        predicted_spread = prediction['predicted_spread_display']
+        value_diff = predicted_margin + market_spread
         confidence = prediction['confidence']
         std_error = max((1.0 - confidence) * 2.5, 0.5)
         z_score = abs(value_diff) / std_error
@@ -214,15 +218,16 @@ class SpreadRecommender:
         if value_diff > 0:
             recommendation = '主队让分'
             side = 'home'
-            bet_spread = prediction['predicted_spread_display']
+            bet_spread = predicted_spread
         else:
             recommendation = '客队受让'
             side = 'away'
-            bet_spread = prediction['predicted_spread_display']
+            bet_spread = predicted_spread
 
         return {
-            'predicted_spread_raw': round(predicted_raw, 1),
-            'predicted_spread_display': prediction['predicted_spread_display'],
+            'predicted_margin': round(predicted_margin, 1),
+            'predicted_spread_raw': round(predicted_margin, 1),
+            'predicted_spread_display': predicted_spread,
             'market_spread': market_spread,
             'value_diff': round(value_diff, 1),
             'z_score': round(z_score, 2),
@@ -318,9 +323,12 @@ class SpreadRecommender:
         cols = set(self.market_data_df.columns)
         home_col = 'home_team' if 'home_team' in cols else 'home' if 'home' in cols else None
         away_col = 'away_team' if 'away_team' in cols else 'away' if 'away' in cols else None
+        current_col = 'spread' if 'spread' in cols and self.market_data_df['spread'].notna().any() else None
+        if not current_col:
+            current_col = 'handicap' if 'handicap' in cols else None
         close_col = 'close_spread' if 'close_spread' in cols else None
         open_col = 'open_spread' if 'open_spread' in cols else None
-        return home_col, away_col, close_col, open_col
+        return home_col, away_col, current_col or close_col, open_col
 
     def find_todays_best_spread_bets(self, matchups: Optional[List[Tuple[str, str, float]]] = None) -> List[Dict]:
         recommendations = []
@@ -334,7 +342,7 @@ class SpreadRecommender:
                 print("⚠️ 市场数据未加载或为空，无法获取今日比赛")
                 return []
 
-            home_col, away_col, close_col, open_col = self._resolve_market_columns()
+            home_col, away_col, current_col, open_col = self._resolve_market_columns()
             if not home_col or not away_col:
                 print("⚠️ 市场数据缺少主客队字段")
                 return []
@@ -346,8 +354,8 @@ class SpreadRecommender:
             print(f"📅 找到 {len(df)} 场待分析比赛")
             for _, game in df.iterrows():
                 market_spread = None
-                if close_col and pd.notna(game.get(close_col)):
-                    market_spread = float(game[close_col])
+                if current_col and pd.notna(game.get(current_col)):
+                    market_spread = float(game[current_col])
                 elif open_col and pd.notna(game.get(open_col)):
                     market_spread = float(game[open_col])
                 if market_spread is None:
