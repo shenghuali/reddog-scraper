@@ -461,3 +461,69 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def backtest_spread_field(data_dir: Optional[str] = None, spread_field: str = "current_spread", min_edge: float = 0.0) -> Dict:
+    recommender = SpreadRecommender(data_dir=data_dir)
+    if not recommender.load_data() or recommender.market_data_df is None or recommender.market_data_df.empty:
+        return {'error': 'data_load_failed'}
+
+    df = recommender.market_data_df.copy()
+    if spread_field not in df.columns:
+        return {'error': f'missing_field:{spread_field}'}
+
+    results = []
+    for _, game in df.iterrows():
+        if pd.isna(game.get(spread_field)):
+            continue
+        if pd.isna(game.get('home_score')) or pd.isna(game.get('away_score')):
+            continue
+        try:
+            market_spread = float(game[spread_field])
+            home_score = float(game['home_score'])
+            away_score = float(game['away_score'])
+        except (TypeError, ValueError):
+            continue
+
+        rec = recommender.generate_recommendation(game['home_team'], game['away_team'], market_spread)
+        if not rec:
+            continue
+
+        edge = float(rec['market_analysis']['edge'])
+        if abs(edge) < min_edge or rec['market_analysis']['no_bet']:
+            continue
+
+        pick = rec['betting_advice']['side']
+        if pick not in ('home', 'away'):
+            continue
+
+        home_cover = (home_score - away_score) + market_spread > 0
+        won = (pick == 'home' and home_cover) or (pick == 'away' and not home_cover)
+        results.append({
+            'date': game.get('date'),
+            'home_team': game.get('home_team'),
+            'away_team': game.get('away_team'),
+            'edge': round(edge, 1),
+            'market_spread': market_spread,
+            'pick': pick,
+            'won': won,
+        })
+
+    total = len(results)
+    wins = sum(1 for r in results if r['won'])
+    summary = {
+        'spread_field': spread_field,
+        'min_edge': min_edge,
+        'games': total,
+        'wins': wins,
+        'win_rate': round(wins / total, 3) if total else None,
+        'top_examples': sorted(results, key=lambda x: abs(x['edge']), reverse=True)[:10],
+    }
+    return summary
+
+
+def compare_spread_backtests(data_dir: Optional[str] = None, min_edge: float = 0.0) -> Dict:
+    out = {}
+    for field in ['open_spread', 'current_spread', 'close_spread']:
+        out[field] = backtest_spread_field(data_dir=data_dir, spread_field=field, min_edge=min_edge)
+    return out
