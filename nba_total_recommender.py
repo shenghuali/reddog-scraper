@@ -5,7 +5,7 @@ NBA总分盘推荐系统（整理优化版）
 - 优先读取最新历史/盘口文件
 - 统一主客队列名兼容
 - 默认只筛未开赛且有总分盘口的比赛
-- 保留节奏 + 攻防效率 + 历史对阵 + 轻量凯利
+- 以市场总分为锚，只做偏离修正 + 轻量凯利
 """
 
 import json
@@ -125,8 +125,7 @@ class TotalRecommender:
             if col in df.columns:
                 df[col] = pd.to_numeric(df[col], errors='coerce')
 
-        score_cols_ok = {'home_score', 'away_score'}.issubset(df.columns)
-        if not score_cols_ok:
+        if not {'home_score', 'away_score'}.issubset(df.columns):
             self.market_data_df = df
             return
 
@@ -138,7 +137,6 @@ class TotalRecommender:
             df[home_col].notna() &
             df[away_col].notna()
         )
-
         df.loc[completed_mask, 'total_diff'] = df.loc[completed_mask, 'actual_total'] - df.loc[completed_mask, total_col]
         df.loc[completed_mask, 'over_result'] = (df.loc[completed_mask, 'actual_total'] > df.loc[completed_mask, total_col]).astype(int)
         self.market_data_df = df
@@ -153,7 +151,6 @@ class TotalRecommender:
 
         impact = 0.0
         injury_details = []
-
         for _, injury in team_injuries.iterrows():
             player = injury.get('player', '')
             status = str(injury.get('status', '')).lower()
@@ -164,7 +161,6 @@ class TotalRecommender:
                     (self.player_data_df['team'] == team) &
                     (self.player_data_df['player'].str.contains(player, case=False, na=False))
                 ]
-
                 if not player_rows.empty:
                     player_row = player_rows.iloc[0]
                     try:
@@ -172,13 +168,11 @@ class TotalRecommender:
                         pts_per_game = float(player_row.get('pts', 0))
                         time_factor = min_per_game / 48.0
                         pts_factor = pts_per_game / 25.0
-
                         status_weight = 1.0
                         if 'out' in status or 'doubtful' in status:
                             status_weight = 1.5
                         elif 'questionable' in status:
                             status_weight = 1.2
-
                         player_impact = -(time_factor * pts_factor * status_weight * 1.5)
                         injury_details.append({
                             'team': team,
@@ -203,7 +197,6 @@ class TotalRecommender:
                     player_impact = -0.8
                 elif 'questionable' in status:
                     player_impact = -0.3
-
             impact += player_impact
 
         total_impact = max(round(impact, 1), -5.0)
@@ -239,42 +232,33 @@ class TotalRecommender:
             return 'below_average'
         return 'slow'
 
-    def calculate_expected_total(self, home_team: str, away_team: str) -> Dict:
+    def build_total_adjustment(self, home_team: str, away_team: str) -> Dict:
         home_stats = self.get_team_stats(home_team)
         away_stats = self.get_team_stats(away_team)
         if not home_stats or not away_stats:
             return {}
 
-        home_points = home_stats['ortg'] * (home_stats['pace'] / 100)
-        away_points = away_stats['ortg'] * (away_stats['pace'] / 100)
-        base_total = home_points + away_points
-
-        offense_adjustment = (home_stats['off_efg'] + away_stats['off_efg'] - 1.04) * 20
-        defense_adjustment = (home_stats['def_efg'] + away_stats['def_efg'] - 1.04) * 15
-        pace_match_adjustment = self.calculate_pace_match_adjustment(home_stats, away_stats)
+        offense_signal = (home_stats['off_efg'] + away_stats['off_efg'] - 1.08) * 14
+        defense_signal = (home_stats['def_efg'] + away_stats['def_efg'] - 1.08) * 10
+        pace_signal = self.calculate_pace_match_adjustment(home_stats, away_stats)
         historical_adjustment, historical_sample = self.get_historical_adjustment(home_team, away_team)
 
         home_injury_impact, home_injury_details = self.calculate_injury_impact(home_team)
         away_injury_impact, away_injury_details = self.calculate_injury_impact(away_team)
         net_injury_impact = home_injury_impact + away_injury_impact
 
-        raw_total = (
-            base_total + offense_adjustment + defense_adjustment +
-            pace_match_adjustment + historical_adjustment +
-            net_injury_impact * 0.25
-        )
-        predicted_total = 0.65 * raw_total + 0.35 * base_total
-        confidence = self.calculate_total_confidence(home_stats, away_stats, historical_sample)
+        raw_adjustment = offense_signal + defense_signal + pace_signal + historical_adjustment + net_injury_impact * 0.2
+        anchored_adjustment = max(min(raw_adjustment * 0.45, 8.0), -8.0)
+        confidence = self.calculate_total_confidence(home_stats, away_stats, historical_sample, abs(anchored_adjustment))
 
         return {
             'home_team': home_team,
             'away_team': away_team,
-            'predicted_total': round(predicted_total, 1),
-            'raw_total': round(raw_total, 1),
-            'base_total': round(base_total, 1),
-            'offense_adjustment': round(offense_adjustment, 1),
-            'defense_adjustment': round(defense_adjustment, 1),
-            'pace_match_adjustment': round(pace_match_adjustment, 1),
+            'raw_adjustment': round(raw_adjustment, 2),
+            'anchored_adjustment': round(anchored_adjustment, 1),
+            'offense_signal': round(offense_signal, 1),
+            'defense_signal': round(defense_signal, 1),
+            'pace_match_adjustment': round(pace_signal, 1),
             'historical_adjustment': round(historical_adjustment, 1),
             'historical_sample': historical_sample,
             'avg_offense': round((home_stats['ortg'] + away_stats['ortg']) / 2, 1),
@@ -289,12 +273,12 @@ class TotalRecommender:
 
     @staticmethod
     def calculate_pace_match_adjustment(home_stats: Dict, away_stats: Dict) -> float:
-        pace_diff = abs(home_stats['pace'] - away_stats['pace'])
-        if pace_diff > 5:
-            return pace_diff * 0.25
-        if pace_diff > 3:
-            return pace_diff * 0.15
-        return 0.0
+        avg_pace = (home_stats['pace'] + away_stats['pace']) / 2
+        if avg_pace > 101:
+            return (avg_pace - 101) * 0.8
+        if avg_pace < 95:
+            return (avg_pace - 95) * 0.8
+        return (avg_pace - 98) * 0.35
 
     def get_historical_adjustment(self, home_team: str, away_team: str) -> Tuple[float, int]:
         if self.market_data_df is None or 'total_diff' not in self.market_data_df.columns:
@@ -307,7 +291,7 @@ class TotalRecommender:
 
         historical_games = df[
             (((df[home_col] == home_team) & (df[away_col] == away_team)) |
-             ((df[home_col] == away_team) & (df[away_col] == home_team))) &
+             ((df[home_col] == away_team) & (df[away_col] == away_team))) &
             df['total_diff'].notna()
         ].copy()
         sample_size = len(historical_games)
@@ -319,29 +303,65 @@ class TotalRecommender:
             upper=historical_games['total_diff'].quantile(0.8)
         )
         mean_diff = float(trimmed.mean())
-        weight = 0.15 if sample_size < 6 else 0.22 if sample_size < 9 else 0.3
-        adjustment = max(min(mean_diff * weight, 3.0), -3.0)
+        weight = 0.12 if sample_size < 6 else 0.18 if sample_size < 9 else 0.22
+        adjustment = max(min(mean_diff * weight, 2.5), -2.5)
         return round(adjustment, 1), sample_size
 
     @staticmethod
-    def calculate_total_confidence(home_stats: Dict, away_stats: Dict, historical_sample: int = 0) -> float:
-        confidence = 0.60
+    def calculate_total_confidence(home_stats: Dict, away_stats: Dict, historical_sample: int = 0, adjustment_size: float = 0.0) -> float:
+        confidence = 0.58
         pace_diff = abs(home_stats['pace'] - away_stats['pace'])
         if pace_diff > 8:
-            confidence -= 0.10
+            confidence -= 0.08
         elif pace_diff > 5:
-            confidence -= 0.06
+            confidence -= 0.05
         elif pace_diff < 2:
-            confidence += 0.03
+            confidence += 0.02
 
-        if home_stats['ortg'] > 115 and away_stats['ortg'] > 115:
-            confidence += 0.06
-        if home_stats['drtg'] > 115 or away_stats['drtg'] > 115:
+        if home_stats['ortg'] > 116 and away_stats['ortg'] > 116:
+            confidence += 0.04
+        if home_stats['drtg'] > 116 or away_stats['drtg'] > 116:
             confidence += 0.03
         if historical_sample >= 6:
+            confidence += 0.02
+        if adjustment_size >= 6:
             confidence += 0.03
+        elif adjustment_size < 5:
+            confidence -= 0.02
 
-        return min(max(confidence, 0.38), 0.82)
+        return min(max(confidence, 0.38), 0.8)
+
+    def calculate_expected_total(self, home_team: str, away_team: str, market_total: Optional[float] = None) -> Dict:
+        adjustment = self.build_total_adjustment(home_team, away_team)
+        if not adjustment:
+            return {}
+
+        if market_total is None:
+            predicted_total = adjustment['anchored_adjustment']
+        else:
+            predicted_total = float(market_total) + adjustment['anchored_adjustment']
+
+        return {
+            'home_team': home_team,
+            'away_team': away_team,
+            'predicted_total': round(predicted_total, 1),
+            'market_total_anchor': None if market_total is None else round(float(market_total), 1),
+            'anchored_adjustment': adjustment['anchored_adjustment'],
+            'raw_adjustment': adjustment['raw_adjustment'],
+            'offense_signal': adjustment['offense_signal'],
+            'defense_signal': adjustment['defense_signal'],
+            'pace_match_adjustment': adjustment['pace_match_adjustment'],
+            'historical_adjustment': adjustment['historical_adjustment'],
+            'historical_sample': adjustment['historical_sample'],
+            'avg_offense': adjustment['avg_offense'],
+            'avg_pace': adjustment['avg_pace'],
+            'home_injury_impact': adjustment['home_injury_impact'],
+            'away_injury_impact': adjustment['away_injury_impact'],
+            'net_injury_impact': adjustment['net_injury_impact'],
+            'home_injury_details': adjustment['home_injury_details'],
+            'away_injury_details': adjustment['away_injury_details'],
+            'confidence': adjustment['confidence'],
+        }
 
     def analyze_total_value(self, prediction: Dict, market_total: float) -> Dict:
         predicted = prediction['predicted_total']
@@ -352,15 +372,15 @@ class TotalRecommender:
             value_score = 0
         elif abs_diff < 6.0:
             value_score = 1
-        elif abs_diff < 8.0:
+        elif abs_diff < 7.5:
             value_score = 2
         else:
             value_score = 3
 
         raw_score = (
-            abs_diff * 6.5 +
-            prediction['confidence'] * 28 +
-            min(prediction.get('historical_sample', 0), 8) * 1.2
+            abs_diff * 7.0 +
+            prediction['confidence'] * 30 +
+            min(prediction.get('historical_sample', 0), 8) * 1.0
         )
         value_score_100 = max(0, min(100, round(raw_score)))
         recommendation = '大分 (Over)' if value_diff > 0 else '小分 (Under)'
@@ -421,10 +441,7 @@ class TotalRecommender:
             reasons.append("进攻效率良好")
 
         value_diff = value_analysis['value_diff']
-        if abs(value_diff) >= 7:
-            reasons.append(f"显著总分价值差异: {value_diff:+.1f}分")
-        elif abs(value_diff) >= self.min_edge_to_bet:
-            reasons.append(f"中等总分价值差异: {value_diff:+.1f}分")
+        reasons.append(f"相对市场修正: {value_diff:+.1f}分")
 
         historical_adjustment = prediction.get('historical_adjustment', 0.0)
         historical_sample = prediction.get('historical_sample', 0)
@@ -436,16 +453,16 @@ class TotalRecommender:
             reasons.append(f"伤病总分影响: {net_injury_impact:+.1f}")
 
         reasons.append(f"预期: {value_analysis['total_type']}")
-        if prediction['confidence'] > 0.76:
+        if prediction['confidence'] > 0.74:
             reasons.append("高置信度预测")
-        elif prediction['confidence'] > 0.62:
+        elif prediction['confidence'] > 0.6:
             reasons.append("中等置信度预测")
         else:
             reasons.append("低置信度预测")
         return ' | '.join(reasons)
 
     def generate_total_recommendation(self, home_team: str, away_team: str, market_total: float) -> Dict:
-        prediction = self.calculate_expected_total(home_team, away_team)
+        prediction = self.calculate_expected_total(home_team, away_team, market_total)
         if not prediction:
             return {}
 
@@ -454,7 +471,6 @@ class TotalRecommender:
             return {}
 
         bet_size = self.kelly_bet_size(abs(value_analysis['value_diff']))
-
         return {
             'matchup': f"{home_team} vs {away_team}",
             'date': datetime.now().strftime('%Y-%m-%d'),
@@ -465,7 +481,7 @@ class TotalRecommender:
                 'side': value_analysis['recommendation_side'],
                 'total_type': value_analysis['total_type'],
                 'value_score': int(value_analysis['value_score_100']),
-                'confidence_level': '高' if value_analysis['confidence'] > 0.76 else '中' if value_analysis['confidence'] > 0.62 else '低',
+                'confidence_level': '高' if value_analysis['confidence'] > 0.74 else '中' if value_analysis['confidence'] > 0.6 else '低',
                 'bet_size_percent': round(bet_size * 100, 1),
                 'reasoning': self.generate_total_reasoning(prediction, value_analysis),
             },
