@@ -1,4 +1,4 @@
-import sys; sys.path.insert(0, "/data/reddog-scraper/venv/lib/python3.11/site-packages")
+import sys; sys.path.insert(0, "/Users/shenghuali/reddog-scraper/venv/lib/python3.11/site-packages")
 import csv
 import re
 import urllib.request
@@ -109,7 +109,7 @@ def main():
         print("未找到 table: advanced-team")
         return
     rows = parse_advanced_team_stats(table)
-    write_csv("/data/reddog-scraper/nba-advanced-stats.csv", rows)
+    write_csv("/Users/shenghuali/reddog-scraper/nba-advanced-stats.csv", rows)
     print(f"已更新: nba-advanced-stats.csv 共{len(rows)}行")
 
 if __name__ == "__main__":

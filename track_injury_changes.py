@@ -5,7 +5,7 @@ import requests
 from datetime import datetime
 
 # Paths
-BASE_DIR = '/data/reddog-scraper'
+BASE_DIR = '/Users/shenghuali/reddog-scraper'
 INJURY_CSV = os.path.join(BASE_DIR, 'nba-injury-latest.csv')
 LOG_FILE = os.path.join(BASE_DIR, 'injury_changes.log')
 DOTENV_PATH = '/home/node/.openclaw/workspace/.env'

@@ -1,4 +1,4 @@
-import sys; sys.path.insert(0, "/data/reddog-scraper/venv/lib/python3.11/site-packages")
+import sys; sys.path.insert(0, "/Users/shenghuali/.local/lib/python3.12/site-packages")
 import csv
 import re
 import os

@@ -1,0 +1,37 @@
+{
+  "matchup": "OKC vs SAS",
+  "date": "2026-04-08 23:55:37",
+  "prediction": {
+    "home_team": "OKC",
+    "away_team": "SAS",
+    "net_rating_diff": 3.0,
+    "home_advantage": 4.0,
+    "off_def_advantage": 7.8,
+    "def_off_advantage": 12.0,
+    "pace_factor": -0.04,
+    "predicted_spread_raw": 4.0,
+    "predicted_spread_display": -4.0,
+    "confidence": 0.75
+  },
+  "market_analysis": {
+    "predicted_spread_raw": 4.0,
+    "predicted_spread_display": -4.0,
+    "market_spread": -3.5,
+    "value_diff": 7.5,
+    "z_score": 12.0,
+    "value_score": 100,
+    "recommendation": "主队让分",
+    "side": "home",
+    "bet_spread": -4.0,
+    "confidence": 0.75
+  },
+  "betting_advice": {
+    "action": "主队让分",
+    "side": "home",
+    "bet_spread": -4.0,
+    "value_score": 100,
+    "confidence_level": "中",
+    "bet_size_percent": 5.0,
+    "reasoning": "明显实力差距 (净效率差: 3.0) | 标准主场优势 (+4.0分) | 高统计价值 (差异: 7.5分, Z-score: 12.00) | 中等置信度预测"
+  }
+}

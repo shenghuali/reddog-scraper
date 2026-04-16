@@ -190,8 +190,8 @@ for r in spread_rows:
         away_spread_odds or "",
     ])
 
-# csv_path = "/data/reddog-scraper/nba-latest-odds.csv"
-csv_path = "/home/shenghuali/reddog-scraper/nba-latest-odds.csv"
+# csv_path = "/Users/shenghuali/reddog-scraper/nba-latest-odds.csv"
+csv_path = "/Users/shenghuali/reddog-scraper/nba-latest-odds.csv"
 with open(csv_path, "w", newline="", encoding="utf-8") as f:
     w = csv.writer(f)
     w.writerow(["game_id", "home", "away", "date", "Home Score", "Away Score", "home wager", "away wager", "opener_spread", "spread", "opener_total", "total", "home_spread_odds", "away_spread_odds"])

@@ -1,204 +1,389 @@
-Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-03-22
-Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-03-22
-DEBUG: Found game 363080, start=2026-03-22T21:00:00+00:00
-DEBUG: Found game 363081, start=2026-03-22T22:00:00+00:00
-DEBUG: Found game 363082, start=2026-03-22T23:30:00+00:00
-DEBUG: Found game 363083, start=2026-03-23T00:00:00+00:00
-DEBUG: Found game 363084, start=2026-03-23T01:00:00+00:00
-DEBUG: Found game 363080, start=2026-03-22T21:00:00+00:00
-DEBUG: Found game 363081, start=2026-03-22T22:00:00+00:00
-DEBUG: Found game 363082, start=2026-03-22T23:30:00+00:00
-DEBUG: Found game 363083, start=2026-03-23T00:00:00+00:00
-DEBUG: Found game 363084, start=2026-03-23T01:00:00+00:00
-DEBUG: day_rows has 5 items
-DEBUG: game 363080 date 2026-03-22
-DEBUG: game 363081 date 2026-03-22
-DEBUG: game 363082 date 2026-03-22
-DEBUG: game 363083 date 2026-03-22
-DEBUG: game 363084 date 2026-03-22
-已输出: /data/reddog-scraper/nba-latest-odds.csv 共5行
-已输出: daily matches/sbr_nba_2026-03-22.csv 共5行
-已输出: nba injury/nba-injury_2026-03-22.csv 共120行
-已输出: nba-injury-latest.csv 共120行
-已删除旧文件: 1个
-已更新: nba-advanced-stats.csv 共30行
-Scraping atl...
-Error scraping atl: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/atl", waiting until "networkidle"
+[2026-04-14 00:13:18] daily_cron_report.sh: 报告已生成 (/tmp/nba_daily_report_20260414_001318.txt)
+[2026-04-14 00:21:18] daily_cron_report.sh: 报告已生成 (/tmp/nba_daily_report_20260414_002118.txt)
+[2026-04-14 08:00:01] daily_cron_report.sh: 报告已生成 (/tmp/nba_daily_report_20260414_080001.txt)
+[2026-04-14 10:21:24] daily_cron_report.sh: 报告已生成并成功发送到Discord (/tmp/nba_daily_report_20260414_102112.txt)
+[2026-04-14 10:59:14] daily_cron_report.sh: 报告已生成并成功发送到Discord (/tmp/nba_daily_report_20260414_105907.txt)
+[2026-04-14 14:00:32] INFO: 测试信息日志
+[2026-04-14 14:00:32] SUCCESS: ✅ 测试成功日志
+[2026-04-14 14:00:32] ERROR: ❌ 测试错误日志
+[2026-04-14 14:00:32] WARN: ⚠️  测试警告日志
+[2026-04-14 14:00:32] DEBUG: 🔍 测试调试日志
+[2026-04-14 14:00:32] INFO: 脚本开始执行: test_script.sh
+[2026-04-14 14:00:33] SUCCESS: ✅ 任务完成: 任务1
+[2026-04-14 14:00:34] ERROR: ❌ 任务失败: 任务2
+[2026-04-14 14:00:34] ERROR: ❌ 脚本执行失败: test_script.sh (退出码: 1)
+[2026-04-14 14:00:34] INFO: 日志清理完成，保留最近7天记录
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-13
+Got HTML: 311581 chars
+Found 0 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-13
+Got HTML: 311518 chars
+Found 0 games for totals
 
-Scraping bos...
-Error scraping bos: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/bos", waiting until "networkidle"
+✅ 抓取完成: 0 场比赛
+Sync complete. Updated 0 rows, added 0 rows for  to .
+Updated existing rest and b2b columns
+已输出: nba injury/nba-injury_2026-04-14.csv 共185行
+已输出: nba-injury-latest.csv 共185行
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-13
+Got HTML: 311582 chars
+Found 0 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-13
+Got HTML: 311517 chars
+Found 0 games for totals
 
-Scraping bkn...
-Error scraping bkn: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/bkn", waiting until "networkidle"
+✅ 抓取完成: 0 场比赛
+Sync complete. Updated 0 rows, added 0 rows for  to .
+Updated existing rest and b2b columns
+已输出: nba injury/nba-injury_2026-04-14.csv 共184行
+已输出: nba-injury-latest.csv 共184行
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-13
+Got HTML: 311581 chars
+Found 0 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-13
+Got HTML: 311518 chars
+Found 0 games for totals
 
-Scraping cha...
-Error scraping cha: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/cha", waiting until "networkidle"
+✅ 抓取完成: 0 场比赛
+Sync complete. Updated 0 rows, added 0 rows for  to .
+Updated existing rest and b2b columns
+已输出: nba injury/nba-injury_2026-04-14.csv 共184行
+已输出: nba-injury-latest.csv 共184行
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-13
+Got HTML: 311582 chars
+Found 0 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-13
+Got HTML: 311518 chars
+Found 0 games for totals
 
-Scraping chi...
-Error scraping chi: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/chi", waiting until "networkidle"
+✅ 抓取完成: 0 场比赛
+Sync complete. Updated 0 rows, added 0 rows for  to .
+Updated existing rest and b2b columns
+已输出: nba injury/nba-injury_2026-04-14.csv 共184行
+已输出: nba-injury-latest.csv 共184行
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-14
+Got HTML: 361939 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-14
+Got HTML: 361493 chars
+Found 2 games for totals
 
-Scraping cle...
-Error scraping cle: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/cle", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  MIA @ CHA: score=0-0, home_wager=66%, away_wager=34%, opener_spread=-5.5, spread=-5.5, opener_total=227.5, total=229, home_spread_odds=1.91, away_spread_odds=1.91
+  POR @ PHO: score=0-0, home_wager=61%, away_wager=39%, opener_spread=-3.5, spread=-3.5, opener_total=218.5, total=217, home_spread_odds=1.91, away_spread_odds=1.91
+Sync complete. Updated 0 rows, added 2 rows for 2026-04-14 to 2026-04-14.
+Updated existing rest and b2b columns
+已输出: nba injury/nba-injury_2026-04-14.csv 共184行
+已输出: nba-injury-latest.csv 共184行
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-14
+Got HTML: 361905 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-14
+Got HTML: 361524 chars
+Found 2 games for totals
 
-Scraping dal...
-Error scraping dal: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/dal", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  MIA @ CHA: score=0-0, home_wager=66%, away_wager=34%, opener_spread=-5.5, spread=-5.5, opener_total=227.5, total=229, home_spread_odds=1.91, away_spread_odds=1.91
+  POR @ PHO: score=0-0, home_wager=60%, away_wager=40%, opener_spread=-3.5, spread=-4, opener_total=218.5, total=217.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-14 to 2026-04-14.
+Updated existing rest and b2b columns
+已输出: nba injury/nba-injury_2026-04-14.csv 共184行
+已输出: nba-injury-latest.csv 共184行
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-14
+Got HTML: 361901 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-14
+Got HTML: 361516 chars
+Found 2 games for totals
 
-Scraping den...
-Error scraping den: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/den", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  MIA @ CHA: score=0-0, home_wager=66%, away_wager=34%, opener_spread=-5.5, spread=-5.5, opener_total=227.5, total=229, home_spread_odds=1.91, away_spread_odds=1.91
+  POR @ PHO: score=0-0, home_wager=61%, away_wager=39%, opener_spread=-3.5, spread=-4, opener_total=218.5, total=217.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-14 to 2026-04-14.
+Updated existing rest and b2b columns
+已输出: nba injury/nba-injury_2026-04-14.csv 共184行
+已输出: nba-injury-latest.csv 共184行
+[2026-04-15 09:03:48] daily_cron_report.sh: 报告已生成并成功发送到Discord (/tmp/nba_daily_report_20260415_090341.txt)
+[2026-04-15 09:08:09] daily_cron_report.sh: 报告已生成并成功发送到Discord (/tmp/nba_daily_report_20260415_090805.txt)
+[2026-04-15 15:00:05] daily_cron_report.sh: 报告已生成并成功发送到Discord (/tmp/nba_daily_report_20260415_150000.txt)
+Traceback (most recent call last):
+  File "/Users/shenghuali/reddog-scraper/nba-daily-odds.py", line 9, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/Users/shenghuali/reddog-scraper/nba-daily-odds.py", line 9, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+Traceback (most recent call last):
+  File "/Users/shenghuali/reddog-scraper/nba-daily-odds.py", line 9, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 362034 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 362041 chars
+Found 2 games for totals
 
-Scraping det...
-Error scraping det: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/det", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=0-0, home_wager=56%, away_wager=44%, opener_spread=-1.5, spread=-2, opener_total=219.5, total=224, home_spread_odds=1.91, away_spread_odds=1.83
+  GS @ LAC: score=0-0, home_wager=55%, away_wager=45%, opener_spread=-4.5, spread=-5.5, opener_total=219.5, total=221.5, home_spread_odds=1.91, away_spread_odds=1.91
+/Users/shenghuali/reddog-scraper/venv/bin/python: can't open file '/Users/shenghuali/reddog-scraper/sync_to_enriched.py': [Errno 2] No such file or directory
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 362052 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 362043 chars
+Found 2 games for totals
 
-Scraping gs...
-Error scraping gs: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/gs", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=0-0, home_wager=56%, away_wager=44%, opener_spread=-1.5, spread=-1.5, opener_total=219.5, total=224, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=0-0, home_wager=56%, away_wager=44%, opener_spread=-4.5, spread=-5.5, opener_total=219.5, total=221.5, home_spread_odds=1.91, away_spread_odds=1.91
+Sync complete. Updated 0 rows, added 2 rows for 2026-04-15 to 2026-04-15.
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 362035 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 362038 chars
+Found 2 games for totals
 
-Scraping hou...
-Error scraping hou: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/hou", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=0-0, home_wager=56%, away_wager=44%, opener_spread=-1.5, spread=-2, opener_total=219.5, total=224, home_spread_odds=1.91, away_spread_odds=1.83
+  GS @ LAC: score=0-0, home_wager=55%, away_wager=45%, opener_spread=-4.5, spread=-5.5, opener_total=219.5, total=221.5, home_spread_odds=1.91, away_spread_odds=1.91
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 362047 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 362085 chars
+Found 2 games for totals
 
-Scraping ind...
-Error scraping ind: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/ind", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=0-0, home_wager=57%, away_wager=43%, opener_spread=-1.5, spread=-1.5, opener_total=219.5, total=224, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=0-0, home_wager=55%, away_wager=45%, opener_spread=-4.5, spread=-6, opener_total=219.5, total=221.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 362094 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 362196 chars
+Found 2 games for totals
 
-Scraping lac...
-Error scraping lac: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/lac", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=0-0, home_wager=57%, away_wager=43%, opener_spread=-1.5, spread=-1.5, opener_total=219.5, total=224, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=0-0, home_wager=56%, away_wager=44%, opener_spread=-4.5, spread=-6, opener_total=219.5, total=220.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 361939 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 361910 chars
+Found 2 games for totals
 
-Scraping lal...
-Error scraping lal: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/lal", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=0-0, home_wager=57%, away_wager=43%, opener_spread=-1.5, spread=-1.5, opener_total=219.5, total=224.5, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=0-0, home_wager=56%, away_wager=44%, opener_spread=-4.5, spread=-6, opener_total=219.5, total=220.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 362155 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 361971 chars
+Found 2 games for totals
 
-Scraping mem...
-Error scraping mem: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/mem", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=0-0, home_wager=56%, away_wager=44%, opener_spread=-1.5, spread=-1.5, opener_total=219.5, total=223.5, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=0-0, home_wager=55%, away_wager=45%, opener_spread=-4.5, spread=-6, opener_total=219.5, total=220.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 361946 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 361967 chars
+Found 2 games for totals
 
-Scraping mia...
-No data found for mia
-Scraping mil...
-No data found for mil
-Scraping min...
-Error scraping min: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/min", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=0-0, home_wager=56%, away_wager=44%, opener_spread=-1.5, spread=-1.5, opener_total=219.5, total=223.5, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=0-0, home_wager=55%, away_wager=45%, opener_spread=-4.5, spread=-6, opener_total=219.5, total=220.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 361890 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 362030 chars
+Found 2 games for totals
 
-Scraping no...
-No data found for no
-Scraping ny...
-Error scraping ny: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/ny", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=0-0, home_wager=56%, away_wager=44%, opener_spread=-1.5, spread=-1.5, opener_total=219.5, total=222.5, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=0-0, home_wager=55%, away_wager=45%, opener_spread=-4.5, spread=-6, opener_total=219.5, total=220.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 361974 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 361888 chars
+Found 2 games for totals
 
-Scraping okc...
-No data found for okc
-Scraping orl...
-Error scraping orl: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/orl", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=0-0, home_wager=56%, away_wager=44%, opener_spread=-1.5, spread=-1.5, opener_total=219.5, total=223, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=0-0, home_wager=54%, away_wager=46%, opener_spread=-4.5, spread=-6, opener_total=219.5, total=220.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 358569 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 358557 chars
+Found 2 games for totals
 
-Scraping phi...
-Error scraping phi: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/phi", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=8-10, home_wager=56%, away_wager=44%, opener_spread=-1.5, spread=-1, opener_total=219.5, total=223.5, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=0-0, home_wager=54%, away_wager=46%, opener_spread=-4.5, spread=-6, opener_total=219.5, total=220.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 359418 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 359468 chars
+Found 2 games for totals
 
-Scraping phx...
-Error scraping phx: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/phx", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=55-59, home_wager=56%, away_wager=44%, opener_spread=-1.5, spread=-1, opener_total=219.5, total=223.5, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=0-0, home_wager=54%, away_wager=46%, opener_spread=-4.5, spread=-6, opener_total=219.5, total=220.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+[2026-04-16 11:59:43] daily_cron_report.sh: 报告已生成并成功发送到Discord (/tmp/nba_daily_report_20260416_115937.txt)
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 359835 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 359828 chars
+Found 2 games for totals
 
-Scraping por...
-Error scraping por: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/por", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=81-85, home_wager=56%, away_wager=44%, opener_spread=-1.5, spread=-1, opener_total=219.5, total=223.5, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=0-0, home_wager=54%, away_wager=46%, opener_spread=-4.5, spread=-6, opener_total=219.5, total=220.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+[2026-04-16 12:31:27] daily_cron_report.sh: 报告已生成并成功发送到Discord (/tmp/nba_daily_report_20260416_123124.txt)
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 361215 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 361213 chars
+Found 2 games for totals
 
-Scraping sac...
-Error scraping sac: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/sac", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=95-99, home_wager=56%, away_wager=44%, opener_spread=-1.5, spread=-1, opener_total=219.5, total=223.5, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=0-0, home_wager=54%, away_wager=46%, opener_spread=-4.5, spread=-6, opener_total=219.5, total=220.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 361637 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 361633 chars
+Found 2 games for totals
 
-Scraping sa...
-Error scraping sa: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/sa", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=97-109, home_wager=56%, away_wager=44%, opener_spread=-1.5, spread=-1, opener_total=219.5, total=223.5, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=48-54, home_wager=54%, away_wager=46%, opener_spread=-4.5, spread=-6, opener_total=219.5, total=220.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 362072 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 362067 chars
+Found 2 games for totals
 
-Scraping tor...
-Error scraping tor: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/tor", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=97-109, home_wager=56%, away_wager=44%, opener_spread=-1.5, spread=-1, opener_total=219.5, total=223.5, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=83-89, home_wager=54%, away_wager=46%, opener_spread=-4.5, spread=-6, opener_total=219.5, total=220.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 362079 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 362073 chars
+Found 2 games for totals
 
-Scraping utah...
-No data found for utah
-Scraping was...
-Error scraping was: Page.goto: Timeout 60000ms exceeded.
-Call log:
-  - navigating to "https://www.espn.com/nba/team/stats/_/name/was", waiting until "networkidle"
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=97-109, home_wager=56%, away_wager=44%, opener_spread=-1.5, spread=-1, opener_total=219.5, total=223.5, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=126-121, home_wager=54%, away_wager=46%, opener_spread=-4.5, spread=-6, opener_total=219.5, total=220.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-15
+Got HTML: 362080 chars
+Found 2 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-15
+Got HTML: 362073 chars
+Found 2 games for totals
 
-No data collected.
-1. Loading Enriched Data (Base)
-Loaded 5981 records.
-2. Loading Advanced Stats (Current Strength)
-Loaded 30 team stats.
-  team   pace   ortg   drtg  nrtg  ...  o-FT/FGA  d-eFG%  d-TOV%  d-DRB%  d-FT/FGA
-0  OKC   99.3  118.4  107.3  11.1  ...     0.218   0.515    14.7    74.2     0.189
-1  DET   99.5  117.5  109.6   7.9  ...     0.224   0.518    15.0    74.2     0.255
-2  BOS   94.7  120.5  112.7   7.8  ...     0.165   0.522    11.6    75.3     0.192
-3  SAS  100.0  118.8  111.5   7.3  ...     0.218   0.523    11.6    77.1     0.184
-4  NYK   97.5  119.3  112.7   6.6  ...     0.190   0.537    13.0    77.0     0.208
-5  DEN   98.2  121.5  117.2   4.3  ...     0.244   0.543    10.6    75.1     0.197
-6  CHA   97.3  118.9  114.7   4.2  ...     0.203   0.540    11.6    76.6     0.191
-7  CLE   99.9  118.5  114.3   4.2  ...     0.201   0.540    13.4    74.0     0.207
-8  HOU   95.8  117.6  113.4   4.2  ...     0.198   0.531    12.1    74.2     0.190
-9  MIN  100.6  117.5  113.7   3.8  ...     0.221   0.531    12.9    74.2     0.218
+✅ 抓取完成: 2 场比赛
+  ORL @ PHI: score=97-109, home_wager=56%, away_wager=44%, opener_spread=-1.5, spread=-1, opener_total=219.5, total=223.5, home_spread_odds=1.91, away_spread_odds=1.91
+  GS @ LAC: score=126-121, home_wager=54%, away_wager=46%, opener_spread=-4.5, spread=-6, opener_total=219.5, total=220.5, home_spread_odds=1.91, away_spread_odds=1.83
+Sync complete. Updated 2 rows, added 0 rows for 2026-04-15 to 2026-04-15.
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-16
+Got HTML: 311941 chars
+Found 0 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-16
+Got HTML: 311877 chars
+Found 0 games for totals
 
-[10 rows x 13 columns]
-3. Loading Injury Data (Game Day Variables)
-Loaded 120 injury records from /data/reddog-scraper/nba-injury-latest.csv.
+✅ 抓取完成: 0 场比赛
+Sync complete. Updated 0 rows, added 0 rows for  to .
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-16
+Got HTML: 311940 chars
+Found 0 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-16
+Got HTML: 311876 chars
+Found 0 games for totals
 
-Notable Injuries:
-   team  ...                                    status
-0   ATL  ...                        Game Time Decision
-1   BOS  ...                        Game Time Decision
-2   BOS  ...   Expected to be out until at least Apr 5
-3   BKN  ...  Expected to be out until at least Mar 23
-4   BKN  ...  Expected to be out until at least Mar 23
-5   BKN  ...                        Game Time Decision
-6   BKN  ...   Expected to be out until at least Apr 9
-7   BKN  ...                        Out for the season
-8   BKN  ...                        Out for the season
-9   CHA  ...                        Game Time Decision
-10  CHI  ...                        Game Time Decision
-11  CHI  ...                        Game Time Decision
-12  CHI  ...                        Game Time Decision
-13  CHI  ...  Expected to be out until at least Mar 27
-14  CHI  ...                        Out for the season
-15  CHI  ...                        Out for the season
-16  CLE  ...                        Game Time Decision
-17  CLE  ...                        Game Time Decision
-18  CLE  ...                        Game Time Decision
-19  CLE  ...                        Game Time Decision
+✅ 抓取完成: 0 场比赛
+Sync complete. Updated 0 rows, added 0 rows for  to .
+/Users/shenghuali/reddog-scraper/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/pointspread/full-game/?date=2026-04-16
+Got HTML: 311940 chars
+Found 0 games for pointspread
+Fetching: https://www.sportsbookreview.com/betting-odds/nba-basketball/totals/full-game/?date=2026-04-16
+Got HTML: 311877 chars
+Found 0 games for totals
 
-[20 rows x 4 columns]
+✅ 抓取完成: 0 场比赛
+Sync complete. Updated 0 rows, added 0 rows for  to .

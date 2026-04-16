@@ -1,0 +1,26 @@
+# NBA数据抓取定时任务 - 系统Python版 (最终)
+# 时区：Australia/Melbourne (AEST)
+# 路径：/home/shenghuali/reddog-scraper/
+# Python：系统python3
+# 生成时间：2026-04-05 15:23（墨尔本时间）
+
+# 每小时执行 - 伤病数据抓取（整点）
+0 * * * * cd /home/shenghuali/reddog-scraper && TZ=Australia/Melbourne python3 nba-injury.py >> /home/shenghuali/reddog-scraper/cron.log 2>&1
+
+# 每小时执行 - 赔率数据抓取（第5分钟） + 数据同步
+5 * * * * cd /home/shenghuali/reddog-scraper && TZ=Australia/Melbourne python3 nba-daily-odds.py >> /home/shenghuali/reddog-scraper/cron.log 2>&1 && TZ=Australia/Melbourne python3 sync_daily_odds.py >> /home/shenghuali/reddog-scraper/cron.log 2>&1 && TZ=Australia/Melbourne python3 fill_rest_data.py >> /home/shenghuali/reddog-scraper/cron.log 2>&1
+
+# 每周一执行 - 高级统计数据（周一09:00）
+0 9 * * 1 cd /home/shenghuali/reddog-scraper && TZ=Australia/Melbourne python3 nba-advanced-stats.py >> /home/shenghuali/reddog-scraper/cron.log 2>&1
+
+# 每日报告 - 汇总报告（每天08:00）
+0 8 * * * cd /home/shenghuali/reddog-scraper && TZ=Australia/Melbourne ./daily_cron_report.sh >> /home/shenghuali/reddog-scraper/cron.log 2>&1
+
+# ============================================
+# 说明：
+# 1. 此配置用于主机系统cron
+# 2. 使用系统python3（非venv）
+# 3. 所有路径：/home/shenghuali/reddog-scraper/
+# 4. 时区：墨尔本时间
+# 5. 日志文件：cron.log
+# ============================================

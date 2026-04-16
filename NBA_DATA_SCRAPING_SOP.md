@@ -1,17 +1,17 @@
 # NBA Data Scraping SOP
 
 ## Purpose
-This SOP defines the standard workflow for the NBA data scraping pipeline under `/data/reddog-scraper/`. It covers the order of execution, data dependencies, validation checkpoints, and failure-handling rules for producing analysis-ready NBA datasets.
+This SOP defines the standard workflow for the NBA data scraping pipeline under `/home/shenghuali/reddog-scraper/`. It covers the order of execution, data dependencies, validation checkpoints, and failure-handling rules for producing analysis-ready NBA datasets.
 
 ## Workspace
-- Root path: `/data/reddog-scraper/`
+- Root path: `/home/shenghuali/reddog-scraper/`
 - Time basis: Melbourne time (AEST/AEDT)
 
 ## Core Output Files
 - `nba-roster.csv`
 - `nba-advanced-stats.csv`
 - `nba-latest-odds.csv`
-- latest injury CSV in `/data/reddog-scraper/`
+- latest injury CSV in `/home/shenghuali/reddog-scraper/`
 - `nba_enriched_data.csv`
 
 ## Script Inventory

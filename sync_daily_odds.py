@@ -4,11 +4,11 @@ import os
 from pathlib import Path
 
 
-BASE = Path('/home/shenghuali/reddog-scraper')
+BASE = Path('/Users/shenghuali/reddog-scraper')
 ENRICHED_CSV = BASE / 'nba_enriched_data.csv'
 LATEST_ODDS_CSV = BASE / 'nba-latest-odds.csv'
-WINDOW_START = '2026-03-24'
-WINDOW_END = '2026-04-04'
+WINDOW_START = ''
+WINDOW_END = ''
 
 TEAM_MAP = {
     'BK': 'BKN', 'BKN': 'BKN',
@@ -44,6 +44,26 @@ def to_float(v):
         return float(s)
     except Exception:
         return None
+
+
+def resolve_window(rows):
+    dates = sorted({normalize(row.get('date')) for row in rows if normalize(row.get('date'))})
+    if not dates:
+        return WINDOW_START, WINDOW_END
+
+    start = WINDOW_START or dates[0]
+    end = WINDOW_END or dates[-1]
+    return start, end
+
+
+def in_window(date, start, end):
+    if not date:
+        return False
+    if start and date < start:
+        return False
+    if end and date > end:
+        return False
+    return True
 
 
 def ensure_headers(existing_headers):
@@ -124,6 +144,7 @@ def sync():
 
     headers = ensure_headers(enriched_rows[0].keys())
     odds_lookup = build_odds_lookup(latest_rows)
+    window_start, window_end = resolve_window(latest_rows)
 
     updated = 0
     added = 0
@@ -135,7 +156,7 @@ def sync():
 
     for row in enriched_rows:
         date = normalize(row.get('date'))
-        if not (WINDOW_START <= date <= WINDOW_END):
+        if not in_window(date, window_start, window_end):
             continue
 
         home_team = normalize_team(row.get('home_team'))
@@ -149,8 +170,14 @@ def sync():
 
         row['open_spread'] = normalize(odds.get('opener_spread'))
         row['close_spread'] = normalize(odds.get('spread'))
+        row['current_spread'] = normalize(odds.get('spread'))  # 保持向后兼容
         row['open_total'] = normalize(odds.get('opener_total'))
         row['close_total'] = normalize(odds.get('total'))
+        # 保持向后兼容的字段
+        if 'home' in row:
+            row['home'] = normalize_team(odds.get('home'))
+        if 'away' in row:
+            row['away'] = normalize_team(odds.get('away'))
         row['home_spread_odds'] = normalize(odds.get('home_spread_odds'))
         row['away_spread_odds'] = normalize(odds.get('away_spread_odds'))
         row['home_wagers_pct'] = normalize(odds.get('home wager'))
@@ -168,7 +195,7 @@ def sync():
 
     for odds in latest_rows:
         date = normalize(odds.get('date'))
-        if not (WINDOW_START <= date <= WINDOW_END):
+        if not in_window(date, window_start, window_end):
             continue
 
         home_team = normalize_team(odds.get('home'))
@@ -185,6 +212,8 @@ def sync():
             'date': date,
             'home_team': home_team,
             'away_team': away_team,
+            'home': home_team,      # 保持向后兼容
+            'away': away_team,      # 保持向后兼容
             'home_score': normalize(odds.get('Home Score')),
             'away_score': normalize(odds.get('Away Score')),
             'handicap': normalize(odds.get('spread')),
@@ -208,7 +237,7 @@ def sync():
         writer.writeheader()
         writer.writerows(enriched_rows)
 
-    print(f'Sync complete. Updated {updated} rows, added {added} rows for {WINDOW_START} to {WINDOW_END}.')
+    print(f'Sync complete. Updated {updated} rows, added {added} rows for {window_start} to {window_end}.')
 
 
 if __name__ == '__main__':

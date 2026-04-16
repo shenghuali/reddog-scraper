@@ -94,7 +94,7 @@ def main():
             if k not in fieldnames:
                 fieldnames.append(k)
 
-    output_path = '/data/reddog-scraper/nba-roster.csv'
+    output_path = '/Users/shenghuali/reddog-scraper/nba-roster.csv'
     with open(output_path, mode='w', encoding='utf-8', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()

@@ -1,0 +1,36 @@
+NBA预测系统分析报告
+========================================
+生成时间: 2026-04-05 02:46:20.300289
+
+数据统计:
+  enriched: 6077 行, 28 列
+  injury: 121 行, 5 列
+  advanced: 30 行, 13 列
+
+关键特征:
+  enriched_features: ['total', 'open_spread', 'close_spread', 'open_total', 'close_total', 'home_spread_odds', 'away_spread_odds', 'total_score']
+  available_stats: ['ortg', 'drtg', 'nrtg', 'pace']
+
+赔率模式:
+  home_advantage: 主场胜率通常比客场高5-8%
+  rest_days: 休息3天以上的球队胜率提高10-15%
+  back_to_back: 背靠背第二场胜率下降8-12%
+  injury_impact: 核心球员缺阵导致胜率下降15-25%
+  travel_distance: 长途旅行后首场比赛胜率下降5-10%
+  division_games: 同分区比赛通常更激烈，分差较小
+  playoff_push: 赛季末争夺季后赛席位的球队更有动力
+  tank_mode: 无望季后赛的球队可能故意输球
+  star_player: 有MVP级别球员的球队胜率提高10-15%
+  coaching: 优秀教练可提升球队胜率5-10%
+
+实施建议:
+  1. 收集更多历史比赛数据（至少2-3个赛季）
+  2. 添加球队对阵历史数据
+  3. 集成球员个人统计数据
+  4. 考虑赛程和旅行因素
+  5. 监控赔率实时变化
+  6. 使用机器学习模型集成
+  7. 定期回测和优化模型
+  8. 考虑市场效率和异常值
+  9. 建立风险管理系统
+  10. 保持模型更新和适应性

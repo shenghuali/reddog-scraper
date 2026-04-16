@@ -2,8 +2,8 @@ import csv
 import re
 import os
 
-ROSTER_PATH = '/data/reddog-scraper/nba-roster.csv'
-CLEAN_ROSTER_PATH = '/data/reddog-scraper/nba-roster-clean.csv'
+ROSTER_PATH = '/Users/shenghuali/reddog-scraper/nba-roster.csv'
+CLEAN_ROSTER_PATH = '/Users/shenghuali/reddog-scraper/nba-roster-clean.csv'
 
 def clean_name(name):
     # Remove suffixes like G*, F*, C*, G, F, C attached at the end of the name
