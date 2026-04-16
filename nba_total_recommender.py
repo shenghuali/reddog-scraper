@@ -166,20 +166,22 @@ class TotalRecommender:
                     try:
                         min_per_game = float(player_row.get('min', 0))
                         pts_per_game = float(player_row.get('pts', 0))
+                        ast_per_game = float(player_row.get('ast', 0))
                         time_factor = min_per_game / 48.0
-                        pts_factor = pts_per_game / 25.0
+                        usage_factor = (pts_per_game / 25.0) + (ast_per_game / 8.0)
                         status_weight = 1.0
                         if 'out' in status or 'doubtful' in status:
                             status_weight = 1.5
                         elif 'questionable' in status:
                             status_weight = 1.2
-                        player_impact = -(time_factor * pts_factor * status_weight * 1.5)
+                        player_impact = -(time_factor * usage_factor * status_weight * 1.1)
                         injury_details.append({
                             'team': team,
                             'player': player,
                             'status': status,
                             'min_per_game': min_per_game,
                             'pts_per_game': pts_per_game,
+                            'ast_per_game': ast_per_game,
                             'impact': player_impact,
                         })
                     except (ValueError, TypeError):
@@ -217,6 +219,8 @@ class TotalRecommender:
             'drtg': self._get_value(row, ['drtg', 'def_rating'], 110),
             'off_efg': self._get_value(row, ['o-eFG%', 'off_efg', 'off_efg_pct'], 0.54),
             'def_efg': self._get_value(row, ['d-eFG%', 'def_efg', 'def_efg_pct'], 0.54),
+            'ts_pct': self._get_value(row, ['TS%', 'ts_pct'], 0.57),
+            'opp_ts_pct': self._get_value(row, ['d-TS%', 'opp_ts_pct'], 0.57),
             'pace_category': self.classify_pace(pace),
         }
 
@@ -238,8 +242,20 @@ class TotalRecommender:
         if not home_stats or not away_stats:
             return {}
 
-        offense_signal = (home_stats['off_efg'] + away_stats['off_efg'] - 1.08) * 14
-        defense_signal = (home_stats['def_efg'] + away_stats['def_efg'] - 1.08) * 10
+        home_attack_vs_away_defense = (
+            (home_stats['ortg'] - 112.0) * 0.18 +
+            (away_stats['drtg'] - 112.0) * 0.14 +
+            (home_stats['off_efg'] - away_stats['def_efg']) * 45 +
+            (home_stats['ts_pct'] - away_stats['opp_ts_pct']) * 28
+        )
+        away_attack_vs_home_defense = (
+            (away_stats['ortg'] - 112.0) * 0.18 +
+            (home_stats['drtg'] - 112.0) * 0.14 +
+            (away_stats['off_efg'] - home_stats['def_efg']) * 45 +
+            (away_stats['ts_pct'] - home_stats['opp_ts_pct']) * 28
+        )
+        matchup_signal = home_attack_vs_away_defense + away_attack_vs_home_defense
+
         pace_signal = self.calculate_pace_match_adjustment(home_stats, away_stats)
         historical_adjustment, historical_sample = self.get_historical_adjustment(home_team, away_team)
 
@@ -247,8 +263,8 @@ class TotalRecommender:
         away_injury_impact, away_injury_details = self.calculate_injury_impact(away_team)
         net_injury_impact = home_injury_impact + away_injury_impact
 
-        raw_adjustment = offense_signal + defense_signal + pace_signal + historical_adjustment + net_injury_impact * 0.2
-        anchored_adjustment = max(min(raw_adjustment * 0.45, 8.0), -8.0)
+        raw_adjustment = matchup_signal + pace_signal + historical_adjustment + net_injury_impact * 0.2
+        anchored_adjustment = max(min(raw_adjustment * 0.4, 7.5), -7.5)
         confidence = self.calculate_total_confidence(home_stats, away_stats, historical_sample, abs(anchored_adjustment))
 
         return {
@@ -256,8 +272,9 @@ class TotalRecommender:
             'away_team': away_team,
             'raw_adjustment': round(raw_adjustment, 2),
             'anchored_adjustment': round(anchored_adjustment, 1),
-            'offense_signal': round(offense_signal, 1),
-            'defense_signal': round(defense_signal, 1),
+            'matchup_signal': round(matchup_signal, 1),
+            'home_attack_vs_away_defense': round(home_attack_vs_away_defense, 1),
+            'away_attack_vs_home_defense': round(away_attack_vs_home_defense, 1),
             'pace_match_adjustment': round(pace_signal, 1),
             'historical_adjustment': round(historical_adjustment, 1),
             'historical_sample': historical_sample,
@@ -274,11 +291,10 @@ class TotalRecommender:
     @staticmethod
     def calculate_pace_match_adjustment(home_stats: Dict, away_stats: Dict) -> float:
         avg_pace = (home_stats['pace'] + away_stats['pace']) / 2
-        if avg_pace > 101:
-            return (avg_pace - 101) * 0.8
-        if avg_pace < 95:
-            return (avg_pace - 95) * 0.8
-        return (avg_pace - 98) * 0.35
+        pace_gap = abs(home_stats['pace'] - away_stats['pace'])
+        base = (avg_pace - 98.0) * 0.45
+        gap_penalty = -0.08 * pace_gap if pace_gap > 4 else 0.0
+        return round(base + gap_penalty, 2)
 
     def get_historical_adjustment(self, home_team: str, away_team: str) -> Tuple[float, int]:
         if self.market_data_df is None or 'total_diff' not in self.market_data_df.columns:
@@ -291,7 +307,7 @@ class TotalRecommender:
 
         historical_games = df[
             (((df[home_col] == home_team) & (df[away_col] == away_team)) |
-             ((df[home_col] == away_team) & (df[away_col] == away_team))) &
+             ((df[home_col] == away_team) & (df[away_col] == home_team))) &
             df['total_diff'].notna()
         ].copy()
         sample_size = len(historical_games)
@@ -348,8 +364,9 @@ class TotalRecommender:
             'market_total_anchor': None if market_total is None else round(float(market_total), 1),
             'anchored_adjustment': adjustment['anchored_adjustment'],
             'raw_adjustment': adjustment['raw_adjustment'],
-            'offense_signal': adjustment['offense_signal'],
-            'defense_signal': adjustment['defense_signal'],
+            'matchup_signal': adjustment['matchup_signal'],
+            'home_attack_vs_away_defense': adjustment['home_attack_vs_away_defense'],
+            'away_attack_vs_home_defense': adjustment['away_attack_vs_home_defense'],
             'pace_match_adjustment': adjustment['pace_match_adjustment'],
             'historical_adjustment': adjustment['historical_adjustment'],
             'historical_sample': adjustment['historical_sample'],
@@ -440,8 +457,10 @@ class TotalRecommender:
         elif off_avg > 115:
             reasons.append("进攻效率良好")
 
-        value_diff = value_analysis['value_diff']
-        reasons.append(f"相对市场修正: {value_diff:+.1f}分")
+        reasons.append(
+            f"攻防对位修正: 主攻vs客守 {prediction['home_attack_vs_away_defense']:+.1f} / 客攻vs主守 {prediction['away_attack_vs_home_defense']:+.1f}"
+        )
+        reasons.append(f"相对市场修正: {value_analysis['value_diff']:+.1f}分")
 
         historical_adjustment = prediction.get('historical_adjustment', 0.0)
         historical_sample = prediction.get('historical_sample', 0)
