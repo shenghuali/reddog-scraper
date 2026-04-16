@@ -10,7 +10,7 @@ NBA盘口推荐系统（逻辑重构版）
 
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
@@ -22,9 +22,124 @@ class SpreadRecommender:
         self.team_stats_df = None
         self.market_data_df = None
         self.player_data_df = None
+        self.injury_data_df = None  # 新增伤病数据
         self.home_advantage_base = 3.5
         self.min_edge_to_bet = 1.0
         self.team_aliases = {'WSH': 'WAS'}
+        
+        # 投注量分析相关
+        self.wager_rules = []
+        self.wager_data_loaded = False
+
+    @staticmethod
+    def _find_wager_columns(df: pd.DataFrame) -> Tuple[Optional[str], Optional[str]]:
+        preferred_pairs = [
+            ('home_wagers_pct', 'away_wagers_pct'),
+            ('home wager', 'away wager'),
+        ]
+        cols = set(df.columns)
+        for home_col, away_col in preferred_pairs:
+            if home_col in cols and away_col in cols:
+                return home_col, away_col
+
+        home_wager_col = None
+        away_wager_col = None
+        for col in df.columns:
+            col_lower = col.lower()
+            if 'wager' not in col_lower:
+                continue
+            if 'home' in col_lower and home_wager_col is None:
+                home_wager_col = col
+            elif 'away' in col_lower and away_wager_col is None:
+                away_wager_col = col
+        return home_wager_col, away_wager_col
+
+    def _analyze_wager_patterns(self):
+        """分析投注量与盘口胜率的关系，生成轻量调整规则"""
+        self.wager_rules = []
+        self.wager_data_loaded = False
+
+        if self.market_data_df is None or self.market_data_df.empty:
+            return
+
+        df = self.market_data_df.copy()
+        home_wager_col, away_wager_col = self._find_wager_columns(df)
+        if not home_wager_col or not away_wager_col or 'current_spread' not in df.columns:
+            return
+
+        for col in ['current_spread', 'home_score', 'away_score']:
+            df[col] = pd.to_numeric(df[col], errors='coerce')
+        df['home_wager_pct'] = pd.to_numeric(df[home_wager_col], errors='coerce')
+        df['away_wager_pct'] = pd.to_numeric(df[away_wager_col], errors='coerce')
+
+        wager_df = df.dropna(subset=['current_spread', 'home_wager_pct', 'away_wager_pct', 'home_score', 'away_score']).copy()
+        if len(wager_df) < 50:
+            return
+
+        wager_df['actual_margin'] = wager_df['home_score'] - wager_df['away_score']
+        wager_df['home_cover_margin'] = wager_df['actual_margin'] + wager_df['current_spread']
+        wager_df['home_cover'] = wager_df['home_cover_margin'] > 0
+        wager_df['away_cover'] = wager_df['home_cover_margin'] < 0
+        wager_df['wager_bias'] = wager_df['home_wager_pct'] - 50.0
+
+        bias_groups = [
+            ('away_heavy', -50, -8),
+            ('balanced', -8, 8),
+            ('home_heavy', 8, 50),
+        ]
+
+        for group_name, min_bias, max_bias in bias_groups:
+            group = wager_df[(wager_df['wager_bias'] >= min_bias) & (wager_df['wager_bias'] < max_bias)].copy()
+            if len(group) < 12:
+                continue
+
+            home_cover_rate = float(group['home_cover'].mean())
+            away_cover_rate = float(group['away_cover'].mean())
+            cover_margin_mean = float(group['home_cover_margin'].mean())
+            edge_side = 'home' if cover_margin_mean > 0 else 'away' if cover_margin_mean < 0 else 'pass'
+            edge_strength = abs(cover_margin_mean)
+
+            adjustment = 0.0
+            if edge_strength >= 1.5:
+                adjustment = max(min(cover_margin_mean * 0.35, 1.25), -1.25)
+            elif edge_strength >= 0.75:
+                adjustment = max(min(cover_margin_mean * 0.2, 0.75), -0.75)
+
+            self.wager_rules.append({
+                'group': group_name,
+                'min_bias': min_bias,
+                'max_bias': max_bias,
+                'sample_size': int(len(group)),
+                'home_cover_rate': round(home_cover_rate, 4),
+                'away_cover_rate': round(away_cover_rate, 4),
+                'avg_home_cover_margin': round(cover_margin_mean, 3),
+                'edge_side': edge_side,
+                'adjustment': round(adjustment, 2),
+            })
+
+        self.wager_data_loaded = bool(self.wager_rules)
+        if self.wager_rules:
+            print(f"✅ 投注量分析完成: 基于 {len(wager_df)} 场比赛")
+            for rule in self.wager_rules:
+                print(
+                    f"  {rule['group']}: {rule['edge_side']} edge {rule['avg_home_cover_margin']:+.2f}, "
+                    f"adjustment {rule['adjustment']:+.2f}, 样本 {rule['sample_size']}"
+                )
+
+    def get_wager_adjustment(self, home_wager_pct: Optional[float], away_wager_pct: Optional[float]) -> float:
+        """根据投注量给出对主队预测净胜分的微调值"""
+        if not self.wager_rules or home_wager_pct is None or pd.isna(home_wager_pct):
+            return 0.0
+
+        try:
+            wager_bias = float(home_wager_pct) - 50.0
+        except (TypeError, ValueError):
+            return 0.0
+
+        for rule in self.wager_rules:
+            if rule['min_bias'] <= wager_bias < rule['max_bias']:
+                return float(rule['adjustment'])
+        return 0.0
 
     def _path(self, filename: str) -> str:
         return os.path.join(self.data_dir, filename)
@@ -94,6 +209,18 @@ class SpreadRecommender:
                 print(f"✅ 加载球员数据: {len(self.player_data_df)} 名球员")
             else:
                 print(f"⚠️ 球员数据文件不存在: {roster_path}")
+            
+            # 加载伤病数据
+            injury_path = self._path("nba-injury-latest.csv")
+            if os.path.exists(injury_path):
+                self.injury_data_df = pd.read_csv(injury_path)
+                print(f"✅ 加载伤病数据: {len(self.injury_data_df)} 条记录")
+            else:
+                print(f"⚠️ 伤病数据文件不存在: {injury_path}")
+                self.injury_data_df = None
+            
+            # 数据加载完成后进行投注量分析
+            self._analyze_wager_patterns()
 
             return True
         except Exception as e:
@@ -140,6 +267,108 @@ class SpreadRecommender:
 
         return round(max(min(advantage, 5.0), 2.0), 1)
 
+    def calculate_injury_impact(self, team: str) -> Tuple[float, List[Dict]]:
+        """计算球队伤病影响（负值表示负面影响），结合伤病数据和球员数据
+        返回: (总影响分, 伤病详情列表)
+        """
+        if self.injury_data_df is None or self.injury_data_df.empty:
+            return 0.0, []
+        
+        # 获取该队伤病球员
+        team_injuries = self.injury_data_df[self.injury_data_df['team'] == team]
+        if team_injuries.empty:
+            return 0.0, []
+        
+        impact = 0.0
+        injury_details = []
+        
+        for _, injury in team_injuries.iterrows():
+            player = injury.get('player', '')
+            status = str(injury.get('status', '')).lower()
+            
+            # 在球员数据中查找该球员
+            player_impact = 0.0
+            player_min = 0.0
+            player_pts = 0.0
+            player_pos = ''
+            
+            if self.player_data_df is not None:
+                player_rows = self.player_data_df[
+                    (self.player_data_df['team'] == team) & 
+                    (self.player_data_df['player'].str.contains(player, case=False, na=False))
+                ]
+                
+                if not player_rows.empty:
+                    player_row = player_rows.iloc[0]
+                    
+                    # 基于上场时间、得分、位置计算影响
+                    try:
+                        min_per_game = float(player_row.get('min', 0))
+                        pts_per_game = float(player_row.get('pts', 0))
+                        pos = str(player_row.get('pos', '')).upper()
+                        gp = int(player_row.get('gp', 0))
+                        
+                        player_min = min_per_game
+                        player_pts = pts_per_game
+                        player_pos = pos
+                        
+                        # 基础影响：上场时间权重（分钟/48）* 得分贡献
+                        time_factor = min_per_game / 48.0  # 0-1范围
+                        pts_factor = pts_per_game / 30.0   # 假设30分为顶
+                        
+                        # 位置权重：中锋/前锋影响更大
+                        pos_weight = 1.0
+                        if 'C' in pos:
+                            pos_weight = 1.4  # 中锋对防守影响大
+                        elif 'F' in pos:
+                            pos_weight = 1.2  # 前锋全能影响
+                        
+                        # 出场次数权重：常规首发影响更大
+                        gp_weight = 1.0 + min(gp / 82.0, 0.3)  # 最多增加30%
+                        
+                        # 伤病状态权重
+                        status_weight = 1.0
+                        if 'out' in status or 'doubtful' in status:
+                            status_weight = 1.5  # 确定缺阵影响大
+                        elif 'questionable' in status:
+                            status_weight = 1.2  # 可能缺阵
+                        
+                        # 综合影响（负值表示负面影响）
+                        player_impact = -(time_factor * pts_factor * pos_weight * gp_weight * status_weight * 2.5)
+                        
+                    except (ValueError, TypeError) as e:
+                        # 如果解析失败，使用简化逻辑
+                        if 'out' in status or 'doubtful' in status:
+                            player_impact = -1.5
+                        elif 'questionable' in status:
+                            player_impact = -0.5
+                        else:
+                            player_impact = -0.3
+            else:
+                # 没有球员数据，使用简化逻辑
+                if 'out' in status or 'doubtful' in status:
+                    player_impact = -1.5
+                elif 'questionable' in status:
+                    player_impact = -0.5
+                else:
+                    player_impact = -0.3
+            
+            impact += player_impact
+            
+            # 记录详细影响
+            injury_details.append({
+                'team': team,
+                'player': player,
+                'status': status,
+                'min_per_game': player_min,
+                'pts_per_game': player_pts,
+                'pos': player_pos,
+                'impact': player_impact
+            })
+        
+        total_impact = max(round(impact, 1), -8.0)  # 最大影响 -8分
+        return total_impact, injury_details
+    
     def calculate_confidence(self, home_row: pd.Series, away_row: pd.Series, net_diff: float, home_advantage: float) -> float:
         confidence = 0.6
 
@@ -193,11 +422,17 @@ class SpreadRecommender:
         away_pace = self._get_value(away_row, ['pace'], 100)
         pace_factor = (home_pace - away_pace) * 0.05
 
+        # 计算伤病影响
+        home_injury_impact, home_injury_details = self.calculate_injury_impact(home_team)
+        away_injury_impact, away_injury_details = self.calculate_injury_impact(away_team)
+        net_injury_impact = home_injury_impact - away_injury_impact
+        
         predicted_margin = (
-            net_diff * 0.4 +
-            home_advantage * 0.3 +
-            off_def_advantage * 0.2 +
-            pace_factor * 0.1
+            net_diff * 0.35 +
+            home_advantage * 0.25 +
+            off_def_advantage * 0.15 +
+            pace_factor * 0.05 +
+            net_injury_impact * 0.2  # 伤病影响占20%权重
         )
 
         confidence = self.calculate_confidence(home_row, away_row, net_diff, home_advantage)
@@ -211,6 +446,11 @@ class SpreadRecommender:
             'off_def_advantage': round(off_def_advantage, 1),
             'def_off_advantage': round(def_off_advantage, 1),
             'pace_factor': round(pace_factor, 2),
+            'home_injury_impact': round(home_injury_impact, 1),
+            'home_injury_details': home_injury_details,
+            'away_injury_impact': round(away_injury_impact, 1),
+            'away_injury_details': away_injury_details,
+            'net_injury_impact': round(net_injury_impact, 1),
             'predicted_margin': round(predicted_margin, 1),
             'predicted_spread_raw': round(predicted_margin, 1),
             'predicted_home_spread': predicted_home_spread,
@@ -218,7 +458,7 @@ class SpreadRecommender:
             'confidence': round(confidence, 2),
         }
 
-    def analyze_market_value(self, prediction: Dict, market_spread: float) -> Dict:
+    def analyze_market_value(self, prediction: Dict, market_spread: float, market_spread_source: Optional[str] = None) -> Dict:
         predicted_margin = prediction['predicted_margin']
         predicted_spread = prediction['predicted_home_spread']
         edge = predicted_margin + market_spread
@@ -254,7 +494,7 @@ class SpreadRecommender:
             'predicted_spread_raw': round(predicted_margin, 1),
             'predicted_spread_display': predicted_spread,
             'market_spread': market_spread,
-            'market_spread_source': None,
+            'market_spread_source': market_spread_source,
             'edge': round(edge, 1),
             'value_diff': round(edge, 1),
             'edge_strength': self.classify_edge_strength(edge),
@@ -324,14 +564,49 @@ class SpreadRecommender:
         if value_analysis['no_bet']:
             reasons.append("优势不足，跳过")
 
+        wager_adjustment = prediction.get('wager_adjustment', 0.0)
+        home_wager_pct = prediction.get('home_wager_pct')
+        away_wager_pct = prediction.get('away_wager_pct')
+        if wager_adjustment and home_wager_pct is not None and away_wager_pct is not None:
+            reasons.append(
+                f"投注量微调: 主{float(home_wager_pct):.0f}%/客{float(away_wager_pct):.0f}% -> {wager_adjustment:+.1f}分"
+            )
+
+        # 添加伤病信息
+        home_injury_impact = prediction.get('home_injury_impact', 0)
+        away_injury_impact = prediction.get('away_injury_impact', 0)
+        
+        if home_injury_impact < 0 or away_injury_impact < 0:
+            injury_text = "伤病影响: "
+            injury_parts = []
+            if home_injury_impact < 0:
+                injury_parts.append(f"主队{-home_injury_impact:.1f}分")
+            if away_injury_impact < 0:
+                injury_parts.append(f"客队{-away_injury_impact:.1f}分")
+            
+            if injury_parts:
+                injury_text += ", ".join(injury_parts)
+                reasons.append(injury_text)
+
         return " | ".join(reasons)
 
-    def generate_recommendation(self, home_team: str, away_team: str, market_spread: float) -> Dict:
+    def generate_recommendation(self, home_team: str, away_team: str, market_spread: float, market_spread_source: Optional[str] = None, home_wager_pct: Optional[float] = None, away_wager_pct: Optional[float] = None) -> Dict:
         prediction = self.predict_spread(home_team, away_team)
         if not prediction:
             return {}
 
-        value_analysis = self.analyze_market_value(prediction, market_spread)
+        wager_adjustment = self.get_wager_adjustment(home_wager_pct, away_wager_pct)
+        prediction['wager_adjustment'] = round(wager_adjustment, 2)
+        prediction['home_wager_pct'] = home_wager_pct
+        prediction['away_wager_pct'] = away_wager_pct
+
+        if wager_adjustment:
+            prediction['predicted_margin'] = round(prediction['predicted_margin'] + wager_adjustment, 1)
+            prediction['predicted_spread_raw'] = prediction['predicted_margin']
+            prediction['predicted_home_spread'] = self.margin_to_home_spread(prediction['predicted_margin'])
+            prediction['predicted_spread_display'] = prediction['predicted_home_spread']
+
+        value_analysis = self.analyze_market_value(prediction, market_spread, market_spread_source)
         confidence_level = '高' if value_analysis['confidence'] > 0.8 else '中' if value_analysis['confidence'] > 0.6 else '低'
 
         if value_analysis['no_bet']:
@@ -370,20 +645,38 @@ class SpreadRecommender:
             },
         }
 
-    def _resolve_market_columns(self) -> Tuple[Optional[str], Optional[str], Optional[str], Optional[str], Optional[str]]:
+    def _resolve_market_columns(self, today_df: Optional[pd.DataFrame] = None) -> Tuple[Optional[str], Optional[str], Optional[str], Optional[str], Optional[str]]:
         if self.market_data_df is None:
             return None, None, None, None, None
+        
         cols = set(self.market_data_df.columns)
-        home_col = 'home_team' if 'home_team' in cols else 'home' if 'home' in cols else None
-        away_col = 'away_team' if 'away_team' in cols else 'away' if 'away' in cols else None
-        current_col = 'spread' if 'spread' in cols and self.market_data_df['spread'].notna().any() else None
-        if not current_col and 'current_spread' in cols and self.market_data_df['current_spread'].notna().any():
-            current_col = 'current_spread'
-        if not current_col:
-            current_col = 'handicap' if 'handicap' in cols else None
+        # 优先使用 home_team/away_team，然后是 home/away
+        home_col = None
+        for col in ['home_team', 'home']:
+            if col in cols:
+                home_col = col
+                break
+        away_col = None
+        for col in ['away_team', 'away']:
+            if col in cols:
+                away_col = col
+                break
+        
+        # 如果提供了今天的数据子集，使用它来检测字段
+        target_df = today_df if today_df is not None and not today_df.empty else self.market_data_df
+        
+        # 盘口字段优先级：current_spread → close_spread → handicap → open_spread
+        # spread 字段在数据中是 nan，跳过
+        # 检查每个字段在今天比赛中是否有非空值
+        current_col = None
+        for field in ['current_spread', 'close_spread', 'handicap', 'open_spread']:
+            if field in target_df.columns and target_df[field].notna().any():
+                current_col = field
+                break
+        
         close_col = 'close_spread' if 'close_spread' in cols else None
         open_col = 'open_spread' if 'open_spread' in cols else None
-        return home_col, away_col, current_col or close_col, open_col, close_col
+        return home_col, away_col, current_col, open_col, close_col
 
     def find_todays_best_spread_bets(self, matchups: Optional[List[Tuple[str, str, float]]] = None) -> List[Dict]:
         recommendations = []
@@ -397,16 +690,36 @@ class SpreadRecommender:
                 print("⚠️ 市场数据未加载或为空，无法获取今日比赛")
                 return []
 
-            home_col, away_col, current_col, open_col, close_col = self._resolve_market_columns()
+            # 使用与 nba-daily-odds.py 相同的日期逻辑
+            # 澳洲时间 18:00 之后，使用今天的美国日期；18:00 之前，使用昨天的美国日期
+            aus_now = datetime.now()
+            if aus_now.hour >= 18:
+                target_date = aus_now.strftime("%Y-%m-%d")
+                date_label = "今天"
+            else:
+                target_date = (aus_now - timedelta(days=1)).strftime("%Y-%m-%d")
+                date_label = "昨天（美国日期）"
+            
+            df = self.market_data_df.copy()
+            date_cols = [col for col in ['date', 'data_date'] if col in df.columns]
+            
+            if date_cols:
+                # 使用第一个找到的日期字段
+                date_col = date_cols[0]
+                # 转换为字符串比较
+                df = df[df[date_col].astype(str).str.contains(target_date, na=False)]
+                print(f"📅 找到 {len(df)} 场{date_label}（{target_date}）的比赛")
+            else:
+                # 如果没有日期字段，使用旧的 0-0 比分筛选
+                if {'home_score', 'away_score'}.issubset(df.columns):
+                    df = df[(df['home_score'].fillna(0) == 0) & (df['away_score'].fillna(0) == 0)]
+                print(f"📅 找到 {len(df)} 场待分析比赛（无日期字段，使用比分筛选）")
+            
+            # 使用今天比赛的数据子集来检测字段
+            home_col, away_col, current_col, open_col, close_col = self._resolve_market_columns(df)
             if not home_col or not away_col:
                 print("⚠️ 市场数据缺少主客队字段")
                 return []
-
-            df = self.market_data_df.copy()
-            if {'home_score', 'away_score'}.issubset(df.columns):
-                df = df[(df['home_score'].fillna(0) == 0) & (df['away_score'].fillna(0) == 0)]
-
-            print(f"📅 找到 {len(df)} 场待分析比赛")
             for _, game in df.iterrows():
                 market_spread = None
                 market_source = None
@@ -422,9 +735,21 @@ class SpreadRecommender:
                 if market_spread is None:
                     continue
 
-                rec = self.generate_recommendation(game[home_col], game[away_col], market_spread)
-                if rec:
-                    rec['market_analysis']['market_spread_source'] = market_source
+                home_wager_pct = pd.to_numeric(game.get('home_wagers_pct'), errors='coerce') if 'home_wagers_pct' in game.index else None
+                away_wager_pct = pd.to_numeric(game.get('away_wagers_pct'), errors='coerce') if 'away_wagers_pct' in game.index else None
+                if home_wager_pct is not None and pd.isna(home_wager_pct):
+                    home_wager_pct = None
+                if away_wager_pct is not None and pd.isna(away_wager_pct):
+                    away_wager_pct = None
+
+                rec = self.generate_recommendation(
+                    game[home_col],
+                    game[away_col],
+                    market_spread,
+                    market_source,
+                    home_wager_pct=home_wager_pct,
+                    away_wager_pct=away_wager_pct,
+                )
                 if rec and not rec['market_analysis']['no_bet'] and rec['market_analysis']['value_score'] >= 50:
                     recommendations.append(rec)
 
@@ -490,7 +815,7 @@ def backtest_spread_field(data_dir: Optional[str] = None, spread_field: str = "c
         except (TypeError, ValueError):
             continue
 
-        rec = recommender.generate_recommendation(game['home_team'], game['away_team'], market_spread)
+        rec = recommender.generate_recommendation(game['home_team'], game['away_team'], market_spread, spread_field)
         if not rec:
             continue
 
