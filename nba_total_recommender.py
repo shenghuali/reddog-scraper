@@ -5,12 +5,12 @@ NBA总分盘推荐系统（整理优化版）
 - 优先读取最新历史/盘口文件
 - 统一主客队列名兼容
 - 默认只筛未开赛且有总分盘口的比赛
-- 保留节奏 + 攻防效率 + 历史对阵 + 1/3凯利
+- 保留节奏 + 攻防效率 + 历史对阵 + 轻量凯利
 """
 
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
@@ -21,6 +21,10 @@ class TotalRecommender:
         self.data_dir = os.path.abspath(data_dir or os.path.dirname(__file__))
         self.team_stats_df = None
         self.market_data_df = None
+        self.player_data_df = None
+        self.injury_data_df = None
+        self.min_edge_to_bet = 3.0
+        self.min_value_score = 55
 
     def _path(self, filename: str) -> str:
         return os.path.join(self.data_dir, filename)
@@ -31,6 +35,39 @@ class TotalRecommender:
             if os.path.exists(path):
                 return path
         return None
+
+    @staticmethod
+    def _get_value(row: pd.Series, aliases: List[str], default=0.0) -> float:
+        for col in aliases:
+            if col in row and pd.notna(row[col]):
+                try:
+                    return float(row[col])
+                except (TypeError, ValueError):
+                    continue
+        return float(default)
+
+    @staticmethod
+    def _find_team_columns(df: pd.DataFrame) -> Tuple[Optional[str], Optional[str]]:
+        home_col = 'home_team' if 'home_team' in df.columns else 'home' if 'home' in df.columns else None
+        away_col = 'away_team' if 'away_team' in df.columns else 'away' if 'away' in df.columns else None
+        return home_col, away_col
+
+    @staticmethod
+    def _find_market_total_column(df: pd.DataFrame) -> Optional[str]:
+        candidates = ['total', 'close_total', 'open_total', 'opener_total']
+        for col in candidates:
+            if col in df.columns:
+                numeric = pd.to_numeric(df[col], errors='coerce')
+                if numeric.notna().any():
+                    return col
+        return None
+
+    @staticmethod
+    def _current_target_date() -> str:
+        aus_now = datetime.now()
+        if aus_now.hour >= 18:
+            return aus_now.strftime('%Y-%m-%d')
+        return (aus_now - timedelta(days=1)).strftime('%Y-%m-%d')
 
     def load_data(self) -> bool:
         try:
@@ -53,37 +90,128 @@ class TotalRecommender:
             else:
                 print("⚠️ 未找到市场数据文件")
 
+            roster_path = self._path("nba-roster.csv")
+            if os.path.exists(roster_path):
+                self.player_data_df = pd.read_csv(roster_path)
+                print(f"✅ 加载球员数据: {len(self.player_data_df)} 名球员")
+            else:
+                print(f"⚠️ 球员数据文件不存在: {roster_path}")
+
+            injury_path = self._path("nba-injury-latest.csv")
+            if os.path.exists(injury_path):
+                self.injury_data_df = pd.read_csv(injury_path)
+                print(f"✅ 加载伤病数据: {len(self.injury_data_df)} 条记录")
+            else:
+                print(f"⚠️ 伤病数据文件不存在: {injury_path}")
+                self.injury_data_df = None
+
             return True
         except Exception as e:
             print(f"❌ 数据加载失败: {e}")
             return False
 
-    @staticmethod
-    def _get_value(row: pd.Series, aliases: List[str], default=0.0) -> float:
-        for col in aliases:
-            if col in row and pd.notna(row[col]):
-                try:
-                    return float(row[col])
-                except (TypeError, ValueError):
-                    continue
-        return float(default)
-
     def extract_total_history(self):
-        if self.market_data_df is None:
+        if self.market_data_df is None or self.market_data_df.empty:
             return
-        df = self.market_data_df
-        home_col = 'home_team' if 'home_team' in df.columns else 'home' if 'home' in df.columns else None
-        away_col = 'away_team' if 'away_team' in df.columns else 'away' if 'away' in df.columns else None
-        if not home_col or not away_col:
+
+        df = self.market_data_df.copy()
+        home_col, away_col = self._find_team_columns(df)
+        total_col = self._find_market_total_column(df)
+        if not home_col or not away_col or not total_col:
+            self.market_data_df = df
             return
+
+        for col in ['home_score', 'away_score', total_col]:
+            if col in df.columns:
+                df[col] = pd.to_numeric(df[col], errors='coerce')
 
         score_cols_ok = {'home_score', 'away_score'}.issubset(df.columns)
-        total_col = 'close_total' if 'close_total' in df.columns else 'open_total' if 'open_total' in df.columns else None
-        if score_cols_ok and total_col:
-            df['actual_total'] = df['home_score'].fillna(0) + df['away_score'].fillna(0)
-            df['total_diff'] = df['actual_total'] - df[total_col]
-            df['over_result'] = (df['actual_total'] > df[total_col]).astype(int)
+        if not score_cols_ok:
             self.market_data_df = df
+            return
+
+        df['actual_total'] = df['home_score'] + df['away_score']
+        completed_mask = (
+            df['actual_total'].notna() &
+            df[total_col].notna() &
+            (df['actual_total'] > 0) &
+            df[home_col].notna() &
+            df[away_col].notna()
+        )
+
+        df.loc[completed_mask, 'total_diff'] = df.loc[completed_mask, 'actual_total'] - df.loc[completed_mask, total_col]
+        df.loc[completed_mask, 'over_result'] = (df.loc[completed_mask, 'actual_total'] > df.loc[completed_mask, total_col]).astype(int)
+        self.market_data_df = df
+
+    def calculate_injury_impact(self, team: str) -> Tuple[float, List[Dict]]:
+        """计算球队伤病对总分的影响（负值表示负面影响）"""
+        if self.injury_data_df is None or self.injury_data_df.empty:
+            return 0.0, []
+
+        team_injuries = self.injury_data_df[self.injury_data_df['team'] == team]
+        if team_injuries.empty:
+            return 0.0, []
+
+        impact = 0.0
+        injury_details = []
+
+        for _, injury in team_injuries.iterrows():
+            player = injury.get('player', '')
+            status = str(injury.get('status', '')).lower()
+
+            player_impact = 0.0
+            if self.player_data_df is not None:
+                player_rows = self.player_data_df[
+                    (self.player_data_df['team'] == team) &
+                    (self.player_data_df['player'].str.contains(player, case=False, na=False))
+                ]
+
+                if not player_rows.empty:
+                    player_row = player_rows.iloc[0]
+                    try:
+                        min_per_game = float(player_row.get('min', 0))
+                        pts_per_game = float(player_row.get('pts', 0))
+
+                        time_factor = min_per_game / 48.0
+                        pts_factor = pts_per_game / 25.0
+
+                        status_weight = 1.0
+                        if 'out' in status or 'doubtful' in status:
+                            status_weight = 1.5
+                        elif 'questionable' in status:
+                            status_weight = 1.2
+
+                        player_impact = -(time_factor * pts_factor * status_weight * 1.5)
+
+                        injury_details.append({
+                            'team': team,
+                            'player': player,
+                            'status': status,
+                            'min_per_game': min_per_game,
+                            'pts_per_game': pts_per_game,
+                            'impact': player_impact,
+                        })
+
+                    except (ValueError, TypeError):
+                        if 'out' in status or 'doubtful' in status:
+                            player_impact = -0.8
+                        elif 'questionable' in status:
+                            player_impact = -0.3
+                else:
+                    if 'out' in status or 'doubtful' in status:
+                        player_impact = -0.8
+                    elif 'questionable' in status:
+                        player_impact = -0.3
+            else:
+                if 'out' in status or 'doubtful' in status:
+                    player_impact = -0.8
+                elif 'questionable' in status:
+                    player_impact = -0.3
+
+            impact += player_impact
+
+        total_impact = max(round(impact, 1), -5.0)
+        return total_impact, injury_details
 
     def get_team_stats(self, team: str) -> Dict:
         if self.team_stats_df is None or 'team' not in self.team_stats_df.columns:
@@ -121,20 +249,25 @@ class TotalRecommender:
         if not home_stats or not away_stats:
             return {}
 
-        avg_offense = (home_stats['ortg'] + away_stats['ortg']) / 2
-        avg_pace = (home_stats['pace'] + away_stats['pace']) / 2
-        base_total = avg_offense * (avg_pace / 100)
+        home_points = home_stats['ortg'] * (home_stats['pace'] / 100)
+        away_points = away_stats['ortg'] * (away_stats['pace'] / 100)
+        base_total = home_points + away_points
 
         offense_adjustment = (home_stats['off_efg'] + away_stats['off_efg'] - 1.04) * 20
         defense_adjustment = (home_stats['def_efg'] + away_stats['def_efg'] - 1.04) * 15
         pace_match_adjustment = self.calculate_pace_match_adjustment(home_stats, away_stats)
-        historical_adjustment = self.get_historical_adjustment(home_team, away_team)
+        historical_adjustment, historical_sample = self.get_historical_adjustment(home_team, away_team)
+
+        home_injury_impact, home_injury_details = self.calculate_injury_impact(home_team)
+        away_injury_impact, away_injury_details = self.calculate_injury_impact(away_team)
+        net_injury_impact = home_injury_impact + away_injury_impact
 
         predicted_total = (
             base_total + offense_adjustment + defense_adjustment +
-            pace_match_adjustment + historical_adjustment
+            pace_match_adjustment + historical_adjustment +
+            net_injury_impact * 0.3
         )
-        confidence = self.calculate_total_confidence(home_stats, away_stats)
+        confidence = self.calculate_total_confidence(home_stats, away_stats, historical_sample)
 
         return {
             'home_team': home_team,
@@ -145,8 +278,14 @@ class TotalRecommender:
             'defense_adjustment': round(defense_adjustment, 1),
             'pace_match_adjustment': round(pace_match_adjustment, 1),
             'historical_adjustment': round(historical_adjustment, 1),
-            'avg_offense': round(avg_offense, 1),
-            'avg_pace': round(avg_pace, 1),
+            'historical_sample': historical_sample,
+            'avg_offense': round((home_stats['ortg'] + away_stats['ortg']) / 2, 1),
+            'avg_pace': round((home_stats['pace'] + away_stats['pace']) / 2, 1),
+            'home_injury_impact': round(home_injury_impact, 1),
+            'away_injury_impact': round(away_injury_impact, 1),
+            'net_injury_impact': round(net_injury_impact, 1),
+            'home_injury_details': home_injury_details,
+            'away_injury_details': away_injury_details,
             'confidence': round(confidence, 2),
         }
 
@@ -159,55 +298,70 @@ class TotalRecommender:
             return pace_diff * 0.2
         return 0.0
 
-    def get_historical_adjustment(self, home_team: str, away_team: str) -> float:
+    def get_historical_adjustment(self, home_team: str, away_team: str) -> Tuple[float, int]:
         if self.market_data_df is None or 'total_diff' not in self.market_data_df.columns:
-            return 0.0
+            return 0.0, 0
+
         df = self.market_data_df
-        home_col = 'home_team' if 'home_team' in df.columns else 'home' if 'home' in df.columns else None
-        away_col = 'away_team' if 'away_team' in df.columns else 'away' if 'away' in df.columns else None
+        home_col, away_col = self._find_team_columns(df)
         if not home_col or not away_col:
-            return 0.0
+            return 0.0, 0
 
         historical_games = df[
-            ((df[home_col] == home_team) & (df[away_col] == away_team)) |
-            ((df[home_col] == away_team) & (df[away_col] == home_team))
-        ]
-        if historical_games.empty:
-            return 0.0
-        return float(historical_games['total_diff'].mean()) * 0.5
+            (((df[home_col] == home_team) & (df[away_col] == away_team)) |
+             ((df[home_col] == away_team) & (df[away_col] == home_team))) &
+            df['total_diff'].notna()
+        ].copy()
+        sample_size = len(historical_games)
+        if sample_size < 3:
+            return 0.0, sample_size
+
+        trimmed = historical_games['total_diff'].clip(lower=historical_games['total_diff'].quantile(0.15), upper=historical_games['total_diff'].quantile(0.85))
+        mean_diff = float(trimmed.mean())
+        weight = 0.2 if sample_size < 5 else 0.3 if sample_size < 8 else 0.4
+        adjustment = max(min(mean_diff * weight, 4.0), -4.0)
+        return round(adjustment, 1), sample_size
 
     @staticmethod
-    def calculate_total_confidence(home_stats: Dict, away_stats: Dict) -> float:
-        confidence = 0.65
+    def calculate_total_confidence(home_stats: Dict, away_stats: Dict, historical_sample: int = 0) -> float:
+        confidence = 0.62
         pace_diff = abs(home_stats['pace'] - away_stats['pace'])
         if pace_diff > 8:
-            confidence -= 0.15
+            confidence -= 0.12
         elif pace_diff > 5:
-            confidence -= 0.10
+            confidence -= 0.08
         elif pace_diff < 2:
-            confidence += 0.05
+            confidence += 0.04
 
         if home_stats['ortg'] > 115 and away_stats['ortg'] > 115:
-            confidence += 0.10
+            confidence += 0.08
         if home_stats['drtg'] > 115 or away_stats['drtg'] > 115:
-            confidence += 0.05
+            confidence += 0.04
+        if historical_sample >= 5:
+            confidence += 0.03
 
-        return min(max(confidence, 0.3), 0.9)
+        return min(max(confidence, 0.35), 0.85)
 
     def analyze_total_value(self, prediction: Dict, market_total: float) -> Dict:
         predicted = prediction['predicted_total']
         value_diff = predicted - market_total
+        abs_diff = abs(value_diff)
 
-        if abs(value_diff) < 3.0:
+        if abs_diff < self.min_edge_to_bet:
             value_score = 0
-        elif abs(value_diff) < 5.0:
+        elif abs_diff < 4.5:
             value_score = 1
-        elif abs(value_diff) < 7.0:
+        elif abs_diff < 6.5:
             value_score = 2
         else:
             value_score = 3
 
-        value_score_100 = value_score * 25 + 25 * prediction['confidence']
+        raw_score = (
+            abs_diff * 8 +
+            prediction['confidence'] * 30 +
+            min(prediction.get('historical_sample', 0), 8) * 1.5
+        )
+        value_score_100 = max(0, min(100, round(raw_score)))
         recommendation = '大分 (Over)' if value_diff > 0 else '小分 (Under)'
         side = 'over' if value_diff > 0 else 'under'
 
@@ -216,7 +370,7 @@ class TotalRecommender:
             'market_total': market_total,
             'value_diff': round(value_diff, 1),
             'value_score': value_score,
-            'value_score_100': round(value_score_100, 0),
+            'value_score_100': value_score_100,
             'recommendation': recommendation,
             'recommendation_side': side,
             'total_type': self.analyze_total_type(predicted),
@@ -238,15 +392,16 @@ class TotalRecommender:
         return '低总分 (防守大战)'
 
     @staticmethod
-    def kelly_bet_size(edge: float, odds: float = 1.91) -> float:
-        if edge <= 0:
+    def kelly_bet_size(edge_points: float, odds: float = 1.91) -> float:
+        if edge_points <= 0:
             return 0.0
+        scaled_edge = min(edge_points / 20.0, 0.22)
         b = odds - 1
-        p = min(max(0.5 + edge / 2, 0.01), 0.99)
+        p = min(max(0.5 + scaled_edge / 2, 0.505), 0.61)
         q = 1 - p
         full_kelly = (b * p - q) / b
-        third_kelly = full_kelly / 3
-        return min(max(third_kelly, 0.005), 0.03)
+        quarter_kelly = full_kelly / 4
+        return min(max(quarter_kelly, 0.005), 0.02)
 
     def generate_total_reasoning(self, prediction: Dict, value_analysis: Dict) -> str:
         reasons = []
@@ -267,14 +422,25 @@ class TotalRecommender:
         value_diff = value_analysis['value_diff']
         if abs(value_diff) > 5:
             reasons.append(f"显著总分价值差异: {value_diff:+.1f}分")
-        elif abs(value_diff) > 3:
+        elif abs(value_diff) >= self.min_edge_to_bet:
             reasons.append(f"中等总分价值差异: {value_diff:+.1f}分")
 
+        historical_adjustment = prediction.get('historical_adjustment', 0.0)
+        historical_sample = prediction.get('historical_sample', 0)
+        if historical_sample >= 3 and abs(historical_adjustment) >= 1.0:
+            reasons.append(f"交手历史微调: {historical_adjustment:+.1f}分 ({historical_sample}场)")
+
+        net_injury_impact = prediction.get('net_injury_impact', 0.0)
+        if abs(net_injury_impact) >= 1.0:
+            reasons.append(f"伤病总分影响: {net_injury_impact:+.1f}")
+
         reasons.append(f"预期: {value_analysis['total_type']}")
-        if prediction['confidence'] > 0.8:
+        if prediction['confidence'] > 0.78:
             reasons.append("高置信度预测")
-        elif prediction['confidence'] > 0.6:
+        elif prediction['confidence'] > 0.62:
             reasons.append("中等置信度预测")
+        else:
+            reasons.append("低置信度预测")
         return ' | '.join(reasons)
 
     def generate_total_recommendation(self, home_team: str, away_team: str, market_total: float) -> Dict:
@@ -283,8 +449,10 @@ class TotalRecommender:
             return {}
 
         value_analysis = self.analyze_total_value(prediction, market_total)
-        edge = min(abs(value_analysis['value_diff']) / 12.0, 0.4)
-        bet_size = self.kelly_bet_size(edge)
+        if abs(value_analysis['value_diff']) < self.min_edge_to_bet:
+            return {}
+
+        bet_size = self.kelly_bet_size(abs(value_analysis['value_diff']))
 
         return {
             'matchup': f"{home_team} vs {away_team}",
@@ -296,7 +464,7 @@ class TotalRecommender:
                 'side': value_analysis['recommendation_side'],
                 'total_type': value_analysis['total_type'],
                 'value_score': int(value_analysis['value_score_100']),
-                'confidence_level': '高' if value_analysis['confidence'] > 0.8 else '中' if value_analysis['confidence'] > 0.6 else '低',
+                'confidence_level': '高' if value_analysis['confidence'] > 0.78 else '中' if value_analysis['confidence'] > 0.62 else '低',
                 'bet_size_percent': round(bet_size * 100, 1),
                 'reasoning': self.generate_total_reasoning(prediction, value_analysis),
             },
@@ -307,7 +475,7 @@ class TotalRecommender:
         if matchups is not None:
             for home, away, market_total in matchups:
                 rec = self.generate_total_recommendation(home, away, market_total)
-                if rec and rec['market_analysis']['value_score'] >= 1:
+                if rec and rec['market_analysis']['value_score_100'] >= self.min_value_score:
                     recommendations.append(rec)
         else:
             if self.market_data_df is None or self.market_data_df.empty:
@@ -315,25 +483,33 @@ class TotalRecommender:
                 return []
 
             df = self.market_data_df.copy()
-            home_col = 'home_team' if 'home_team' in df.columns else 'home' if 'home' in df.columns else None
-            away_col = 'away_team' if 'away_team' in df.columns else 'away' if 'away' in df.columns else None
-            total_col = 'close_total' if 'close_total' in df.columns else 'open_total' if 'open_total' in df.columns else None
+            home_col, away_col = self._find_team_columns(df)
+            total_col = self._find_market_total_column(df)
             if not home_col or not away_col or not total_col:
                 print("⚠️ 市场数据缺少必要字段")
                 return []
 
-            if {'home_score', 'away_score'}.issubset(df.columns):
-                df = df[(df['home_score'].fillna(0) == 0) & (df['away_score'].fillna(0) == 0)]
+            target_date = self._current_target_date()
+            date_cols = [col for col in ['date', 'data_date'] if col in df.columns]
+            if date_cols:
+                date_col = date_cols[0]
+                df = df[df[date_col].astype(str).str.contains(target_date, na=False)]
+                print(f"📅 找到 {len(df)} 场今天（美国日期）({target_date}) 的比赛")
+            else:
+                if {'home_score', 'away_score'}.issubset(df.columns):
+                    df = df[(df['home_score'].fillna(0) == 0) & (df['away_score'].fillna(0) == 0)]
+                print(f"📅 找到 {len(df)} 场待分析比赛（无日期字段，使用比分筛选）")
 
-            print(f"📅 找到 {len(df)} 场今日未开始比赛")
+            if df.empty:
+                print("📅 今天没有可分析的比赛")
+                return []
+
             for _, game in df.iterrows():
-                market_total = game.get('close_total')
-                if pd.isna(market_total):
-                    market_total = game.get('open_total')
+                market_total = pd.to_numeric(pd.Series([game.get(total_col)]), errors='coerce').iloc[0]
                 if pd.isna(market_total):
                     continue
                 rec = self.generate_total_recommendation(game[home_col], game[away_col], float(market_total))
-                if rec and rec['market_analysis']['value_score'] >= 1:
+                if rec and rec['market_analysis']['value_score_100'] >= self.min_value_score:
                     recommendations.append(rec)
 
         recommendations.sort(key=lambda x: x['market_analysis']['value_score_100'], reverse=True)
@@ -347,7 +523,6 @@ class TotalRecommender:
             json.dump(recommendation, f, indent=2, ensure_ascii=False)
         print(f"✅ 总分推荐已保存: {filepath}")
         return filepath
-
 
 
 def main():
